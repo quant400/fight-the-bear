@@ -24,9 +24,9 @@ public class DDOL : MonoBehaviour
     {
         if(scene.buildIndex==1)
         {
-            transform.GetComponentInChildren<CharacterController>().enabled = false;
-            transform.GetComponentInChildren<StarterAssets.ThirdPersonController>().enabled = false;
-            transform.GetChild(2).position = new Vector3(0, 1, -35);
+            transform.GetComponent<CharacterController>().enabled = false;
+            transform.GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
+            transform.position = new Vector3(0, 1, -35);
            
         }
             
