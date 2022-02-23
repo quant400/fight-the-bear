@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BearController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class BearController : MonoBehaviour
     int bearAttack;
     [SerializeField]
     int bearHealth;
+    States currentState;
 
     public void StartFight()
     {
@@ -26,35 +28,39 @@ public class BearController : MonoBehaviour
 
     public void TakeDammage(int dammage)
     {
-        bearHealth -= dammage;
-        if (bearHealth <= 0)
+        if (currentState == States.Idel)
         {
-            anim.SetBool("Die", true);
-            Die();
-            StopAllCoroutines();
-        }
-        else
-        {
-            anim.SetBool("Hit", true);
-            StartCoroutine(ResetAnims());
+            currentState = States.Hit;
+            bearHealth -= dammage;
+            if (bearHealth <= 0)
+            {
+                anim.SetTrigger("Die");
+                Die();
+                StopAllCoroutines();
+            }
+            else
+            {
+                anim.SetTrigger("Hit");
+            }
         }
         
        
     }
 
+   
     IEnumerator Attack()
     {
         yield return new WaitForSeconds(attackInterval);
-        anim.SetFloat("Blend", Random.Range(0, 6));
-        anim.SetBool("Attack", true);
-        if(!playerFC.blocking)
-        {
-            playerFC.TakeDammage(bearAttack);
-        }
-        StartCoroutine(ResetAnims());
+        currentState = States.Attacking;
+        anim.SetFloat("Blend", Random.Range(0, 4));
+        anim.SetTrigger("Attack");
         StartCoroutine(Attack());
     }
 
+    public void ResetAnim()
+    {
+        currentState = States.Idel;
+    }
 
     void Die()
     {
@@ -66,12 +72,14 @@ public class BearController : MonoBehaviour
     {
         return bearHealth;
     }
-    IEnumerator ResetAnims()
+    public int GetBearDammage()
     {
-        yield return new WaitForSeconds(1);
-        anim.SetBool("Attack", false);
-        anim.SetBool("Hit", false);
-        anim.SetBool("Die", false);
-        //anim.SetFloat("Blend", 0);
+        return bearAttack;
     }
+    public States GetState()
+    {
+        return currentState;
+    }
+
+
 }
