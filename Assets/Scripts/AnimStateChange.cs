@@ -8,11 +8,16 @@ public class AnimStateChange : StateMachineBehaviour
     {
         if (animator.gameObject.CompareTag("Player"))
         {
+            
             animator.gameObject.GetComponent<FightController>().ResetAnim();
+
         }
         else if (animator.gameObject.CompareTag("Bear"))
         {
+            
+            GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>().DisplayCurrentInput();
             animator.gameObject.GetComponent<BearController>().ResetAnim();
+
         }
     }
 }

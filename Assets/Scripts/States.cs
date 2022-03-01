@@ -8,7 +8,8 @@ public enum States
     Attacking,
     Hit,
     Blocking,
-    Dead
+    Dead,
+    NotFighting
 
 }
 

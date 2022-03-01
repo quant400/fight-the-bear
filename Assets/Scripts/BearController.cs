@@ -17,7 +17,7 @@ public class BearController : MonoBehaviour
 
     public void StartFight()
     {
-        StartCoroutine(Attack());
+        //StartCoroutine(Attack(attackInterval));
     }
     // Start is called before the first frame update
     private void Start()
@@ -47,14 +47,18 @@ public class BearController : MonoBehaviour
        
     }
 
-   
-    IEnumerator Attack()
+    public void StartAttack(float delay)
     {
-        yield return new WaitForSeconds(attackInterval);
+        StartCoroutine(Attack(delay));
+    }
+   
+    IEnumerator Attack(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         currentState = States.Attacking;
         anim.SetFloat("Blend", Random.Range(0, 4));
         anim.SetTrigger("Attack");
-        StartCoroutine(Attack());
+        //StartCoroutine(Attack(delay));
     }
 
     public void ResetAnim()
@@ -64,6 +68,7 @@ public class BearController : MonoBehaviour
 
     void Die()
     {
+        currentState = States.Dead;
         playerFC.ExitFight();
 
     }

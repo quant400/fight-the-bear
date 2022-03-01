@@ -22,6 +22,8 @@ public class FightController : MonoBehaviour
     [SerializeField]
     Image bearHealth, playerHelthDisplay;
 
+    //for new input 
+    public KeyCode[] validSequenceKeys = new KeyCode[] { KeyCode.P, KeyCode.K, KeyCode.B };
     KeyCode[] currentSequence;
     int currentIndex;
     [SerializeField]
@@ -30,10 +32,12 @@ public class FightController : MonoBehaviour
     float timeToReset;
     float timeleft;
     private bool takingIputs;
+    [SerializeField]
+    Image timer;
     private void Start()
     {
         playerAnim = GetComponent<Animator>();
-        InputsToDisplay();
+        //InputsToDisplay();
     }
 
     public void StartFight()
@@ -54,6 +58,7 @@ public class FightController : MonoBehaviour
         playerAnim.SetBool("Fight", true);
         bear.transform.GetChild(1).GetComponent<CinemachineVirtualCamera>().Priority = 11;
         UpdateValues();
+        InputsToDisplay();
 
     }
     public void ExitFight()
@@ -153,14 +158,15 @@ public class FightController : MonoBehaviour
     public void ResetAnim()
     {
         currentState = States.Idel;
-        transform.DOMove(bear.transform.GetChild(2).position, 0.5f);
+        if(bearC.GetState()!=States.Dead)
+            transform.DOMove(bear.transform.GetChild(2).position, 0.5f);
         transform.DORotate(Vector3.zero, 0.5f);
         playerAnim.SetBool("Block", false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Bear"))
+        if(other.CompareTag("Bear") && other.GetComponentInChildren<BearController>().GetState()!=States.Dead)
         {
             bear = other.gameObject;
             other.enabled = false;
@@ -189,18 +195,10 @@ public class FightController : MonoBehaviour
     }
 
     //for new inputs
-    public KeyCode[] validSequenceKeys = new[] 
-    {
-       KeyCode.A,KeyCode.B,KeyCode.C,KeyCode.D,KeyCode.E,KeyCode.F,KeyCode.G,KeyCode.H,KeyCode.I,KeyCode.J,KeyCode.K,KeyCode.L,
-       KeyCode.M,KeyCode.N,KeyCode.O,KeyCode.P,KeyCode.Q,KeyCode.R,KeyCode.S,KeyCode.T,KeyCode.U,KeyCode.V,KeyCode.W,KeyCode.X,
-       KeyCode.Y,KeyCode.Z
-    };
-
 
     KeyCode[] GenerateSequence(int length)
     {
         KeyCode[] sequence = new KeyCode[length];
-
         for (int i = 0; i < length; i++)
         {
             var key = validSequenceKeys[Random.Range(0, validSequenceKeys.Length)];
@@ -212,15 +210,26 @@ public class FightController : MonoBehaviour
 
     void InputsToDisplay()
     {
-        currentSequence = GenerateSequence(5);
+        currentSequence = GenerateSequence(20);
         DisplayCurrentInput();
     }
 
-    void DisplayCurrentInput()
+    public void DisplayCurrentInput()
     {
-        takingIputs = true;
-        timeleft = timeToReset;
-        inputDisplay.text = currentSequence[currentIndex].ToString();
+        if(currentIndex<20)
+        {
+            takingIputs = true;
+            timer.fillAmount = 1;
+            timeleft = timeToReset;
+            inputDisplay.text = currentSequence[currentIndex].ToString();
+        }
+        else
+        {
+            takingIputs = false;
+            inputDisplay.gameObject.SetActive( false);
+            return;
+        }
+        
     }
 
     private void Update()
@@ -230,11 +239,43 @@ public class FightController : MonoBehaviour
             if(timeleft>=0)
             {
                 timeleft -= Time.deltaTime;
+                timer.fillAmount = timeleft/timeToReset;
+                //Debug.Log(timeleft);
                 if(Input.GetKeyDown(currentSequence[currentIndex]))
                 {
+                    takingIputs = false;
+                    inputDisplay.text = "<color=green>" + inputDisplay.text + "</color>";
+                    if (currentSequence[currentIndex].ToString() == "P")
+                    {
+                        Punch();
+                    }
+                    else if (currentSequence[currentIndex].ToString() == "K")
+                    {
+                        Kick();
+                    }
+                    else if (currentSequence[currentIndex].ToString() == "B")
+                    {
+                        Block();
+                        bearC.StartAttack(0.5f);
+                    }
                     currentIndex++;
-                    DisplayCurrentInput();
+                    
                 }
+                else if (Input.anyKeyDown && !Input.GetKeyDown(currentSequence[currentIndex]))
+                {
+                    takingIputs = false;
+                    inputDisplay.text = "<color=red>" + inputDisplay.text + "</color>";
+                    currentIndex++;
+                    bearC.StartAttack(0.5f);
+                    
+                }
+            }
+            else
+            {
+                takingIputs = false;
+                inputDisplay.text = "<color=red>" + inputDisplay.text + "</color>";
+                currentIndex++;
+                bearC.StartAttack(0.5f);
             }
         }
     }
