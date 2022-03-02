@@ -12,23 +12,29 @@ public class MapController : MonoBehaviour
     [SerializeField]
     GameObject[] PlanePrefabs;
     GameObject previoustrrain;
-
+    [SerializeField]
+    GameObject playerPrefab;
     private void Awake()
     {
         if (MC != null)
         {
-            Destroy(this);
+            Destroy(this.gameObject);
             return;
         }
            
         else
             MC = this;
 
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
+       
     }
     private void Start()
     {
         SpawnStartingt();
+        if (GameObject.FindGameObjectWithTag("Player") == null)
+        {
+            Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity);
+        }
     }
     void SpawnStartingt()
     {
@@ -38,9 +44,9 @@ public class MapController : MonoBehaviour
 
     public void SpawnNext()
     {
-
+        Debug.Log("called");
         int t = UnityEngine.Random.Range(0, PlanePrefabs.Length);
-        if(current == 0 )
+        if (current == 0)
             previoustrrain = Instantiate(PlanePrefabs[t], Vector3.zero, Quaternion.identity);
 
         else if (current == planesToSpawnBeforeBear)
@@ -52,10 +58,11 @@ public class MapController : MonoBehaviour
             previoustrrain = Instantiate(PlanePrefabs[t], previoustrrain.transform.position + new Vector3(0, 0, previoustrrain.transform.localScale.z * 10), Quaternion.identity);
             current++;
         }
-        
-
-        
-
+    }
+    public void ResetMap()
+    {
+        current = 0;
+        SpawnStartingt();
     }
     public void LoadLevel()
     {

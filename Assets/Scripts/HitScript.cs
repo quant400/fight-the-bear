@@ -27,7 +27,7 @@ public class HitScript : MonoBehaviour
         {
             if (other.CompareTag("Bear") && myFC.GetState() == States.Attacking)
             {
-                Debug.Log("Punched");
+               
                 other.GetComponentInParent<BearController>().TakeDammage(dammage);
                 myFC.UpdateValues();
             }
@@ -36,7 +36,7 @@ public class HitScript : MonoBehaviour
         {
             if (other.CompareTag("Player") && myBC.GetState() == States.Attacking)
             {
-                Debug.Log("Punched");
+               
                 myFC.TakeDammage(dammage);
             }
         }

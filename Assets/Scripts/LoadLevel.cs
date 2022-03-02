@@ -9,7 +9,12 @@ public class LoadLevel : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            MapController.MC.LoadLevel();
+            if(SceneManager.GetActiveScene().buildIndex==0)
+                MapController.MC.LoadLevel();
+            else if(SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                other.GetComponent<FightController>().MoveToNext();
+            }
         }
     }
 }

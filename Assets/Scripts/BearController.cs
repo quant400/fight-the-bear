@@ -14,7 +14,7 @@ public class BearController : MonoBehaviour
     [SerializeField]
     int bearHealth;
     States currentState;
-
+    public bool actionDone;
     public void StartFight()
     {
         //StartCoroutine(Attack(attackInterval));
@@ -34,9 +34,9 @@ public class BearController : MonoBehaviour
             bearHealth -= dammage;
             if (bearHealth <= 0)
             {
+                currentState = States.Dead;
                 anim.SetTrigger("Die");
-                Die();
-                StopAllCoroutines();
+                //StopAllCoroutines();
             }
             else
             {
@@ -66,11 +66,10 @@ public class BearController : MonoBehaviour
         currentState = States.Idel;
     }
 
-    void Die()
+    public void Die()
     {
-        currentState = States.Dead;
+        GameObject.FindGameObjectWithTag("Door").GetComponent<SlidingDoor>().OpenDoor();
         playerFC.ExitFight();
-
     }
 
     public int GetBearHelth()
@@ -85,6 +84,6 @@ public class BearController : MonoBehaviour
     {
         return currentState;
     }
-
+    
 
 }
