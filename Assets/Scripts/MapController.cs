@@ -44,7 +44,6 @@ public class MapController : MonoBehaviour
 
     public void SpawnNext()
     {
-        Debug.Log("called");
         int t = UnityEngine.Random.Range(0, PlanePrefabs.Length);
         if (current == 0)
             previoustrrain = Instantiate(PlanePrefabs[t], Vector3.zero, Quaternion.identity);

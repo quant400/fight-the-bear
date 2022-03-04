@@ -22,6 +22,7 @@ public class FightController : MonoBehaviour
     States currentState;
     [SerializeField]
     Image bearHealth, playerHelthDisplay;
+    int bearNumber=0;
 
     //for new input 
     public KeyCode[] validSequenceKeys = new KeyCode[] { KeyCode.P, KeyCode.K, KeyCode.B };
@@ -35,19 +36,33 @@ public class FightController : MonoBehaviour
     private bool takingIputs;
     [SerializeField]
     Image timer;
-    string[] currentString=new string[5];
-    bool[] actionList = new bool[5];
+    [SerializeField]
+    int sequenceLength;
+    string[] currentString;
+    bool[] actionList;
     int actionIndex;
     public bool actionDone;
+
+    //slider input
+    [SerializeField]
+    SliderScript slider;
+    KeyCode currentKey;
+    float currentValue;
+
+
+    [SerializeField]
+    GameObject sequenceInputs, gaugeInputs;
     private void Start()
     {
         playerAnim = GetComponent<Animator>();
         //InputsToDisplay();
+        //slider.StartSlider();
     }
 
     public void StartFight()
     {
-        fightCanvas.SetActive(true);
+        bearNumber++;
+        ActivateInputs();
         playerAnim.applyRootMotion = true;
         bearC = bear.GetComponentInChildren<BearController>();
         bearC.StartFight();
@@ -80,6 +95,22 @@ public class FightController : MonoBehaviour
         bear.transform.GetChild(1).GetComponent<CinemachineVirtualCamera>().Priority = 9;
     }
 
+    void ActivateInputs()
+    {
+        fightCanvas.SetActive(true);
+        if (bearNumber == 1)
+        {
+            currentString = new string[sequenceLength];
+            actionList = new bool[sequenceLength];
+            sequenceInputs.SetActive(true);
+            gaugeInputs.SetActive(false);
+        }
+        else if (bearNumber == 2)
+        {
+            gaugeInputs.SetActive(true);
+            sequenceInputs.SetActive(false);
+        }
+    }
     public void Punch()
     {
 
@@ -230,28 +261,36 @@ public class FightController : MonoBehaviour
 
     void InputsToDisplay()
     {
-        currentSequence = GenerateSequence(5);
+        currentSequence = GenerateSequence(sequenceLength);
         DisplayCurrentInput();
     }
 
     public void DisplayCurrentInput()
     {
         takingIputs = true;
-        timer.fillAmount = 1;
-        timeleft = timeToReset;
-        currentIndex = 0;
-        actionIndex = 0;
-        string tempdisp = "";
-        int index = 0;
-        foreach (KeyCode k in currentSequence)
+        if (bearNumber == 1)
         {
-            tempdisp += k.ToString();
-            currentString[index] = k.ToString();
-            actionList[index] = false;
-            index++;
+            timer.fillAmount = 1;
+            timeleft = timeToReset;
+            currentIndex = 0;
+            actionIndex = 0;
+            string tempdisp = "";
+            int index = 0;
+            foreach (KeyCode k in currentSequence)
+            {
+                tempdisp += k.ToString();
+                currentString[index] = k.ToString();
+                actionList[index] = false;
+                index++;
+            }
+            inputDisplay.text = tempdisp;
         }
-        inputDisplay.text = tempdisp;
-
+        else if(bearNumber==2)
+        {
+            currentKey = GenerateSequence(1)[0];
+            slider.SetInput(currentKey.ToString());
+            slider.StartSlider();
+        }
 
     }
 
@@ -259,85 +298,130 @@ public class FightController : MonoBehaviour
     {
         if(takingIputs)
         {
-            if(timeleft>=0 && currentIndex<5)
+            if (bearNumber == 1)
             {
-                timeleft -= Time.deltaTime;
-                timer.fillAmount = timeleft/timeToReset;
-                //Debug.Log(timeleft);
-                if(Input.GetKeyDown(currentSequence[currentIndex]))
+                if (timeleft >= 0 && currentIndex < sequenceLength)
                 {
-                    string[] tempDisp = currentString;
-                    for(int i =0; i<currentSequence.Length;i++)
+                    timeleft -= Time.deltaTime;
+                    timer.fillAmount = timeleft / timeToReset;
+                    //Debug.Log(timeleft);
+                    if (Input.GetKeyDown(currentSequence[currentIndex]))
                     {
-                        if(i==currentIndex)
+                        string[] tempDisp = currentString;
+                        for (int i = 0; i < currentSequence.Length; i++)
                         {
-                            tempDisp[i]= "<color=green>" + currentSequence[i] + "</color>";
+                            if (i == currentIndex)
+                            {
+                                tempDisp[i] = "<color=green>" + currentSequence[i] + "</color>";
+                            }
+                            else
+                            {
+                                tempDisp[i] = currentString[i];
+                            }
                         }
-                        else
-                        {
-                            tempDisp[i] = currentString[i];
-                        }
+                        actionList[currentIndex] = true;
+                        currentIndex++;
+                        inputDisplay.text = ConvertToString(tempDisp);
                     }
-                    actionList[currentIndex] = true;
-                    currentIndex++;
-                    inputDisplay.text = ConvertToString(tempDisp);
+                    else if (Input.anyKeyDown && !Input.GetKeyDown(currentSequence[currentIndex]))
+                    {
+                        string[] tempDisp = currentString;
+                        for (int i = 0; i < currentSequence.Length; i++)
+                        {
+                            if (i == currentIndex)
+                            {
+                                tempDisp[i] = "<color=red>" + currentSequence[i] + "</color>";
+                            }
+                            else
+                            {
+                                tempDisp[i] = currentString[i];
+                            }
+                        }
+                        actionList[currentIndex] = false;
+                        currentIndex++;
+                        inputDisplay.text = ConvertToString(tempDisp);
+
+                    }
                 }
-                else if (Input.anyKeyDown && !Input.GetKeyDown(currentSequence[currentIndex]))
+                else
                 {
-                    string[] tempDisp = currentString;
-                    for (int i = 0; i < currentSequence.Length; i++)
-                    {
-                        if (i == currentIndex)
-                        {
-                            tempDisp[i] = "<color=red>" + currentSequence[i] + "</color>";
-                        }
-                        else
-                        {
-                            tempDisp[i] = currentString[i];
-                        }
-                    }
-                    actionList[currentIndex] = false;
-                    currentIndex++;
-                    inputDisplay.text = ConvertToString(tempDisp);
+                    takingIputs = false;
+                    PlayActions();
 
                 }
             }
-            else
+
+            else if(bearNumber==2 )
             {
-                takingIputs = false;
-                PlayActions();
-               
+                if(Input.GetKeyDown(currentKey))
+                {
+                    currentValue = slider.StopSlider();
+                    PlaySingleActions();
+                }
             }
+        }
+      
+    }
+
+    private void PlaySingleActions()
+    {
+        if (Mathf.Abs(currentValue - 0.5f) < 0.2f)
+        {
+            if (currentKey.ToString() == "P")
+            {
+                Punch();
+            }
+            else if (currentKey.ToString() == "K")
+            {
+                Kick();
+            }
+            else if (currentKey.ToString() == "B")
+            {
+                Block();
+                bearC.StartAttack(0.5f);
+            }
+        }
+        else
+        {
+            bearC.StartAttack(0.5f);
         }
     }
 
-    public void PlayActions()
+        public void PlayActions()
     {
-        if (actionIndex < 5)
+        if (bearNumber == 1)
         {
-            if (!actionList[actionIndex])
+            if (actionIndex < sequenceLength)
             {
-                bearC.StartAttack(0.5f);
+                if (!actionList[actionIndex])
+                {
+                    bearC.StartAttack(0.5f);
+                }
+                else
+                {
+                    if (currentSequence[actionIndex].ToString() == "P")
+                    {
+                        Punch();
+                    }
+                    else if (currentSequence[actionIndex].ToString() == "K")
+                    {
+                        Kick();
+                    }
+                    else if (currentSequence[actionIndex].ToString() == "B")
+                    {
+                        Block();
+                        bearC.StartAttack(0.5f);
+                    }
+                }
+                actionIndex++;
             }
             else
             {
-                if (currentSequence[actionIndex].ToString() == "P")
-                {
-                    Punch();
-                }
-                else if (currentSequence[actionIndex].ToString() == "K")
-                {
-                    Kick();
-                }
-                else if (currentSequence[actionIndex].ToString() == "B")
-                {
-                    Block();
-                    bearC.StartAttack(0.5f);
-                }
+                InputsToDisplay();
             }
-            actionIndex++;
         }
-        else
+
+        if(bearNumber == 2)
         {
             InputsToDisplay();
         }
