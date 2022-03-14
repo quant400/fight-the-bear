@@ -27,16 +27,19 @@ public class HitScript : MonoBehaviour
         {
             if (other.CompareTag("Bear") && myFC.GetState() == States.Attacking)
             {
-               
-                other.GetComponentInParent<BearController>().TakeDammage(dammage);
-                myFC.UpdateValues();
+                var bearC = other.GetComponentInParent<BearController>();
+                if (bearC.GetState() != States.Attacking)
+                {
+                    other.GetComponentInParent<BearController>().TakeDammage(dammage);
+                    myFC.UpdateValues();
+                }
             }
         } 
         else if (gameObject.CompareTag("Bear"))
         {
             if (other.CompareTag("Player") && myBC.GetState() == States.Attacking)
             {
-               
+                myBC.SetState(States.Idel);
                 myFC.TakeDammage(dammage);
             }
         }

@@ -39,9 +39,11 @@ public class AnimStateChange : StateMachineBehaviour
                 return;
             }
             fc.ResetAnim();
-            if (fc.GetBear().actionDone && fc.GetBear().GetState()!=States.Dead)
+            if (fc.GetBearNumber()!=3 && fc.GetBear().actionDone && fc.GetBear().GetState()!=States.Dead)
                 fc.PlayActions();
-          
+            else if(fc.GetBearNumber() == 3 && fc.GetBear().GetState() != States.Dead && fc.GetState()!=States.Dead)
+                fc.PlayActions(); 
+
 
         }
         else if (animator.gameObject.CompareTag("Bear"))

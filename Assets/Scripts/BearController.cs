@@ -13,17 +13,57 @@ public class BearController : MonoBehaviour
     int bearAttack;
     [SerializeField]
     int bearHealth;
+    [SerializeField]
+    float bearSpeed;
+    [SerializeField]
+    float attackRange;
+    [SerializeField]
+    float maxAttackInterval;
+    float canAttackIn;
     States currentState;
     public bool actionDone;
+    bool playerSeen=false;
+   
     public void StartFight()
     {
-        //StartCoroutine(Attack(attackInterval));
+        playerSeen = true;
     }
     // Start is called before the first frame update
     private void Start()
     {
         anim = GetComponent<Animator>();
         playerFC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
+    }
+
+    private void Update()
+    { if (playerFC.GetBearNumber() == 3)
+        {
+            if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState==States.Idel )
+            {
+                anim.SetBool("Follow", false);
+                if (canAttackIn <= 0)
+                {
+                    canAttackIn = Random.Range(3, maxAttackInterval + 1);
+                    StartAttack(0);
+                }
+                else
+                    canAttackIn -= Time.deltaTime;
+
+
+            }
+            else if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) > attackRange && currentState == States.Idel)
+            {
+                Follow();
+            }
+        }
+        
+    }
+
+    private void Follow()
+    {
+        anim.SetBool("Follow", true);
+        transform.LookAt(playerFC.transform);
+        transform.Translate(Vector3.forward * bearSpeed * Time.deltaTime);
     }
 
     public void TakeDammage(int dammage)
@@ -84,6 +124,9 @@ public class BearController : MonoBehaviour
     {
         return currentState;
     }
-    
+    public void SetState(States s)
+    {
+        currentState =s;
+    }
 
 }

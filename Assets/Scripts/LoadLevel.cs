@@ -7,13 +7,17 @@ public class LoadLevel : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
+        //changes values to match scenes later
+
         if (other.CompareTag("Player"))
         {
-            if(SceneManager.GetActiveScene().buildIndex==0)
+            if(SceneManager.GetActiveScene().buildIndex==1)
                 MapController.MC.LoadLevel();
-            else if(SceneManager.GetActiveScene().buildIndex == 1)
+            else if(SceneManager.GetActiveScene().buildIndex == 2)
             {
-                other.GetComponent<FightController>().MoveToNext();
+                //other.GetComponent<FightController>().MoveToNext();
+                Destroy(other.gameObject);
+                SceneManager.LoadScene(0);
             }
         }
     }

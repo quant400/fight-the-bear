@@ -7,6 +7,7 @@ public class PathLoader : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Caller");
         SceneManager.LoadScene(1);
     }
 }

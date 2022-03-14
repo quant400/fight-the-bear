@@ -22,7 +22,8 @@ public class DDOL : MonoBehaviour
     // here temporarily for testing 
     public void ResetPos(Scene scene, LoadSceneMode mode)
     {
-        if(scene.buildIndex==1)
+        //change to 1 later
+        if(scene.buildIndex==2)
         {
             transform.GetComponent<CharacterController>().enabled = false;
             transform.GetComponent<StarterAssets.ThirdPersonController>().enabled = false;

@@ -70,7 +70,8 @@ public class MapController : MonoBehaviour
 
     int GetBearScene()
     {
-        return 1;
+        //change value later
+        return 2;
     }
     
 }
