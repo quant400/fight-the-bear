@@ -23,7 +23,8 @@ public class BearController : MonoBehaviour
     States currentState;
     public bool actionDone;
     bool playerSeen=false;
-   
+    private bool stunned = false;
+    float sliderVal=1;
     public void StartFight()
     {
         playerSeen = true;
@@ -38,7 +39,7 @@ public class BearController : MonoBehaviour
     private void Update()
     { if (playerFC.GetBearNumber() == 3)
         {
-            if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState==States.Idel )
+            if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState==States.Idel && !playerFC.GetSpecialAttackStatus() )
             {
                 anim.SetBool("Follow", false);
                 if (canAttackIn <= 0)
@@ -70,8 +71,15 @@ public class BearController : MonoBehaviour
     {
         if (currentState == States.Idel)
         {
+            if (stunned)
+            {
+                anim.SetBool("Stunned", false);
+                stunned = false;
+                sliderVal = Mathf.Abs(playerFC.GetCurrentSliderVal() - 0.5f)+1;
+            }
             currentState = States.Hit;
-            bearHealth -= dammage;
+            bearHealth -= (int)(dammage*sliderVal);
+            sliderVal = 1;
             if (bearHealth <= 0)
             {
                 currentState = States.Dead;
@@ -101,6 +109,12 @@ public class BearController : MonoBehaviour
         //StartCoroutine(Attack(delay));
     }
 
+    public void Stunned()
+    {
+        currentState = States.Idel;
+        anim.SetBool("Stunned", true);
+        stunned = true;
+    }
     public void ResetAnim()
     {
         currentState = States.Idel;

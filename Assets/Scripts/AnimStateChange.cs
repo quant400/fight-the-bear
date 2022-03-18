@@ -38,6 +38,11 @@ public class AnimStateChange : StateMachineBehaviour
                 fc.ResetGame();
                 return;
             }
+            if (fc.GetSpecialAttackStatus() && fc.GetState()!=States.Hit)
+            {
+                fc.DisableSpecialAttack();
+                return;
+            }
             fc.ResetAnim();
             if (fc.GetBearNumber()!=3 && fc.GetBear().actionDone && fc.GetBear().GetState()!=States.Dead)
                 fc.PlayActions();
@@ -52,7 +57,7 @@ public class AnimStateChange : StateMachineBehaviour
             BearController bc = animator.gameObject.GetComponent<BearController>();
             bc.actionDone = true;
             bc.ResetAnim();
-            if (fc.actionDone)
+            if (fc.actionDone && !fc.GetSpecialAttackStatus())
                 fc.PlayActions();
            
 

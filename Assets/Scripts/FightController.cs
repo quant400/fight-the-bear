@@ -52,6 +52,10 @@ public class FightController : MonoBehaviour
 
     [SerializeField]
     GameObject sequenceInputs, gaugeInputs;
+
+    bool inFight =false;
+    bool specialAttack = false;
+    public bool canHit;
     private void Start()
     {
         bearNumber = LoaderScript.instance.bearNumber;
@@ -63,10 +67,11 @@ public class FightController : MonoBehaviour
     public void StartFight()
     {
         bearNumber++;
+        inFight = true;
         if (bearNumber == 3)
         {
             ActivateInputs();
-            bearC = bear.GetComponentInChildren<BearController>();
+            bearC = bear.GetComponent<BearController>();
             bearC.StartFight();
             UpdateValues();
 
@@ -75,7 +80,7 @@ public class FightController : MonoBehaviour
         {
             ActivateInputs();
             playerAnim.applyRootMotion = true;
-            bearC = bear.GetComponentInChildren<BearController>();
+            bearC = bear.GetComponent<BearController>();
             bearC.StartFight();
             CC = GetComponent<CharacterController>();
             GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = false;
@@ -84,10 +89,10 @@ public class FightController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             CC.enabled = false;
-            CC.transform.position = bear.transform.GetChild(2).position;
+            CC.transform.position = bear.transform.GetChild(5).position;
             CC.transform.LookAt(new Vector3(bear.transform.position.x, CC.transform.position.y, bear.transform.position.z));
             playerAnim.SetBool("Fight", true);
-            bear.transform.GetChild(1).GetComponent<CinemachineVirtualCamera>().Priority = 11;
+            bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 11;
             UpdateValues();
 
             InputsToDisplay();
@@ -108,7 +113,8 @@ public class FightController : MonoBehaviour
             CC.enabled = true;
         }
         playerAnim.SetBool("Fight", false);
-        bear.transform.GetChild(1).GetComponent<CinemachineVirtualCamera>().Priority = 9;
+        bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 9;
+        inFight = false;
     }
 
     void ActivateInputs()
@@ -132,6 +138,39 @@ public class FightController : MonoBehaviour
             sequenceInputs.SetActive(false);
         }
     }
+
+    void EnableSpecialAttack()
+    {
+        specialAttack = true;
+        CC = GetComponent<CharacterController>();
+        playerAnim.applyRootMotion = true;
+        GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = false;
+        GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = false;
+        GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        CC.enabled = false;
+        CC.transform.position = bear.transform.GetChild(5).position;
+        CC.transform.LookAt(new Vector3(bear.transform.position.x, CC.transform.position.y, bear.transform.position.z));
+        playerAnim.SetBool("Fight", true);
+        bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 11;
+        
+        InputsToDisplay();
+        gaugeInputs.SetActive(true);
+    }
+   public void DisableSpecialAttack()
+    {
+        specialAttack = false;
+        GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = true;
+        GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = true;
+        GetComponent<StarterAssets.ThirdPersonController>().enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        CC.enabled = true;
+        bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 9;
+        gaugeInputs.SetActive(false);
+    }
+
     public void Punch()
     {
         if (currentState != States.Hit && currentState != States.Dead)
@@ -140,6 +179,8 @@ public class FightController : MonoBehaviour
             {
                 currentState = States.Attacking;
                 int p = Random.Range(1, 3);
+                if (specialAttack)
+                    p = 10;
                 playerAnim.SetFloat("PunchVal", p);
                 playerAnim.SetTrigger("Punch");
             }
@@ -158,8 +199,11 @@ public class FightController : MonoBehaviour
         {
             if (currentState != States.Blocking)
             {
+
                 currentState = States.Attacking;
                 int p = Random.Range(1, 3);
+                if (specialAttack)
+                    p = 10;
                 playerAnim.SetFloat("KickVal", p);
                 playerAnim.SetTrigger("Kick");
             }
@@ -206,8 +250,15 @@ public class FightController : MonoBehaviour
             }
             else
             {
+                if (bearNumber == 3)
+                {
+                    EnableSpecialAttack();
+                    bearC.Stunned();
+                }
                 currentState = States.Hit;
                 playerAnim.SetTrigger("Hit");
+                
+                
             }
 
 
@@ -225,9 +276,10 @@ public class FightController : MonoBehaviour
     {
        
         currentState = States.Idel;
+        canHit = true;
         if (bearC.GetState() != States.Dead && bearNumber != 3)
         {
-            transform.DOMove(bear.transform.GetChild(2).position, 0.5f);
+            transform.DOMove(bear.transform.GetChild(5).position, 0.5f);
             transform.DORotate(Vector3.zero, 0.5f);
         }
         playerAnim.SetBool("Block", false);
@@ -235,9 +287,9 @@ public class FightController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Bear") && other.GetComponentInChildren<BearController>()!=null && other.GetComponentInChildren<BearController>().GetState()!=States.Dead)
+        if(other.CompareTag("Bear") && other.GetComponentInChildren<BearController>()!=null && other.GetComponentInChildren<BearController>().GetState()!=States.Dead && !inFight)
         {
-            bear = other.gameObject;
+            bear = other.transform.GetChild(0).gameObject;
             other.enabled = false;
             StartFight();
         }
@@ -296,6 +348,15 @@ public class FightController : MonoBehaviour
         return bearNumber;
     }
 
+    public bool GetSpecialAttackStatus()
+    {
+        return specialAttack;
+    }
+
+    public float GetCurrentSliderVal()
+    {
+        return currentValue;
+    }
     //for new inputs
 
     KeyCode[] GenerateSequence(int length)
@@ -303,8 +364,12 @@ public class FightController : MonoBehaviour
         KeyCode[] sequence = new KeyCode[length];
         for (int i = 0; i < length; i++)
         {
-            var key = validSequenceKeys[Random.Range(0, validSequenceKeys.Length)];
-            sequence[i] = key;
+            KeyCode k;
+            if(specialAttack)
+                k = validSequenceKeys[Random.Range(0, validSequenceKeys.Length-1)];
+            else
+                k = validSequenceKeys[Random.Range(0, validSequenceKeys.Length)];
+            sequence[i] = k;
         }
 
         return sequence;
@@ -336,7 +401,13 @@ public class FightController : MonoBehaviour
             }
             inputDisplay.text = tempdisp;
         }
-        else if(bearNumber==2)
+        else if(bearNumber == 2)
+        {
+            currentKey = GenerateSequence(1)[0];
+            slider.SetInput(currentKey.ToString());
+            slider.StartSlider();
+        }
+        else if(specialAttack)
         {
             currentKey = GenerateSequence(1)[0];
             slider.SetInput(currentKey.ToString());
@@ -347,7 +418,7 @@ public class FightController : MonoBehaviour
 
     private void Update()
     {
-        if(takingIputs)
+        if (takingIputs)
         {
             if (bearNumber == 1)
             {
@@ -396,26 +467,34 @@ public class FightController : MonoBehaviour
                 }
                 else
                 {
+
                     takingIputs = false;
                     PlayActions();
 
                 }
             }
-
-            else if(bearNumber==2 )
+            else if (bearNumber == 2)
             {
-                if(Input.GetKeyDown(currentKey))
+                if (Input.GetKeyDown(currentKey))
                 {
                     currentValue = slider.StopSlider();
                     PlaySingleActions();
+
+                }
+            }
+            else if (specialAttack)
+            {
+                if (Input.GetKeyDown(currentKey))
+                {
+                    currentValue = slider.StopSlider();
+                    PlaySingleActions();
+
                 }
             }
 
-            
         }
         if (bearNumber == 3)
         {
-           
             if (Input.GetKeyDown(KeyCode.K) || Input.GetMouseButtonDown(1))
             {
                 playerAnim.applyRootMotion = true;
@@ -444,12 +523,14 @@ public class FightController : MonoBehaviour
         {
             if (currentKey.ToString() == "P")
             {
-                transform.DOMove((bear.transform.GetChild(2).position + (bear.transform.position - transform.position) * 0.15f), 0.5f);
+                Debug.Log("1");
+                transform.DOMove((bear.transform.GetChild(5).position + (bear.transform.position - transform.position) *0.2f), 0.5f);
                 Punch();
             }
             else if (currentKey.ToString() == "K")
             {
-                transform.DOMove((bear.transform.GetChild(2).position + (bear.transform.position - transform.position) * 0.15f), 0.5f);
+                Debug.Log("1");
+                transform.DOMove((bear.transform.GetChild(5).position + (bear.transform.position - transform.position) * 0.2f), 0.5f);
                 Kick();
             }
             else if (currentKey.ToString() == "B")
@@ -466,6 +547,7 @@ public class FightController : MonoBehaviour
 
     public void PlayActions()
     {
+
         if (bearNumber == 1)
         {
             if (actionIndex < sequenceLength)
@@ -478,12 +560,12 @@ public class FightController : MonoBehaviour
                 {
                     if (currentSequence[actionIndex].ToString() == "P")
                     {
-                        transform.DOMove((bear.transform.GetChild(2).position + (bear.transform.position - transform.position) * 0.15f), 0.5f);
+                        transform.DOMove((bear.transform.GetChild(5).position + (bear.transform.position - transform.position) * 0.15f), 0.5f);
                         Punch();
                     }
                     else if (currentSequence[actionIndex].ToString() == "K")
                     {
-                        transform.DOMove((bear.transform.GetChild(2).position + (bear.transform.position - transform.position) * 0.15f), 0.5f);
+                        transform.DOMove((bear.transform.GetChild(5).position + (bear.transform.position - transform.position) * 0.15f), 0.5f);
                         Kick();
                     }
                     else if (currentSequence[actionIndex].ToString() == "B")
@@ -504,12 +586,15 @@ public class FightController : MonoBehaviour
         {
             InputsToDisplay();
         }
-        if (bearNumber == 3)
+        if (bearNumber == 3 && !specialAttack)
         {
             playerAnim.applyRootMotion = false;
             playerAnim.SetBool("Fight", false);
         }
     }
+
+
+   
 
 
     void Die()
@@ -526,50 +611,3 @@ public class FightController : MonoBehaviour
         return result;
     }
 }
-/* old method 
- *  if(takingIputs)
-        {
-            if(timeleft>=0)
-            {
-                timeleft -= Time.deltaTime;
-                timer.fillAmount = timeleft/timeToReset;
-                //Debug.Log(timeleft);
-                if(Input.GetKeyDown(currentSequence[currentIndex]))
-                {
-                    takingIputs = false;
-                    inputDisplay.text = "<color=green>" + inputDisplay.text + "</color>";
-                    if (currentSequence[currentIndex].ToString() == "P")
-                    {
-                        Punch();
-                    }
-                    else if (currentSequence[currentIndex].ToString() == "K")
-                    {
-                        Kick();
-                    }
-                    else if (currentSequence[currentIndex].ToString() == "B")
-                    {
-                        Block();
-                        bearC.StartAttack(0.5f);
-                    }
-                    currentIndex++;
-                    
-                }
-                else if (Input.anyKeyDown && !Input.GetKeyDown(currentSequence[currentIndex]))
-                {
-                    takingIputs = false;
-                    inputDisplay.text = "<color=red>" + inputDisplay.text + "</color>";
-                    currentIndex++;
-                    bearC.StartAttack(0.5f);
-                    
-                }
-            }
-            else
-            {
-                takingIputs = false;
-                inputDisplay.text = "<color=red>" + inputDisplay.text + "</color>";
-                currentIndex++;
-                bearC.StartAttack(0.5f);
-            }
-        }
-    }
-*/

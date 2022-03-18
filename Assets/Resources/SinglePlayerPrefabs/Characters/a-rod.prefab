@@ -3273,6 +3273,7 @@ MonoBehaviour:
   slider: {fileID: 1312244498}
   sequenceInputs: {fileID: 1378183614}
   gaugeInputs: {fileID: 1312244495}
+  canHit: 0
 --- !u!114 &354534755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3764,6 +3765,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9f87976e092dee419605f63bb2c7b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHit: {fileID: 5251733635264045554, guid: 1f39f63a1ed26b84c805f125d3a40115, type: 3}
+  specialkAttack: {fileID: 2727167382555323695, guid: 76f21862291f5664985fad3f816cb197, type: 3}
 --- !u!1 &2646740558992946867
 GameObject:
   m_ObjectHideFlags: 0
@@ -4175,6 +4178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9f87976e092dee419605f63bb2c7b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHit: {fileID: 5251733635264045554, guid: 1f39f63a1ed26b84c805f125d3a40115, type: 3}
+  specialkAttack: {fileID: 2727167382555323695, guid: 76f21862291f5664985fad3f816cb197, type: 3}
 --- !u!1 &3952592819320561067
 GameObject:
   m_ObjectHideFlags: 0
@@ -4494,6 +4499,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9f87976e092dee419605f63bb2c7b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHit: {fileID: 5251733635264045554, guid: 1f39f63a1ed26b84c805f125d3a40115, type: 3}
+  specialkAttack: {fileID: 2727167382555323695, guid: 76f21862291f5664985fad3f816cb197, type: 3}
 --- !u!1 &4467295680222304822
 GameObject:
   m_ObjectHideFlags: 0
@@ -4844,6 +4851,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2900688916020764193}
   - component: {fileID: 354534763}
+  - component: {fileID: 3800689025872258877}
   m_Layer: 6
   m_Name: Ankle_L
   m_TagString: Player
@@ -4879,6 +4887,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0.03, y: -0.04, z: 0}
+--- !u!114 &3800689025872258877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5304594257910582917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9f87976e092dee419605f63bb2c7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyHit: {fileID: 5251733635264045554, guid: 1f39f63a1ed26b84c805f125d3a40115, type: 3}
+  specialkAttack: {fileID: 2727167382555323695, guid: 76f21862291f5664985fad3f816cb197, type: 3}
 --- !u!1 &5392597949920955075
 GameObject:
   m_ObjectHideFlags: 0
