@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HitScript : MonoBehaviour
 {
-    int dammage;
+    float dammage;
     FightController myFC;
     BearController myBC;
     [SerializeField]

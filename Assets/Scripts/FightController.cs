@@ -16,13 +16,15 @@ public class FightController : MonoBehaviour
     [SerializeField]
     GameObject fightCanvas;
     [SerializeField]
-    int playerHelth;
+    float playerHelth;
     [SerializeField]
-    int playerDammage;
+    float playerDammage;
     States currentState;
     [SerializeField]
     Image bearHealth, playerHelthDisplay;
     int bearNumber=0;
+
+    float atk, def, tek;
 
     //for new input 
     public KeyCode[] validSequenceKeys = new KeyCode[] { KeyCode.P, KeyCode.K, KeyCode.B };
@@ -68,50 +70,18 @@ public class FightController : MonoBehaviour
     {
         bearNumber++;
         inFight = true;
-        if (bearNumber == 3)
-        {
-            ActivateInputs();
-            bearC = bear.GetComponent<BearController>();
-            bearC.StartFight();
-            UpdateValues();
+        ActivateInputs();
+        bearC = bear.GetComponent<BearController>();
+        bearC.StartFight();
+        UpdateValues();
 
-        }
-        else
-        {
-            ActivateInputs();
-            playerAnim.applyRootMotion = true;
-            bearC = bear.GetComponent<BearController>();
-            bearC.StartFight();
-            CC = GetComponent<CharacterController>();
-            GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = false;
-            GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = false;
-            GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            CC.enabled = false;
-            CC.transform.position = bear.transform.GetChild(5).position;
-            CC.transform.LookAt(new Vector3(bear.transform.position.x, CC.transform.position.y, bear.transform.position.z));
-            playerAnim.SetBool("Fight", true);
-            bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 11;
-            UpdateValues();
 
-            InputsToDisplay();
-        }
 
     }
     public void ExitFight()
     {
         fightCanvas.SetActive(false);
         playerAnim.applyRootMotion = false;
-        if (bearNumber != 3)
-        {
-            GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = true;
-            GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = true;
-            GetComponent<StarterAssets.ThirdPersonController>().enabled = true;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            CC.enabled = true;
-        }
         playerAnim.SetBool("Fight", false);
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 9;
         inFight = false;
@@ -120,23 +90,9 @@ public class FightController : MonoBehaviour
     void ActivateInputs()
     {
         fightCanvas.SetActive(true);
-        if (bearNumber == 1)
-        {
-            currentString = new string[sequenceLength];
-            actionList = new bool[sequenceLength];
-            sequenceInputs.SetActive(true);
-            gaugeInputs.SetActive(false);
-        }
-        else if (bearNumber == 2)
-        {
-            gaugeInputs.SetActive(true);
-            sequenceInputs.SetActive(false);
-        }
-        else if(bearNumber==3)
-        {
-            gaugeInputs.SetActive(false);
-            sequenceInputs.SetActive(false);
-        }
+        gaugeInputs.SetActive(false);
+        sequenceInputs.SetActive(false);
+
     }
 
     void EnableSpecialAttack()
@@ -225,7 +181,7 @@ public class FightController : MonoBehaviour
     }
 
 
-    public void TakeDammage(int ammount)
+    public void TakeDammage(float ammount)
     {
         if (currentState != States.Hit)
         {
@@ -243,22 +199,21 @@ public class FightController : MonoBehaviour
                 }
                 else
                 {
-                    
+
                     playerAnim.SetTrigger("Hit");
                 }
 
             }
             else
             {
-                if (bearNumber == 3)
-                {
-                    EnableSpecialAttack();
-                    bearC.Stunned();
-                }
+
+                EnableSpecialAttack();
+                bearC.Stunned();
+
                 currentState = States.Hit;
                 playerAnim.SetTrigger("Hit");
-                
-                
+
+
             }
 
 
@@ -277,11 +232,6 @@ public class FightController : MonoBehaviour
        
         currentState = States.Idel;
         canHit = true;
-        if (bearC.GetState() != States.Dead && bearNumber != 3)
-        {
-            transform.DOMove(bear.transform.GetChild(5).position, 0.5f);
-            transform.DORotate(Vector3.zero, 0.5f);
-        }
         playerAnim.SetBool("Block", false);
     }
 
@@ -323,10 +273,20 @@ public class FightController : MonoBehaviour
         CC.enabled = false;
         transform.position = new Vector3(0, 0, -45);
         CC.enabled = true;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
         MapController.MC.ResetMap();
     }
-    public int GetDammage()
+
+    public void SetStats(float a, float d, float t)
+    {
+        atk = a;
+        def = d;
+        tek = t;
+
+        playerDammage *= (1 + atk);
+    }
+
+    public float GetDammage()
     {
         return playerDammage;
     }
@@ -384,30 +344,7 @@ public class FightController : MonoBehaviour
     public void DisplayCurrentInput()
     {
         takingIputs = true;
-        if (bearNumber == 1)
-        {
-            timer.fillAmount = 1;
-            timeleft = timeToReset;
-            currentIndex = 0;
-            actionIndex = 0;
-            string tempdisp = "";
-            int index = 0;
-            foreach (KeyCode k in currentSequence)
-            {
-                tempdisp += k.ToString();
-                currentString[index] = k.ToString();
-                actionList[index] = false;
-                index++;
-            }
-            inputDisplay.text = tempdisp;
-        }
-        else if(bearNumber == 2)
-        {
-            currentKey = GenerateSequence(1)[0];
-            slider.SetInput(currentKey.ToString());
-            slider.StartSlider();
-        }
-        else if(specialAttack)
+        if(specialAttack)
         {
             currentKey = GenerateSequence(1)[0];
             slider.SetInput(currentKey.ToString());
@@ -418,71 +355,10 @@ public class FightController : MonoBehaviour
 
     private void Update()
     {
-        if (takingIputs)
+        if (takingIputs && inFight)
         {
-            if (bearNumber == 1)
-            {
-                if (timeleft >= 0 && currentIndex < sequenceLength)
-                {
-                    timeleft -= Time.deltaTime;
-                    timer.fillAmount = timeleft / timeToReset;
-                    //Debug.Log(timeleft);
-                    if (Input.GetKeyDown(currentSequence[currentIndex]))
-                    {
-                        string[] tempDisp = currentString;
-                        for (int i = 0; i < currentSequence.Length; i++)
-                        {
-                            if (i == currentIndex)
-                            {
-                                tempDisp[i] = "<color=green>" + currentSequence[i] + "</color>";
-                            }
-                            else
-                            {
-                                tempDisp[i] = currentString[i];
-                            }
-                        }
-                        actionList[currentIndex] = true;
-                        currentIndex++;
-                        inputDisplay.text = ConvertToString(tempDisp);
-                    }
-                    else if (Input.anyKeyDown && !Input.GetKeyDown(currentSequence[currentIndex]))
-                    {
-                        string[] tempDisp = currentString;
-                        for (int i = 0; i < currentSequence.Length; i++)
-                        {
-                            if (i == currentIndex)
-                            {
-                                tempDisp[i] = "<color=red>" + currentSequence[i] + "</color>";
-                            }
-                            else
-                            {
-                                tempDisp[i] = currentString[i];
-                            }
-                        }
-                        actionList[currentIndex] = false;
-                        currentIndex++;
-                        inputDisplay.text = ConvertToString(tempDisp);
 
-                    }
-                }
-                else
-                {
-
-                    takingIputs = false;
-                    PlayActions();
-
-                }
-            }
-            else if (bearNumber == 2)
-            {
-                if (Input.GetKeyDown(currentKey))
-                {
-                    currentValue = slider.StopSlider();
-                    PlaySingleActions();
-
-                }
-            }
-            else if (specialAttack)
+            if (specialAttack)
             {
                 if (Input.GetKeyDown(currentKey))
                 {
@@ -493,8 +369,9 @@ public class FightController : MonoBehaviour
             }
 
         }
-        if (bearNumber == 3)
+        else if (inFight)
         {
+            Debug.Log("yes");
             if (Input.GetKeyDown(KeyCode.K) || Input.GetMouseButtonDown(1))
             {
                 playerAnim.applyRootMotion = true;
@@ -543,50 +420,12 @@ public class FightController : MonoBehaviour
         {
             bearC.StartAttack(0.5f);
         }
+        takingIputs = false;
     }
 
     public void PlayActions()
     {
-
-        if (bearNumber == 1)
-        {
-            if (actionIndex < sequenceLength)
-            {
-                if (!actionList[actionIndex])
-                {
-                    bearC.StartAttack(0.5f);
-                }
-                else
-                {
-                    if (currentSequence[actionIndex].ToString() == "P")
-                    {
-                        transform.DOMove((bear.transform.GetChild(5).position + (bear.transform.position - transform.position) * 0.15f), 0.5f);
-                        Punch();
-                    }
-                    else if (currentSequence[actionIndex].ToString() == "K")
-                    {
-                        transform.DOMove((bear.transform.GetChild(5).position + (bear.transform.position - transform.position) * 0.15f), 0.5f);
-                        Kick();
-                    }
-                    else if (currentSequence[actionIndex].ToString() == "B")
-                    {
-                        Block();
-                        bearC.StartAttack(0.5f);
-                    }
-                }
-                actionIndex++;
-            }
-            else
-            {
-                InputsToDisplay();
-            }
-        }
-
-        if (bearNumber == 2)
-        {
-            InputsToDisplay();
-        }
-        if (bearNumber == 3 && !specialAttack)
+        if (inFight && !specialAttack)
         {
             playerAnim.applyRootMotion = false;
             playerAnim.SetBool("Fight", false);

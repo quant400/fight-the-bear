@@ -37,27 +37,26 @@ public class BearController : MonoBehaviour
     }
 
     private void Update()
-    { if (playerFC.GetBearNumber() == 3)
+    {
+        if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState == States.Idel && !playerFC.GetSpecialAttackStatus())
         {
-            if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState==States.Idel && !playerFC.GetSpecialAttackStatus() )
+            anim.SetBool("Follow", false);
+            if (canAttackIn <= 0)
             {
-                anim.SetBool("Follow", false);
-                if (canAttackIn <= 0)
-                {
-                    canAttackIn = Random.Range(3, maxAttackInterval + 1);
-                    StartAttack(0);
-                }
-                else
-                    canAttackIn -= Time.deltaTime;
+                canAttackIn = Random.Range(3, maxAttackInterval + 1);
+                StartAttack(0);
+            }
+            else
+                canAttackIn -= Time.deltaTime;
 
 
-            }
-            else if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) > attackRange && currentState == States.Idel)
-            {
-                Follow();
-            }
         }
-        
+        else if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) > attackRange && currentState == States.Idel)
+        {
+            Follow();
+        }
+
+
     }
 
     private void Follow()
@@ -67,7 +66,7 @@ public class BearController : MonoBehaviour
         transform.Translate(Vector3.forward * bearSpeed * Time.deltaTime);
     }
 
-    public void TakeDammage(int dammage)
+    public void TakeDammage(float dammage)
     {
         if (currentState == States.Idel)
         {
