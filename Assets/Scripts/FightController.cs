@@ -283,7 +283,7 @@ public class FightController : MonoBehaviour
         def = d;
         tek = t;
 
-        playerDammage *= (1 + atk);
+        playerDammage *= (1 + atk/100);
     }
 
     public float GetDammage()
