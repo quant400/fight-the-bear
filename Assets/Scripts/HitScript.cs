@@ -13,7 +13,7 @@ public class HitScript : MonoBehaviour
     ParticleSystem specialkAttack;
     private void Start()
     {
-        if (gameObject.CompareTag("Player"))
+        if (gameObject.CompareTag("Punch") || gameObject.CompareTag("Kick"))
         {
             myFC = GetComponentInParent<FightController>();
             dammage = myFC.GetDammage();
@@ -22,17 +22,17 @@ public class HitScript : MonoBehaviour
         {
             myFC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
             myBC= GetComponentInParent<BearController>();
-            dammage = myBC.GetBearDammage();
+          
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (gameObject.CompareTag("Player"))
+        if (gameObject.CompareTag("Kick"))
         {
-            if (other.CompareTag("BearHitBox") && myFC.GetState() == States.Attacking)
+            if (other.CompareTag("BearHitBox") && myFC.GetState() == States.Attacking && myFC.GetAttackingState()==AttackingStates.kicking)
             {
                 var bearC = other.GetComponentInParent<BearController>();
-                if (bearC.GetState() != States.Attacking)
+                if (bearC.GetState() == States.Idel)
                 {
                     PlayHit();
                     other.GetComponentInParent<BearController>().TakeDammage(dammage);
@@ -40,12 +40,26 @@ public class HitScript : MonoBehaviour
                 }
             }
         } 
+        else if (gameObject.CompareTag("Punch"))
+        {
+            if (other.CompareTag("BearHitBox") && myFC.GetState() == States.Attacking && myFC.GetAttackingState() == AttackingStates.punching)
+            {
+              
+                var bearC = other.GetComponentInParent<BearController>();
+                if (bearC.GetState() == States.Idel)
+                {
+                    PlayHit();
+                    other.GetComponentInParent<BearController>().TakeDammage(dammage);
+                    myFC.UpdateValues();
+                }
+            }
+        }
         else if (gameObject.CompareTag("Bear"))
         {
             if (other.CompareTag("Player") && myBC.GetState() == States.Attacking)
             {
                 myBC.SetState(States.Idel);
-                myFC.TakeDammage(dammage);
+                myFC.TakeDammage(myBC.GetBearDammage()); ;
             }
         }
     }

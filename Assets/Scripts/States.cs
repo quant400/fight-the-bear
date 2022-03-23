@@ -13,4 +13,10 @@ public enum States
 
 }
 
+public enum AttackingStates
+{
+    kicking,
+    punching
+}
+
 

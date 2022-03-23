@@ -20,10 +20,12 @@ public class FightController : MonoBehaviour
     [SerializeField]
     float playerDammage;
     States currentState;
+    AttackingStates currentAttackingState;
     [SerializeField]
     Image bearHealth, playerHelthDisplay;
     int bearNumber=0;
-
+    [SerializeField]
+    Image bearAgression;
     float atk, def, tek;
 
     //for new input 
@@ -58,12 +60,22 @@ public class FightController : MonoBehaviour
     bool inFight =false;
     bool specialAttack = false;
     public bool canHit;
+
+    float score;
+    [SerializeField]
+    TMP_Text scoreDisplay;
+    float timeCounter;
+    [SerializeField]
+    float totalAllowedTime;
     private void Start()
     {
         bearNumber = LoaderScript.instance.bearNumber;
         playerAnim = GetComponent<Animator>();
         //InputsToDisplay();
         //slider.StartSlider();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
     }
 
     public void StartFight()
@@ -134,6 +146,7 @@ public class FightController : MonoBehaviour
             if (currentState != States.Blocking)
             {
                 currentState = States.Attacking;
+                currentAttackingState = AttackingStates.punching;
                 int p = Random.Range(1, 3);
                 if (specialAttack)
                     p = 10;
@@ -157,6 +170,7 @@ public class FightController : MonoBehaviour
             {
 
                 currentState = States.Attacking;
+                currentAttackingState = AttackingStates.kicking;
                 int p = Random.Range(1, 3);
                 if (specialAttack)
                     p = 10;
@@ -190,6 +204,7 @@ public class FightController : MonoBehaviour
             {
                 currentState = States.Hit;
                 playerHelth -= ammount;
+                score -= ammount;
                 UpdateValues();
                 if (playerHelth <= 0)
                 {
@@ -211,20 +226,29 @@ public class FightController : MonoBehaviour
                 bearC.Stunned();
 
                 currentState = States.Hit;
-                playerAnim.SetTrigger("Hit");
-
-
+                playerHelth -= (ammount - 10);
+                score -= (ammount - 10);
+                //playerHelth -= ((ammount/2) * (1-(def/100)));
+                UpdateValues();
+                if (playerHelth <= 0)
+                {
+                    playerAnim.SetBool("Dead", true);
+                    currentState = States.Dead;
+                    //ExitFight();
+                }
+                else
+                {
+                    playerAnim.SetTrigger("Hit");
+                }
             }
-
-
         }
-
     }
 
     public void UpdateValues()
     {
         playerHelthDisplay.fillAmount = playerHelth/100f;
-        bearHealth.fillAmount = bearC.GetBearHelth()/100f;
+        bearHealth.fillAmount = bearC.GetBearHelth()/(100f+25f*(float)(bearNumber-1));
+        scoreDisplay.text = "Score : " + score;
     }
 
     public void ResetAnim()
@@ -235,6 +259,10 @@ public class FightController : MonoBehaviour
         playerAnim.SetBool("Block", false);
     }
 
+    public void GivePoints(float val)
+    {
+        score += val;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Bear") && other.GetComponentInChildren<BearController>()!=null && other.GetComponentInChildren<BearController>().GetState()!=States.Dead && !inFight)
@@ -270,20 +298,21 @@ public class FightController : MonoBehaviour
     public void MoveToNext()
     {
         currentState = States.Idel;
-        CC.enabled = false;
-        transform.position = new Vector3(0, 0, -45);
-        CC.enabled = true;
+        //CC.enabled = false;
+        //transform.position = new Vector3(0, 0, -45);
+        //CC.enabled = true;
         SceneManager.LoadScene(1);
         MapController.MC.ResetMap();
     }
 
+    #region SetandGetFunction 
     public void SetStats(float a, float d, float t)
     {
         atk = a;
         def = d;
         tek = t;
 
-        playerDammage *= (1 + atk/100);
+        //playerDammage *= (1 + atk/100);
     }
 
     public float GetDammage()
@@ -297,6 +326,10 @@ public class FightController : MonoBehaviour
     public States GetState()
     {
         return currentState;
+    }
+    public AttackingStates GetAttackingState()
+    {
+        return currentAttackingState;
     }
 
     public BearController GetBear()
@@ -317,6 +350,11 @@ public class FightController : MonoBehaviour
     {
         return currentValue;
     }
+
+    #endregion 
+    
+    
+    
     //for new inputs
 
     KeyCode[] GenerateSequence(int length)
@@ -355,43 +393,45 @@ public class FightController : MonoBehaviour
 
     private void Update()
     {
-        if (takingIputs && inFight)
+        if (inFight)
         {
-
-            if (specialAttack)
+            if (takingIputs)
             {
-                if (Input.GetKeyDown(currentKey))
-                {
-                    currentValue = slider.StopSlider();
-                    PlaySingleActions();
 
+                if (specialAttack)
+                {
+                    if (Input.GetKeyDown(currentKey))
+                    {
+                        currentValue = slider.StopSlider();
+                        PlaySingleActions();
+
+                    }
+                }
+
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.K) || Input.GetMouseButtonDown(1))
+                {
+                    playerAnim.applyRootMotion = true;
+                    playerAnim.SetBool("Fight", true);
+                    Kick();
+                }
+                if (Input.GetKeyDown(KeyCode.P) || Input.GetMouseButtonDown(0))
+                {
+                    playerAnim.applyRootMotion = true;
+                    playerAnim.SetBool("Fight", true);
+                    Punch();
+                }
+                if (Input.GetKeyDown(KeyCode.B) || Input.GetKeyDown(KeyCode.LeftControl))
+                {
+                    playerAnim.applyRootMotion = true;
+                    playerAnim.SetBool("Fight", true);
+                    Block();
                 }
             }
-
+            bearAgression.fillAmount += Time.deltaTime / 120;
         }
-        else if (inFight)
-        {
-            Debug.Log("yes");
-            if (Input.GetKeyDown(KeyCode.K) || Input.GetMouseButtonDown(1))
-            {
-                playerAnim.applyRootMotion = true;
-                playerAnim.SetBool("Fight", true);
-                Kick();
-            }
-            if(Input.GetKeyDown(KeyCode.P) || Input.GetMouseButtonDown(0))
-            {
-                playerAnim.applyRootMotion = true;
-                playerAnim.SetBool("Fight", true);
-                Punch();
-            }
-            if (Input.GetKeyDown(KeyCode.B) || Input.GetKeyDown(KeyCode.LeftControl))
-            {
-                playerAnim.applyRootMotion = true;
-                playerAnim.SetBool("Fight", true);
-                Block();
-            }
-        }
-
     }
 
     private void PlaySingleActions()

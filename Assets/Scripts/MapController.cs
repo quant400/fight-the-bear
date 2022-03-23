@@ -14,6 +14,7 @@ public class MapController : MonoBehaviour
     GameObject previoustrrain;
     [SerializeField]
     GameObject playerPrefab;
+    Transform playerLoc;
     private void Awake()
     {
         if (MC != null)
@@ -30,16 +31,19 @@ public class MapController : MonoBehaviour
     }
     private void Start()
     {
-        SpawnStartingt();
+
         if (GameObject.FindGameObjectWithTag("Player") == null)
         {
-            Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity);
+            playerLoc = Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity).transform;
         }
+        else
+            playerLoc = GameObject.FindGameObjectWithTag("Player").transform;
+        SpawnStartingt();
     }
     void SpawnStartingt()
     {
         int t = UnityEngine.Random.Range(0, PlanePrefabs.Length);
-        previoustrrain = Instantiate(PlanePrefabs[t], Vector3.zero, Quaternion.identity);
+        previoustrrain = Instantiate(PlanePrefabs[t], playerLoc.position+Vector3.forward*45, Quaternion.identity);
     }
 
     public void SpawnNext()

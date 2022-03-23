@@ -24,10 +24,13 @@ public class BearController : MonoBehaviour
     public bool actionDone;
     bool playerSeen=false;
     private bool stunned = false;
-    float sliderVal=1;
+    float sliderVal=0;
+    float timer;
+    float timeLeft;
     public void StartFight()
     {
         playerSeen = true;
+        timeLeft = 15;
     }
     // Start is called before the first frame update
     private void Start()
@@ -44,6 +47,7 @@ public class BearController : MonoBehaviour
             if (canAttackIn <= 0)
             {
                 canAttackIn = Random.Range(3, maxAttackInterval + 1);
+                transform.LookAt(playerFC.transform);
                 StartAttack(0);
             }
             else
@@ -55,14 +59,24 @@ public class BearController : MonoBehaviour
         {
             Follow();
         }
-
+        if (playerSeen)
+        {
+            timer += Time.deltaTime;
+            timeLeft -= Time.deltaTime;
+            if (timeLeft <= 0)
+            {
+                bearAttack += 10;
+                bearSpeed += 0.1f;
+                timeLeft = 15;
+            }
+        }
 
     }
 
     private void Follow()
     {
-        anim.SetBool("Follow", true);
-        transform.LookAt(playerFC.transform);
+        anim.SetBool("Follow", true); 
+        transform.LookAt(new Vector3(playerFC.transform.position.x,transform.position.y,playerFC.transform.position.z));
         transform.Translate(Vector3.forward * bearSpeed * Time.deltaTime);
     }
 
@@ -74,11 +88,22 @@ public class BearController : MonoBehaviour
             {
                 anim.SetBool("Stunned", false);
                 stunned = false;
-                sliderVal = Mathf.Abs(playerFC.GetCurrentSliderVal() - 0.5f)+1;
+                sliderVal = Mathf.Abs(playerFC.GetCurrentSliderVal() - 0.5f);
+                if (sliderVal >= 0.15 && sliderVal <= 0.35)
+                {
+                    sliderVal = 5;
+                }
+                else if (sliderVal <= 0.15)
+                {
+                    sliderVal = 10;
+                }
+                else
+                    sliderVal = 0;
             }
             currentState = States.Hit;
-            bearHealth -= (int)(dammage*sliderVal);
-            sliderVal = 1;
+            bearHealth -= (int)(dammage+sliderVal);
+            playerFC.GivePoints((dammage + sliderVal));
+            sliderVal = 0;
             if (bearHealth <= 0)
             {
                 currentState = States.Dead;
