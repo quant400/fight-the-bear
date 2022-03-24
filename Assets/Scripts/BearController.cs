@@ -20,6 +20,7 @@ public class BearController : MonoBehaviour
     [SerializeField]
     float maxAttackInterval;
     float canAttackIn;
+    float tempAttackTime;
     States currentState;
     public bool actionDone;
     bool playerSeen=false;
@@ -27,6 +28,7 @@ public class BearController : MonoBehaviour
     float sliderVal=0;
     float timer;
     float timeLeft;
+    bool following;
     public void StartFight()
     {
         playerSeen = true;
@@ -41,26 +43,33 @@ public class BearController : MonoBehaviour
 
     private void Update()
     {
-        if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState == States.Idel && !playerFC.GetSpecialAttackStatus())
-        {
-            anim.SetBool("Follow", false);
-            if (canAttackIn <= 0)
-            {
-                canAttackIn = Random.Range(3, maxAttackInterval + 1);
-                transform.LookAt(playerFC.transform);
-                StartAttack(0);
-            }
-            else
-                canAttackIn -= Time.deltaTime;
-
-
-        }
-        else if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) > attackRange && currentState == States.Idel)
-        {
-            Follow();
-        }
         if (playerSeen)
         {
+            if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState == States.Idel && !playerFC.GetSpecialAttackStatus())
+            {
+                anim.SetBool("Follow", false);
+                if (canAttackIn >= tempAttackTime)
+                {
+                    tempAttackTime = Random.Range(3, maxAttackInterval + 1);
+                    canAttackIn = 0;
+                    transform.LookAt(playerFC.transform);
+                    StartAttack(0);
+                }
+
+
+
+            }
+            else if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) > attackRange && currentState == States.Idel && canAttackIn / tempAttackTime >= 0.5f)
+            {
+                Follow();
+            }
+            if (!playerFC.GetSpecialAttackStatus() &&currentState!=States.Hit && currentState!=States.Dead)
+            {
+
+                canAttackIn += Time.deltaTime;
+                playerFC.SetAggression(canAttackIn / tempAttackTime);
+
+            }
             timer += Time.deltaTime;
             timeLeft -= Time.deltaTime;
             if (timeLeft <= 0)
@@ -72,7 +81,11 @@ public class BearController : MonoBehaviour
         }
 
     }
-
+    private void LateUpdate()
+    {
+        Vector3 eulerRotation = transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.Euler(0, eulerRotation.y, 0);
+    }
     private void Follow()
     {
         anim.SetBool("Follow", true); 
@@ -129,6 +142,7 @@ public class BearController : MonoBehaviour
         yield return new WaitForSeconds(delay);
         currentState = States.Attacking;
         anim.SetFloat("Blend", Random.Range(0, 4));
+  
         anim.SetTrigger("Attack");
         //StartCoroutine(Attack(delay));
     }
@@ -150,6 +164,15 @@ public class BearController : MonoBehaviour
         playerFC.ExitFight();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Called");
+            playerFC.PushBack(5);
+        }
+    }
+
     public int GetBearHelth()
     {
         return bearHealth;
@@ -168,3 +191,25 @@ public class BearController : MonoBehaviour
     }
 
 }
+/*
+ *  if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState == States.Idel && !playerFC.GetSpecialAttackStatus())
+        {
+            anim.SetBool("Follow", false);
+            if (canAttackIn <= 0)
+            {
+                canAttackIn = Random.Range(3, maxAttackInterval + 1);
+                tempAttackTime = canAttackIn;
+                transform.LookAt(playerFC.transform);
+                StartAttack(0);
+            }
+            else
+            {
+                canAttackIn -= Time.deltaTime;
+            }
+
+
+        }
+        else if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) > attackRange && currentState == States.Idel)
+        {
+            Follow();
+        }*/

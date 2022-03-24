@@ -314,6 +314,10 @@ public class FightController : MonoBehaviour
 
         //playerDammage *= (1 + atk/100);
     }
+    public void SetAggression(float val)
+    {
+        bearAgression.fillAmount = val;
+    }
 
     public float GetDammage()
     {
@@ -430,7 +434,6 @@ public class FightController : MonoBehaviour
                     Block();
                 }
             }
-            bearAgression.fillAmount += Time.deltaTime / 120;
         }
     }
 
@@ -472,7 +475,12 @@ public class FightController : MonoBehaviour
         }
     }
 
-
+    public void PushBack(float dist)
+    {
+        CC.enabled = false;
+        transform.position += (Vector3.back * dist);
+        CC.enabled = true;
+    }
    
 
 
