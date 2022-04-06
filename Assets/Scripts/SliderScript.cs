@@ -10,8 +10,7 @@ public class SliderScript : MonoBehaviour
     [SerializeField]
     Slider slider;
     [SerializeField]
-    TMP_Text input;
-    
+    GameObject[] displayKeys;
     public void StartSlider()
     {
         if (slider.value != 0)
@@ -29,6 +28,30 @@ public class SliderScript : MonoBehaviour
 
     public void SetInput(string s)
     {
-        input.text = s;
+        switch (s)
+        {
+            case "Alpha1":
+                displayKeys[0].SetActive(true);
+                displayKeys[1].SetActive(false);
+                displayKeys[2].SetActive(false);
+                break;
+            case "Alpha2":
+                displayKeys[0].SetActive(false);
+                displayKeys[1].SetActive(true);
+                displayKeys[2].SetActive(false);
+                break;
+            case "Alpha3":
+                displayKeys[0].SetActive(false);
+                displayKeys[1].SetActive(false);
+                displayKeys[2].SetActive(true);
+                break;
+            case null:
+                displayKeys[0].SetActive(false);
+                displayKeys[1].SetActive(false);
+                displayKeys[2].SetActive(false);
+                break;
+
+        }
+
     }
 }

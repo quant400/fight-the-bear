@@ -31,6 +31,7 @@ public class BearDislplayCamera : MonoBehaviour
             GetComponent<CinemachineVirtualCamera>().Priority = 8;
             player.GetComponentInChildren<CharacterController>().enabled = true;
             player.GetComponentInChildren<StarterAssets.ThirdPersonController>().enabled = true;
+            gameObject.GetComponentInParent<BearController>().StartFight();
             this.enabled = false;
         }
     }

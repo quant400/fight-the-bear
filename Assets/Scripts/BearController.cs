@@ -30,15 +30,20 @@ public class BearController : MonoBehaviour
     float timeLeft;
     bool following;
     public void StartFight()
-    {
+    {   
+        playerFC.StartFight(gameObject);
         playerSeen = true;
         timeLeft = 15;
+        bearAttack = 10 * playerFC.GetBearNumber();
+        bearHealth = 100 + 25 * (playerFC.GetBearNumber()-1);
+        
     }
     // Start is called before the first frame update
     private void Start()
     {
         anim = GetComponent<Animator>();
         playerFC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
+        
     }
 
     private void Update()
@@ -52,7 +57,9 @@ public class BearController : MonoBehaviour
                 {
                     tempAttackTime = Random.Range(3, maxAttackInterval + 1);
                     canAttackIn = 0;
-                    transform.LookAt(playerFC.transform);
+                    transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
+                    if (Vector3.Distance(transform.position, playerFC.transform.position) < 2) 
+                        transform.Translate(Vector3.back);
                     StartAttack(0);
                 }
 
@@ -85,6 +92,8 @@ public class BearController : MonoBehaviour
     {
         Vector3 eulerRotation = transform.rotation.eulerAngles;
         transform.rotation = Quaternion.Euler(0, eulerRotation.y, 0);
+        if(playerSeen && playerFC!=null)
+            transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
     }
     private void Follow()
     {
@@ -147,6 +156,7 @@ public class BearController : MonoBehaviour
         //StartCoroutine(Attack(delay));
     }
 
+   
     public void Stunned()
     {
         currentState = States.Idel;
@@ -162,15 +172,6 @@ public class BearController : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("Door").GetComponent<SlidingDoor>().OpenDoor();
         playerFC.ExitFight();
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Called");
-            playerFC.PushBack(5);
-        }
     }
 
     public int GetBearHelth()

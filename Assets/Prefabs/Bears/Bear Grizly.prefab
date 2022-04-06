@@ -968,6 +968,7 @@ GameObject:
   - component: {fileID: 3286761124957709750}
   - component: {fileID: 6638792409759703284}
   - component: {fileID: 6638792409759703294}
+  - component: {fileID: 3038680126420473181}
   m_Layer: 20
   m_Name: Bear Grizly
   m_TagString: Bear
@@ -994,6 +995,7 @@ Transform:
   - {fileID: 6638792408449030529}
   - {fileID: 6638792410119686961}
   - {fileID: 6638792408562441713}
+  - {fileID: 1801432313209220048}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -1023,13 +1025,13 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3228238630252925508}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 4a910624c66540d49873bfb5a97409bb, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.33221528
+  m_Enabled: 0
+  m_Radius: 0.4681076
   m_Height: 2.4
   m_Direction: 2
-  m_Center: {x: 0, y: 1.09222, z: 0.8288929}
+  m_Center: {x: 0, y: 1.0800307, z: 0.8288929}
 --- !u!114 &6638792409759703294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,9 +1048,22 @@ MonoBehaviour:
   bearAttack: 10
   bearHealth: 100
   bearSpeed: 5
-  attackRange: 3
+  attackRange: 2
   maxAttackInterval: 5
   actionDone: 0
+--- !u!65 &3038680126420473181
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3228238630252925508}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.9321517, z: 2.2667096}
+  m_Center: {x: 0, y: 1.0629139, z: 0.63335353}
 --- !u!1 &3228327215897908978
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,6 +1512,63 @@ Transform:
   m_Father: {fileID: 6468382107500096010}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6428574904021758842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1801432313209220048}
+  - component: {fileID: 5186379323461178187}
+  - component: {fileID: 5838569651178314979}
+  m_Layer: 20
+  m_Name: PushPlayeroff
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1801432313209220048
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428574904021758842}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3224945067644295614}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5186379323461178187
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428574904021758842}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.67420685, y: 0.05732119, z: 1.6955159}
+  m_Center: {x: 0, y: 1.7094582, z: 0.62995565}
+--- !u!114 &5838569651178314979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428574904021758842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a48d98a41eb87479a0dec11e2de5a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6638792408449030530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,9 +1695,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.513819
-  m_Height: 2.4151695
+  m_Height: 2.2840009
   m_Direction: 2
-  m_Center: {x: 0.07047451, y: 0.64570665, z: 1.014092}
+  m_Center: {x: 0.07047451, y: 0.64570665, z: 0.9485066}
 --- !u!1 &6638792409392445986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,8 +1866,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6638792410119686963}
-  m_LocalRotation: {x: 0.047409896, y: -0.9486105, z: 0.1721382, w: 0.26126403}
-  m_LocalPosition: {x: 9.583648, y: 7.0898886, z: 16.05995}
+  m_LocalRotation: {x: -0.047890116, y: 0.9482552, z: -0.17370823, w: -0.2614272}
+  m_LocalPosition: {x: 9.583648, y: 7.0898886, z: 16.059952}
   m_LocalScale: {x: 1.2048192, y: 1.2048193, z: 1.2048192}
   m_Children:
   - {fileID: 6638792409392445985}

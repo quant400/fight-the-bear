@@ -313,6 +313,63 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.31600094, y: 0.8850266, z: -0.0031497478}
     m_Extent: {x: 0.7781954, y: 1.2863098, z: 0.5648232}
   m_DirtyAABB: 0
+--- !u!1 &4249995525423607093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1025696753670960275}
+  - component: {fileID: 4282548915398516689}
+  - component: {fileID: 2147155417560835583}
+  m_Layer: 20
+  m_Name: PushPlayeroff
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1025696753670960275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4249995525423607093}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6510103212943924491}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4282548915398516689
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4249995525423607093}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.67420685, y: 0.057321128, z: 1.8447632}
+  m_Center: {x: 0, y: 1.7094582, z: 0.7045797}
+--- !u!114 &2147155417560835583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4249995525423607093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a48d98a41eb87479a0dec11e2de5a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4254111091601351193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,6 +1299,7 @@ GameObject:
   - component: {fileID: 6558698764135702787}
   - component: {fileID: 6509047249519744755}
   - component: {fileID: 6509047249519744754}
+  - component: {fileID: 5203511268963572947}
   m_Layer: 20
   m_Name: Bear Polar
   m_TagString: Bear
@@ -1258,7 +1316,7 @@ Transform:
   m_GameObject: {fileID: 6509047249519744753}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 3434172868982876466}
   - {fileID: 6504889200355260313}
@@ -1268,6 +1326,7 @@ Transform:
   - {fileID: 7124205800407488579}
   - {fileID: 7124205801277223777}
   - {fileID: 7124205801415797231}
+  - {fileID: 1025696753670960275}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1299,11 +1358,11 @@ CapsuleCollider:
   m_GameObject: {fileID: 6509047249519744753}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.32338807
+  m_Enabled: 0
+  m_Radius: 0.49655867
   m_Height: 2.4
   m_Direction: 2
-  m_Center: {x: 0, y: 1.0833917, z: 0.8288928}
+  m_Center: {x: 0, y: 1.2565634, z: 0.8288928}
 --- !u!114 &6509047249519744754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1320,9 +1379,22 @@ MonoBehaviour:
   bearAttack: 20
   bearHealth: 125
   bearSpeed: 5
-  attackRange: 3
+  attackRange: 2
   maxAttackInterval: 5
   actionDone: 0
+--- !u!65 &5203511268963572947
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6509047249519744753}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.122577, z: 2.3910513}
+  m_Center: {x: 0, y: 1.1581244, z: 0.69552475}
 --- !u!1 &6749829763365190480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,9 +1901,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.47914174
-  m_Height: 2.350053
+  m_Height: 2.258264
   m_Direction: 2
-  m_Center: {x: 0.069446936, y: 0.68141127, z: 1.0427825}
+  m_Center: {x: 0.069446936, y: 0.68141127, z: 0.99688965}
 --- !u!1 &7219442792518310557
 GameObject:
   m_ObjectHideFlags: 0
