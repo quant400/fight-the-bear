@@ -154,8 +154,14 @@ namespace StarterAssets
 			// if there is an input and camera position is not fixed
 			if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
 			{
-				_cinemachineTargetYaw += _input.look.x * Time.deltaTime;
-				_cinemachineTargetPitch += _input.look.y * Time.deltaTime;
+				//added for webGl
+				float dampValue = 1;
+#if UNITY_WEBGL && !UNITY_EDITOR
+				dampValue = 0.25f;
+#endif
+				//
+				_cinemachineTargetYaw += _input.look.x * Time.deltaTime * dampValue; //dampvalue added for webGL
+				_cinemachineTargetPitch += _input.look.y * Time.deltaTime * dampValue;//dampvalue added for webGL
 			}
 
 			// clamp our rotations so our values are limited 360 degrees
