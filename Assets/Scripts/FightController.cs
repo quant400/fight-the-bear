@@ -79,9 +79,12 @@ public class FightController : MonoBehaviour
     GameObject shieldObject;
     [SerializeField]
     GameObject attackObject;
+    [SerializeField]
+    GameObject gameOverPanel;
+    bool died;
     private void Awake()
     {
-        bearNumber = LoaderScript.instance.bearNumber;
+        //bearNumber = LoaderScript.instance.bearNumber;
         playerAnim = GetComponent<Animator>();
         //InputsToDisplay();
         //slider.StartSlider();
@@ -110,7 +113,8 @@ public class FightController : MonoBehaviour
         playerAnim.SetBool("Fight", false);
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 9;
         inFight = false;
-        startingTime += TimeAddedPerBear;
+        if(!died)
+            startingTime += TimeAddedPerBear;
         timerDisplay.text = "Time Left : " + startingTime.ToString("00");
     }
 
@@ -137,8 +141,7 @@ public class FightController : MonoBehaviour
         playerAnim.SetBool("Fight", true);
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 11;
         Invoke("InputsToDisplay", 1);
-       
-        
+  
     }
    public void DisableSpecialAttack()
     {
@@ -225,6 +228,7 @@ public class FightController : MonoBehaviour
                 {
                     playerAnim.SetBool("Dead", true);
                     currentState = States.Dead;
+                    died = true;
                     //ExitFight();
                 }
                 else
@@ -320,23 +324,30 @@ public class FightController : MonoBehaviour
             MapController.MC.SpawnNext();
         }
     }
-  
+
 
     public void ResetGame()
     {
-        //disabled for testing
-        /* playerHelth = 100;
-         currentState = States.Idel;
-         playerAnim.SetBool("Dead", false);
-         transform.position = new Vector3(0, 0, -45);
-         ExitFight();*/
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        SceneManager.LoadScene(0);
-        //MapController.MC.ResetMap();
-        //enabled for testing
-        Destroy(gameObject);
+        playerAnim.SetBool("Dead", false);
+        playerHelth = 100;
+        currentState = States.Idel;
+        transform.position = new Vector3(0, 0, -45);
+        timeleft = 30;
+        ExitFight();
+        EnableMovement();
+        died = false;
+        gameOverPanel.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        SceneManager.LoadScene(1);
+       
 
+
+    }
+    public void Exit()
+    {
+        SceneManager.LoadScene(0);
+        Destroy(gameObject);
     }
     public void MoveToNext()
     {
@@ -449,7 +460,7 @@ public class FightController : MonoBehaviour
 
     private void Update()
     {
-        if (inFight)
+        if (inFight && currentState!=States.Dead)
         {
             if (takingIputs)
             {
@@ -490,7 +501,7 @@ public class FightController : MonoBehaviour
             timerDisplay.text = "Time Left : "+ startingTime.ToString("00");
             if(startingTime<=0)
             {
-                ResetGame();
+                Die();
             }
         }
     }
@@ -543,8 +554,16 @@ public class FightController : MonoBehaviour
    
 
 
-    void Die()
+    public void Die()
     {
+        DisableMovement();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        if (died)
+            gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "You Died.";
+        else
+            gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "You ran out of time.";
+        gameOverPanel.SetActive(true);
 
     }
     private string ConvertToString(string[] tempDisp)

@@ -10,7 +10,11 @@ public class AnimStateChange : StateMachineBehaviour
         {
             FightController fc = animator.gameObject.GetComponent<FightController>();
             fc.actionDone = false;
-            
+            if (fc.GetState() == States.Dead)
+            {
+                fc.Die();
+                return;
+            }
 
         }
         else if (animator.gameObject.CompareTag("Bear"))
@@ -33,11 +37,7 @@ public class AnimStateChange : StateMachineBehaviour
         {
             FightController fc = animator.gameObject.GetComponent<FightController>();
             fc.actionDone = true;
-            if(fc.GetState()==States.Dead)
-            {
-                fc.ResetGame();
-                return;
-            }
+           
             if (fc.GetSpecialAttackStatus() && fc.GetState()!=States.Hit)
             {
                 fc.DisableSpecialAttack();

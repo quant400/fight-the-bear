@@ -48,7 +48,7 @@ public class BearController : MonoBehaviour
 
     private void Update()
     {
-        if (playerSeen)
+        if (playerSeen && playerFC.GetState()!=States.Dead)
         {
             if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState == States.Idel && !playerFC.GetSpecialAttackStatus())
             {
@@ -58,8 +58,8 @@ public class BearController : MonoBehaviour
                     tempAttackTime = Random.Range(3, maxAttackInterval + 1);
                     canAttackIn = 0;
                     transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
-                    if (Vector3.Distance(transform.position, playerFC.transform.position) < 2) 
-                        transform.Translate(Vector3.back);
+                    if (Vector3.Distance(transform.position, playerFC.transform.position) <= 2f) 
+                        transform.Translate(Vector3.back*0.5f);
                     StartAttack(0);
                 }
 
@@ -92,7 +92,7 @@ public class BearController : MonoBehaviour
     {
         Vector3 eulerRotation = transform.rotation.eulerAngles;
         transform.rotation = Quaternion.Euler(0, eulerRotation.y, 0);
-        if(playerSeen && playerFC!=null)
+        if(playerSeen && playerFC!=null && currentState!=States.Dead)
             transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
     }
     private void Follow()
