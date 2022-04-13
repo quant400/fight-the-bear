@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 5051477084674960083}
   - component: {fileID: 5051477084674960080}
   - component: {fileID: 5268496273239980496}
+  - component: {fileID: 3985699173269400040}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: NextTrigger
@@ -214,7 +215,7 @@ SphereCollider:
   m_GameObject: {fileID: 5051477084674960086}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -232,6 +233,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToComplete: 4
   mCam: {fileID: 2559707402913268207}
+--- !u!65 &3985699173269400040
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5051477084674960086}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 2, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5051477086237354894
 GameObject:
   m_ObjectHideFlags: 0

@@ -149,6 +149,12 @@ public class BearController : MonoBehaviour
     IEnumerator Attack(float delay)
     {
         yield return new WaitForSeconds(delay);
+        if(stunned)
+        {
+            anim.SetBool("Stunned", false);
+            stunned = false;
+            playerFC.DisableSpecialAttack();
+        }
         currentState = States.Attacking;
         anim.SetFloat("Blend", Random.Range(0, 4));
   
@@ -156,6 +162,10 @@ public class BearController : MonoBehaviour
         //StartCoroutine(Attack(delay));
     }
 
+    public void StopTimer()
+    {
+        playerFC.StopTimer();
+    }
    
     public void Stunned()
     {

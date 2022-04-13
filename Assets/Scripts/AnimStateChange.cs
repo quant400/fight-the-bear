@@ -22,6 +22,7 @@ public class AnimStateChange : StateMachineBehaviour
             BearController bc = animator.gameObject.GetComponent<BearController>();
             if (bc.GetState() == States.Dead)
             {
+                bc.StopTimer();
                 bc.Invoke("Die",2f);
                 return;
             }

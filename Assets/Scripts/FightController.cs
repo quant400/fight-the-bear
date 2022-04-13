@@ -82,6 +82,8 @@ public class FightController : MonoBehaviour
     [SerializeField]
     GameObject gameOverPanel;
     bool died;
+    bool stoptimer = false;
+    public string FightStyle; // later get from chosen nft
     private void Awake()
     {
         //bearNumber = LoaderScript.instance.bearNumber;
@@ -91,7 +93,7 @@ public class FightController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         CC = GetComponent<CharacterController>();
-       
+        FightStyle = "boxing";
 
     }
 
@@ -103,6 +105,7 @@ public class FightController : MonoBehaviour
         inFight = true;
         ActivateInputs();
         bearC = bear.GetComponent<BearController>();
+        stoptimer = false;
         //bearC.StartFight();
         UpdateValues();
     }
@@ -154,6 +157,7 @@ public class FightController : MonoBehaviour
         CC.enabled = true;
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 9;
         gaugeInputs.SetActive(false);
+        currentState = States.Idel;
     }
 
     public void Punch()
@@ -248,9 +252,10 @@ public class FightController : MonoBehaviour
                 UpdateValues();
                 if (playerHelth <= 0)
                 {
+                    playerAnim.SetBool("Block", false);
                     playerAnim.SetBool("Dead", true);
                     currentState = States.Dead;
-                    //ExitFight();
+                    //Die();
                 }
                 else
                 {
@@ -272,6 +277,10 @@ public class FightController : MonoBehaviour
         shieldObject.transform.GetChild(0).gameObject.SetActive(false);
     }
 
+    public void StopTimer()
+    {
+        stoptimer = true;
+    }
     #endregion Fight Functions
     public void UpdateValues()
     {
@@ -332,6 +341,7 @@ public class FightController : MonoBehaviour
         playerHelth = 100;
         currentState = States.Idel;
         transform.position = new Vector3(0, 0, -45);
+        specialAttack = false;
         timeleft = 30;
         ExitFight();
         EnableMovement();
@@ -497,11 +507,14 @@ public class FightController : MonoBehaviour
                     Block();
                 }
             }
-            startingTime -= Time.deltaTime;
-            timerDisplay.text = "Time Left : "+ startingTime.ToString("00");
-            if(startingTime<=0)
+            if (!stoptimer)
             {
-                Die();
+                startingTime -= Time.deltaTime;
+                timerDisplay.text = "Time Left : " + startingTime.ToString("00");
+                if (startingTime <= 0)
+                {
+                    Die();
+                }
             }
         }
     }
@@ -513,13 +526,11 @@ public class FightController : MonoBehaviour
         {
             if (currentKey.ToString() == "Alpha1")
             {
-                Debug.Log("1");
-                transform.DOMove((bear.transform.GetChild(5).position + (bear.transform.position - transform.position) *0.2f), 0.5f);
+                transform.DOMove((bear.transform.GetChild(5).position + (bear.transform.position - transform.position) * 0.2f), 0.5f);
                 Punch();
             }
             else if (currentKey.ToString() == "Alpha2")
             {
-                Debug.Log("1");
                 transform.DOMove((bear.transform.GetChild(5).position + (bear.transform.position - transform.position) * 0.2f), 0.5f);
                 Kick();
             }

@@ -35,7 +35,10 @@ public class HitScript : MonoBehaviour
                 if (bearC.GetState() == States.Idel)
                 {
                     PlayHit();
-                    other.GetComponentInParent<BearController>().TakeDammage(dammage);
+                    int additionalDamage = 0;
+                    if (myFC.FightStyle == "mma")
+                        additionalDamage = 10;
+                    other.GetComponentInParent<BearController>().TakeDammage(dammage + additionalDamage);
                     myFC.UpdateValues();
                 }
             }
@@ -49,7 +52,10 @@ public class HitScript : MonoBehaviour
                 if (bearC.GetState() == States.Idel)
                 {
                     PlayHit();
-                    other.GetComponentInParent<BearController>().TakeDammage(dammage);
+                    int additionalDamage = 0;
+                    if (myFC.FightStyle == "boxing")
+                        additionalDamage = 10;
+                    other.GetComponentInParent<BearController>().TakeDammage(dammage+additionalDamage);
                     myFC.UpdateValues();
                 }
             }
