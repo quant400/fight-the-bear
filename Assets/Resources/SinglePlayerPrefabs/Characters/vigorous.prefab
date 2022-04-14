@@ -182,6 +182,8 @@ GameObject:
   - component: {fileID: 1503325727030431864}
   - component: {fileID: 1503325727030431865}
   - component: {fileID: 1503325727030431862}
+  - component: {fileID: 5736770105715128711}
+  - component: {fileID: -2328483568316723394}
   m_Layer: 6
   m_Name: vigorous
   m_TagString: Player
@@ -238,10 +240,10 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 0.7
+  m_Height: 0.75
   m_Radius: 0.25
   m_SlopeLimit: 45
-  m_StepOffset: 0.25
+  m_StepOffset: 0
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.34, z: 0}
@@ -421,6 +423,54 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5736770105715128711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503325727030431861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6231736d1e871dc4c85383073d50a371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fightCanvas: {fileID: 2464827138471132278, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  playerHelth: 100
+  playerDammage: 10
+  bearHealth: {fileID: 1629656631, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  playerHelthDisplay: {fileID: 1349734698, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  bearAgression: {fileID: 5279891657934832735, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  inputDisplay: {fileID: 1378183615, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  timeToReset: 5
+  timer: {fileID: 2120925116, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  sequenceLength: 3
+  actionDone: 0
+  slider: {fileID: 1312244498, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  sequenceInputs: {fileID: 1378183614, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  gaugeInputs: {fileID: 1312244495, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  canHit: 0
+  scoreDisplay: {fileID: 1045863583545640155, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  timerDisplay: {fileID: 1633115205611589686, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  startingTime: 45
+  TimeAddedPerBear: 30
+  CutSceneText: {fileID: 8232024933368432521, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  shieldObject: {fileID: 3508964737566904964, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  attackObject: {fileID: 1540404040680022583, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  gameOverPanel: {fileID: 5454298125203578442, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  FightStyle: 
+--- !u!114 &-2328483568316723394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503325727030431861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1592687721749731360
 GameObject:
   m_ObjectHideFlags: 0
