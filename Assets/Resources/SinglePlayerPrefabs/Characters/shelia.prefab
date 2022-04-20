@@ -3134,6 +3134,7 @@ GameObject:
   - component: {fileID: 5147975544790603530}
   - component: {fileID: 5789332164980205923}
   - component: {fileID: -7080350383259426442}
+  - component: {fileID: -9216821082227379743}
   m_Layer: 6
   m_Name: shelia
   m_TagString: Player
@@ -3396,7 +3397,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 7200392864664663103}
   bearAgression: {fileID: 4925830778680845988}
   inputDisplay: {fileID: 5422581333246402417}
-  timeToReset: 5
   timer: {fileID: 3419522783190716858}
   sequenceLength: 3
   actionDone: 0
@@ -3412,6 +3412,8 @@ MonoBehaviour:
   shieldObject: {fileID: 3962513181629033365}
   attackObject: {fileID: 3524971809583870756}
   gameOverPanel: {fileID: 4458025412038145212}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-7080350383259426442
 MonoBehaviour:
@@ -3423,6 +3425,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-9216821082227379743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5147975544790603529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5167168735947906957

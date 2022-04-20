@@ -6499,6 +6499,7 @@ GameObject:
   - component: {fileID: 1420302890124869149}
   - component: {fileID: -1974259924395058129}
   - component: {fileID: -7807855942029073561}
+  - component: {fileID: 6825854807649673776}
   m_Layer: 6
   m_Name: griller
   m_TagString: Player
@@ -6761,7 +6762,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 1554369481737117282}
   bearAgression: {fileID: 3690814181688343474}
   inputDisplay: {fileID: 7552869937159073346}
-  timeToReset: 5
   timer: {fileID: 2712076419814577114}
   sequenceLength: 3
   actionDone: 0
@@ -6777,6 +6777,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7502638839438141547}
   attackObject: {fileID: 8012789062638733711}
   gameOverPanel: {fileID: 8898335773765955933}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-7807855942029073561
 MonoBehaviour:
@@ -6788,6 +6790,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6825854807649673776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8420038055483802940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8511596328977698153

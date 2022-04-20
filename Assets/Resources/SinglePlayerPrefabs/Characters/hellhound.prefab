@@ -2679,6 +2679,7 @@ GameObject:
   - component: {fileID: 4839710834489501756}
   - component: {fileID: 4978832479022735674}
   - component: {fileID: -1264371935356624484}
+  - component: {fileID: 8528986061231885351}
   m_Layer: 6
   m_Name: hellhound
   m_TagString: Player
@@ -2941,7 +2942,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 1908743622719157976}
   bearAgression: {fileID: 4189570284605617326}
   inputDisplay: {fileID: 3424294681287501639}
-  timeToReset: 5
   timer: {fileID: 13871457150810947}
   sequenceLength: 3
   actionDone: 0
@@ -2957,6 +2957,8 @@ MonoBehaviour:
   shieldObject: {fileID: 922501150822699055}
   attackObject: {fileID: 1197913388603965877}
   gameOverPanel: {fileID: 6071200319668978848}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-1264371935356624484
 MonoBehaviour:
@@ -2968,6 +2970,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8528986061231885351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839710834489501757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4914983545677112707

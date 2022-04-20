@@ -638,6 +638,7 @@ GameObject:
   - component: {fileID: 1187466576637746804}
   - component: {fileID: -3016546487918011544}
   - component: {fileID: 4796458554275585626}
+  - component: {fileID: -8586883868019225093}
   m_Layer: 6
   m_Name: the-dagger
   m_TagString: Player
@@ -900,7 +901,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 7944348717026858623}
   bearAgression: {fileID: 9049330374478673714}
   inputDisplay: {fileID: 8460613302156510048}
-  timeToReset: 5
   timer: {fileID: 194432618498659693}
   sequenceLength: 3
   actionDone: 0
@@ -916,6 +916,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7611584184499847787}
   attackObject: {fileID: 5524728855384153979}
   gameOverPanel: {fileID: 6918006763884677980}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &4796458554275585626
 MonoBehaviour:
@@ -927,6 +929,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8586883868019225093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187466576637746805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1349959814888445472

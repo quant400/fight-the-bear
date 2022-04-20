@@ -3353,6 +3353,7 @@ GameObject:
   - component: {fileID: 1302056128828311957}
   - component: {fileID: 4305097809879744141}
   - component: {fileID: -5523016512437788387}
+  - component: {fileID: -2544459658535158421}
   m_Layer: 6
   m_Name: golden-tooth
   m_TagString: Player
@@ -3615,7 +3616,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 215215615390200599}
   bearAgression: {fileID: 4944530798326957142}
   inputDisplay: {fileID: 2818320814092237223}
-  timeToReset: 5
   timer: {fileID: 7331800885594231924}
   sequenceLength: 3
   actionDone: 0
@@ -3631,6 +3631,8 @@ MonoBehaviour:
   shieldObject: {fileID: 8745262947207243213}
   attackObject: {fileID: 6850497315600027425}
   gameOverPanel: {fileID: 5240406824329186367}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-5523016512437788387
 MonoBehaviour:
@@ -3642,6 +3644,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2544459658535158421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5571828977778693542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5585215283456751451

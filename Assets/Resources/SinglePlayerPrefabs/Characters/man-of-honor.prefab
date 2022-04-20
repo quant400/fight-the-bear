@@ -1886,6 +1886,7 @@ GameObject:
   - component: {fileID: 1555582141974132884}
   - component: {fileID: -3694755415509417821}
   - component: {fileID: 62803034448906264}
+  - component: {fileID: -7370984808272526857}
   m_Layer: 6
   m_Name: man-of-honor
   m_TagString: Player
@@ -2148,7 +2149,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 2062900868900180538}
   bearAgression: {fileID: 5279891657934832735, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
   inputDisplay: {fileID: 9134648685392619414}
-  timeToReset: 5
   timer: {fileID: 2133185768330335021}
   sequenceLength: 3
   actionDone: 0
@@ -2164,6 +2164,8 @@ MonoBehaviour:
   shieldObject: {fileID: 8280647737167440186}
   attackObject: {fileID: 2113160664193173188}
   gameOverPanel: {fileID: 1091120183221441799}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &62803034448906264
 MonoBehaviour:
@@ -2175,6 +2177,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7370984808272526857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555582141974132885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1586451922153577318

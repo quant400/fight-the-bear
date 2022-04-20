@@ -5970,6 +5970,7 @@ GameObject:
   - component: {fileID: 7704160238668244454}
   - component: {fileID: -7622134707670132031}
   - component: {fileID: 8344009552792904995}
+  - component: {fileID: 5982577464081048320}
   m_Layer: 6
   m_Name: mr-cold
   m_TagString: Player
@@ -6232,7 +6233,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 3687000072214915654}
   bearAgression: {fileID: 6304147343155102754}
   inputDisplay: {fileID: 8588650103472190359}
-  timeToReset: 5
   timer: {fileID: 1313775334593135222}
   sequenceLength: 3
   actionDone: 0
@@ -6248,6 +6248,8 @@ MonoBehaviour:
   shieldObject: {fileID: 6705860551024439722}
   attackObject: {fileID: 2739726942950605544}
   gameOverPanel: {fileID: 8204460462000007136}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &8344009552792904995
 MonoBehaviour:
@@ -6259,6 +6261,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5982577464081048320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704160238668244455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7766582156948406057

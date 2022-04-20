@@ -4539,6 +4539,7 @@ GameObject:
   - component: {fileID: 6274526899670613966}
   - component: {fileID: 1154418408854398623}
   - component: {fileID: 392754102236566260}
+  - component: {fileID: -7422530604088922030}
   m_Layer: 6
   m_Name: mrs-big-time
   m_TagString: Player
@@ -4801,7 +4802,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 3511259369926134465}
   bearAgression: {fileID: 2578719733806628884}
   inputDisplay: {fileID: 8652476884113480405}
-  timeToReset: 5
   timer: {fileID: 195575249008209644}
   sequenceLength: 3
   actionDone: 0
@@ -4817,6 +4817,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7741839408985419165}
   attackObject: {fileID: 5517992727661562860}
   gameOverPanel: {fileID: 7832498134812380049}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &392754102236566260
 MonoBehaviour:
@@ -4828,6 +4830,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7422530604088922030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6274526899670613967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6575923165943960296

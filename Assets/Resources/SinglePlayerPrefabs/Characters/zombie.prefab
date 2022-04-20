@@ -1108,6 +1108,7 @@ GameObject:
   - component: {fileID: 1457179740697256479}
   - component: {fileID: -2495949932881354638}
   - component: {fileID: 4452194354536986447}
+  - component: {fileID: 4697580456194590935}
   m_Layer: 6
   m_Name: zombie
   m_TagString: Player
@@ -1370,7 +1371,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 5002385238437507004}
   bearAgression: {fileID: 2840307714642108811}
   inputDisplay: {fileID: 4037286607777735147}
-  timeToReset: 5
   timer: {fileID: 1476619703834625543}
   sequenceLength: 3
   actionDone: 0
@@ -1386,6 +1386,8 @@ MonoBehaviour:
   shieldObject: {fileID: 569838407125675704}
   attackObject: {fileID: 7998680779380759292}
   gameOverPanel: {fileID: 631921382539808508}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &4452194354536986447
 MonoBehaviour:
@@ -1397,6 +1399,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4697580456194590935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457179740697256472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1529962510960186440

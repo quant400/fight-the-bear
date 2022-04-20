@@ -5765,6 +5765,7 @@ GameObject:
   - component: {fileID: 7593915446599639257}
   - component: {fileID: -1395617591227535939}
   - component: {fileID: 6105530397922989255}
+  - component: {fileID: -2240146223405326331}
   m_Layer: 6
   m_Name: money-mouth
   m_TagString: Player
@@ -6027,7 +6028,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 800176102310881288}
   bearAgression: {fileID: 1094745259496042605}
   inputDisplay: {fileID: 4046121726612453571}
-  timeToReset: 5
   timer: {fileID: 8675145254865699465}
   sequenceLength: 3
   actionDone: 0
@@ -6043,6 +6043,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7706729991208030730}
   attackObject: {fileID: 2533361564242314502}
   gameOverPanel: {fileID: 6559925506530908196}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &6105530397922989255
 MonoBehaviour:
@@ -6054,6 +6056,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2240146223405326331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593915446599639256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7700750499768957036

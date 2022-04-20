@@ -38,17 +38,18 @@ public class AnimStateChange : StateMachineBehaviour
         {
             FightController fc = animator.gameObject.GetComponent<FightController>();
             fc.actionDone = true;
-           
-            if (fc.GetSpecialAttackStatus() && fc.GetState()!=States.Hit)
+            if (!fc.died)
             {
-                fc.DisableSpecialAttack();
-                return;
+                if (fc.GetSpecialAttackStatus() && fc.GetState() != States.Hit)
+                {
+                    fc.DisableSpecialAttack();
+                    return;
+                }
+                fc.ResetAnim();
+                if (fc.GetBear().GetState() != States.Dead && fc.GetState() != States.Dead)
+                    fc.PlayActions();
+
             }
-            fc.ResetAnim();
-           if(fc.GetBear().GetState() != States.Dead && fc.GetState()!=States.Dead)
-                fc.PlayActions(); 
-
-
         }
         else if (animator.gameObject.CompareTag("Bear"))
         {

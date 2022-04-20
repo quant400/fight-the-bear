@@ -3873,6 +3873,7 @@ GameObject:
   - component: {fileID: 6082666208446770450}
   - component: {fileID: 5007364507859346523}
   - component: {fileID: -5546495134743830815}
+  - component: {fileID: 7327333292765823459}
   m_Layer: 6
   m_Name: sultan
   m_TagString: Player
@@ -4135,7 +4136,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 7489487505445043100}
   bearAgression: {fileID: 221881635660982982}
   inputDisplay: {fileID: 5992889908877419902}
-  timeToReset: 5
   timer: {fileID: 4811958802646996768}
   sequenceLength: 3
   actionDone: 0
@@ -4151,6 +4151,8 @@ MonoBehaviour:
   shieldObject: {fileID: 2491869172684974293}
   attackObject: {fileID: 4149634606196413847}
   gameOverPanel: {fileID: 2047161158907834150}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-5546495134743830815
 MonoBehaviour:
@@ -4162,6 +4164,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7327333292765823459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082666208446770451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6159740097307500581

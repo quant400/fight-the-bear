@@ -2234,6 +2234,7 @@ GameObject:
   - component: {fileID: 6317845096891690601}
   - component: {fileID: -7914259971596702241}
   - component: {fileID: 1003071660571524308}
+  - component: {fileID: 1704808353160032692}
   m_Layer: 6
   m_Name: dipso
   m_TagString: Player
@@ -2496,7 +2497,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 4453267896759913665}
   bearAgression: {fileID: 5619821895423939182}
   inputDisplay: {fileID: 5732410411561202182}
-  timeToReset: 5
   timer: {fileID: 5571952233033655291}
   sequenceLength: 3
   actionDone: 0
@@ -2512,6 +2512,8 @@ MonoBehaviour:
   shieldObject: {fileID: 46581368860552528}
   attackObject: {fileID: 4832223015440079654}
   gameOverPanel: {fileID: 2212465187236913910}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &1003071660571524308
 MonoBehaviour:
@@ -2523,6 +2525,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1704808353160032692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2399080851546249958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2446154261071215694

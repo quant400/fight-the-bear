@@ -47,6 +47,7 @@ public class MapController : MonoBehaviour
         int t = UnityEngine.Random.Range(0, PlanePrefabs.Length);
         previoustrrain = Instantiate(PlanePrefabs[t], playerLoc.position+Vector3.forward*45, Quaternion.identity);
         previoustrrain.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+        SpawnNext();
     }
 
     public void SpawnNext()
@@ -62,18 +63,21 @@ public class MapController : MonoBehaviour
         {
             previoustrrain.transform.GetChild(1).gameObject.SetActive(true);
             previoustrrain.transform.GetChild(0).gameObject.SetActive(true);
+            previoustrrain.transform.GetChild(0).GetComponent<CaveCutscene>().last = true;
+           
         }
 
         else
         {
             previoustrrain = Instantiate(PlanePrefabs[t], previoustrrain.transform.position + new Vector3(0, 0, previoustrrain.transform.localScale.z * 10), Quaternion.identity);
             current++;
+            SpawnNext();
         }
     }
 
     public bool IsLast()
     {
-        return (current == planesToSpawnBeforeBear);
+        return false;
     }
     public void ResetMap()
     {

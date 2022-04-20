@@ -882,6 +882,7 @@ GameObject:
   - component: {fileID: 2266630712453426327}
   - component: {fileID: -8905622833035929853}
   - component: {fileID: -1989749115140289851}
+  - component: {fileID: 6623157157167941382}
   m_Layer: 6
   m_Name: the-cook
   m_TagString: Player
@@ -1144,7 +1145,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 6476371252485762324}
   bearAgression: {fileID: 5177530958422859773}
   inputDisplay: {fileID: 7717717705881633893}
-  timeToReset: 5
   timer: {fileID: 5177530958422859773}
   sequenceLength: 3
   actionDone: 0
@@ -1160,6 +1160,8 @@ MonoBehaviour:
   shieldObject: {fileID: 5635713913736732825}
   attackObject: {fileID: 2498193273502020783}
   gameOverPanel: {fileID: 6672917467897013379}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-1989749115140289851
 MonoBehaviour:
@@ -1171,6 +1173,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6623157157167941382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2266630712453426324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2277227852320384720

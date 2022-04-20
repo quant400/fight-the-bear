@@ -3403,6 +3403,7 @@ GameObject:
   - component: {fileID: 560588999800808839}
   - component: {fileID: 5016579642198883139}
   - component: {fileID: -8481513386045024397}
+  - component: {fileID: -4918519696831939150}
   m_Layer: 6
   m_Name: el-toro
   m_TagString: Player
@@ -3665,7 +3666,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 7419526617096748227}
   bearAgression: {fileID: 7725764982139517077}
   inputDisplay: {fileID: 6614500864636196478}
-  timeToReset: 5
   timer: {fileID: 7641755286224714447}
   sequenceLength: 3
   actionDone: 0
@@ -3681,6 +3681,8 @@ MonoBehaviour:
   shieldObject: {fileID: 5859104950292728674}
   attackObject: {fileID: 4623654185267782343}
   gameOverPanel: {fileID: 6074708358001822483}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-8481513386045024397
 MonoBehaviour:
@@ -3692,6 +3694,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4918519696831939150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4026025939179047981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4174752186630406185

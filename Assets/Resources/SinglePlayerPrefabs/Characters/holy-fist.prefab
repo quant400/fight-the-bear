@@ -540,6 +540,7 @@ GameObject:
   - component: {fileID: 9070145547261579312}
   - component: {fileID: -6708209674153708844}
   - component: {fileID: -2058327232845718600}
+  - component: {fileID: -2523067755744785756}
   m_Layer: 6
   m_Name: holy-fist
   m_TagString: Player
@@ -802,7 +803,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 4797847954466720084}
   bearAgression: {fileID: 631976912325275984}
   inputDisplay: {fileID: 4474898189145091371}
-  timeToReset: 5
   timer: {fileID: 738987319430518127}
   sequenceLength: 3
   actionDone: 0
@@ -818,6 +818,8 @@ MonoBehaviour:
   shieldObject: {fileID: 4539601859944389141}
   attackObject: {fileID: 3467091496740999676}
   gameOverPanel: {fileID: 5012392793962356509}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-2058327232845718600
 MonoBehaviour:
@@ -829,6 +831,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2523067755744785756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785258264341908163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &873246210942702309

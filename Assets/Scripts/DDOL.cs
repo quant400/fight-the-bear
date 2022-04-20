@@ -17,7 +17,7 @@ public class DDOL : MonoBehaviour
     }
     private void OnDisable()
     {
-        SceneManager.sceneLoaded += ResetPos;
+        SceneManager.sceneLoaded -= ResetPos;
     }
     // here temporarily for testing 
     public void ResetPos(Scene scene, LoadSceneMode mode)

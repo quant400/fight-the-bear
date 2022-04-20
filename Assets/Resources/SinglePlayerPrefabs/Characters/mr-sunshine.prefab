@@ -4127,6 +4127,7 @@ GameObject:
   - component: {fileID: 6118345961278230698}
   - component: {fileID: -3824101640465307955}
   - component: {fileID: -6392239199294527748}
+  - component: {fileID: -5597471228453897023}
   m_Layer: 6
   m_Name: mr-sunshine
   m_TagString: Player
@@ -4389,7 +4390,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 8129115007309432867}
   bearAgression: {fileID: 915256199836544728}
   inputDisplay: {fileID: 7675743313993261679}
-  timeToReset: 5
   timer: {fileID: 1164166797773927238}
   sequenceLength: 3
   actionDone: 0
@@ -4405,6 +4405,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7976012779193872381}
   attackObject: {fileID: 8701248091809640363}
   gameOverPanel: {fileID: 8847989062099050865}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-6392239199294527748
 MonoBehaviour:
@@ -4416,6 +4418,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5597471228453897023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118345961278230697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6186287201413450568

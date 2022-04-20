@@ -5409,6 +5409,7 @@ GameObject:
   - component: {fileID: -8391694365048135080}
   - component: {fileID: -8758337896870502401}
   - component: {fileID: 1805148516866765340}
+  - component: {fileID: 2256752920000378282}
   m_Layer: 6
   m_Name: alpha-cat
   m_TagString: Player
@@ -5671,7 +5672,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 1143931993573523799}
   bearAgression: {fileID: 2829307316335734975}
   inputDisplay: {fileID: 2511658545835157574}
-  timeToReset: 5
   timer: {fileID: 4835127712259325933}
   sequenceLength: 3
   actionDone: 0
@@ -5687,6 +5687,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7512100259640084402}
   attackObject: {fileID: 8047966128764717077}
   gameOverPanel: {fileID: 7628171450435820448}
+  died: 0
+  timeEnded: 0
   FightStyle: mma
 --- !u!114 &1805148516866765340
 MonoBehaviour:
@@ -5698,6 +5700,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2256752920000378282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7336166372550722991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7376316038594520668

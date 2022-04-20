@@ -3566,6 +3566,7 @@ GameObject:
   - component: {fileID: 5045160677947145245}
   - component: {fileID: -401082820532163903}
   - component: {fileID: -8912633267951239965}
+  - component: {fileID: 1403896819469324804}
   m_Layer: 6
   m_Name: the-truth
   m_TagString: Player
@@ -3828,7 +3829,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 9126504299163744212}
   bearAgression: {fileID: 6390486355331750261}
   inputDisplay: {fileID: 1625099511264876066}
-  timeToReset: 5
   timer: {fileID: 2319281978672408281}
   sequenceLength: 3
   actionDone: 0
@@ -3844,6 +3844,8 @@ MonoBehaviour:
   shieldObject: {fileID: 8946374975275609389}
   attackObject: {fileID: 8250430620712101832}
   gameOverPanel: {fileID: 7965502998310254132}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-8912633267951239965
 MonoBehaviour:
@@ -3855,6 +3857,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1403896819469324804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5045160677947145244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5050263912673609832

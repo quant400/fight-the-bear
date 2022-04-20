@@ -907,6 +907,7 @@ GameObject:
   - component: {fileID: 883145088569718042}
   - component: {fileID: 3350892942275381725}
   - component: {fileID: 5437055487965824566}
+  - component: {fileID: 5877643736855028813}
   m_Layer: 6
   m_Name: trainer-gae
   m_TagString: Player
@@ -1169,7 +1170,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 4337814386432316131}
   bearAgression: {fileID: 8245006779192355081}
   inputDisplay: {fileID: 5538765931527119054}
-  timeToReset: 5
   timer: {fileID: 5603815224996036195}
   sequenceLength: 3
   actionDone: 0
@@ -1185,6 +1185,8 @@ MonoBehaviour:
   shieldObject: {fileID: 6838985425198781424}
   attackObject: {fileID: 2183247522909288356}
   gameOverPanel: {fileID: 3730178812775458963}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &5437055487965824566
 MonoBehaviour:
@@ -1196,6 +1198,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5877643736855028813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883145088569718041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1011075610032042569

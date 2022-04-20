@@ -1690,6 +1690,7 @@ GameObject:
   - component: {fileID: -821083918911220121}
   - component: {fileID: 9147832281790098060}
   - component: {fileID: 8712280670048008218}
+  - component: {fileID: 7468398994396303278}
   m_Layer: 6
   m_Name: android
   m_TagString: Player
@@ -1952,7 +1953,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 3991100558951543143}
   bearAgression: {fileID: 3964308118284072947}
   inputDisplay: {fileID: 195735340052513800}
-  timeToReset: 5
   timer: {fileID: 6097876357181367064}
   sequenceLength: 3
   actionDone: 0
@@ -1968,6 +1968,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7219704275207775149}
   attackObject: {fileID: 4550393836968506968}
   gameOverPanel: {fileID: 8367644493573116202}
+  died: 0
+  timeEnded: 0
   FightStyle: boxing
 --- !u!114 &8712280670048008218
 MonoBehaviour:
@@ -1979,6 +1981,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7468398994396303278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2416829333004479447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2456978923737958436

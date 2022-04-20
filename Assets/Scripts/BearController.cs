@@ -30,12 +30,13 @@ public class BearController : MonoBehaviour
     float timeLeft;
     bool following;
     public void StartFight()
-    {   
-        playerFC.StartFight(gameObject);
+    {
         playerSeen = true;
         timeLeft = 15;
-        bearAttack = 10 * playerFC.GetBearNumber();
-        bearHealth = 100 + 25 * (playerFC.GetBearNumber()-1);
+        bearAttack = 10 * (playerFC.GetBearNumber()+1);
+        bearHealth = 100 + 25 * (playerFC.GetBearNumber());
+        playerFC.StartFight(gameObject);
+        
         
     }
     // Start is called before the first frame update
@@ -48,7 +49,7 @@ public class BearController : MonoBehaviour
 
     private void Update()
     {
-        if (playerSeen && playerFC.GetState()!=States.Dead)
+        if (playerSeen && playerFC.GetState()!=States.Dead && !playerFC.timeEnded && currentState!=States.Dead)
         {
             if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState == States.Idel && !playerFC.GetSpecialAttackStatus())
             {
@@ -70,7 +71,7 @@ public class BearController : MonoBehaviour
             {
                 Follow();
             }
-            if (!playerFC.GetSpecialAttackStatus() &&currentState!=States.Hit && currentState!=States.Dead)
+            if (!playerFC.GetSpecialAttackStatus() && currentState!=States.Dead)
             {
 
                 canAttackIn += Time.deltaTime;
@@ -134,6 +135,7 @@ public class BearController : MonoBehaviour
             }
             else
             {
+                knockBack();
                 anim.SetTrigger("Hit");
             }
         }
@@ -172,6 +174,11 @@ public class BearController : MonoBehaviour
         currentState = States.Idel;
         anim.SetBool("Stunned", true);
         stunned = true;
+    }
+
+    void knockBack()
+    {
+        transform.DOMove(transform.position + (transform.forward *-0.5f), 0.5f);
     }
     public void ResetAnim()
     {

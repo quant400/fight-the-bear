@@ -4164,6 +4164,7 @@ GameObject:
   - component: {fileID: 5284450573300610806}
   - component: {fileID: -9202807672809172428}
   - component: {fileID: -245121915340325722}
+  - component: {fileID: 896459855101323027}
   m_Layer: 6
   m_Name: touch-of-honey
   m_TagString: Player
@@ -4426,7 +4427,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 7435284824248729520}
   bearAgression: {fileID: 7232864804573011652}
   inputDisplay: {fileID: 3020445114746695523}
-  timeToReset: 5
   timer: {fileID: 3921427501901402068}
   sequenceLength: 3
   actionDone: 0
@@ -4442,6 +4442,8 @@ MonoBehaviour:
   shieldObject: {fileID: 2270994321149220793}
   attackObject: {fileID: 7585643591033337513}
   gameOverPanel: {fileID: 7026529198665627811}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-245121915340325722
 MonoBehaviour:
@@ -4453,6 +4455,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &896459855101323027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284450573300610807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5346800379595974214

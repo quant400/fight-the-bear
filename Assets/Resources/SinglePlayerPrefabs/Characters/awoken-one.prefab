@@ -3002,6 +3002,7 @@ GameObject:
   - component: {fileID: 2614378553096080646}
   - component: {fileID: -6919063191187599659}
   - component: {fileID: 7381732544608996192}
+  - component: {fileID: -4882655817635810906}
   m_Layer: 6
   m_Name: awoken-one
   m_TagString: Player
@@ -3264,7 +3265,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 7845228572081720547}
   bearAgression: {fileID: 278255118129238101}
   inputDisplay: {fileID: 6945651241253082535}
-  timeToReset: 5
   timer: {fileID: 8845388033545784168}
   sequenceLength: 3
   actionDone: 0
@@ -3280,6 +3280,8 @@ MonoBehaviour:
   shieldObject: {fileID: 5540910762243045216}
   attackObject: {fileID: 1002666627994609881}
   gameOverPanel: {fileID: 2533522164580631542}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &7381732544608996192
 MonoBehaviour:
@@ -3291,6 +3293,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4882655817635810906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3691656641590799953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3725274821691242891

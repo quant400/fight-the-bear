@@ -5518,6 +5518,7 @@ GameObject:
   - component: {fileID: 6919462875610595422}
   - component: {fileID: 5423961856012315574}
   - component: {fileID: 8175760776166632413}
+  - component: {fileID: -3032039405044161064}
   m_Layer: 6
   m_Name: the-iron-train
   m_TagString: Player
@@ -5780,7 +5781,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 3067409174535653813}
   bearAgression: {fileID: 6059728458608077182}
   inputDisplay: {fileID: 1597159627521978524}
-  timeToReset: 5
   timer: {fileID: 1893343569480300106}
   sequenceLength: 3
   actionDone: 0
@@ -5796,6 +5796,8 @@ MonoBehaviour:
   shieldObject: {fileID: 2363256688732378157}
   attackObject: {fileID: 7262051239058954601}
   gameOverPanel: {fileID: 5718559516537519218}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &8175760776166632413
 MonoBehaviour:
@@ -5807,6 +5809,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3032039405044161064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6919462875610595425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6953446952835346755

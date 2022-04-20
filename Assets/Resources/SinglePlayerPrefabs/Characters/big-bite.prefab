@@ -1306,6 +1306,7 @@ GameObject:
   - component: {fileID: 3081178378624893411}
   - component: {fileID: 6496165307222122984}
   - component: {fileID: -9064167233603972156}
+  - component: {fileID: 5223300167002815141}
   m_Layer: 6
   m_Name: big-bite
   m_TagString: Player
@@ -1568,7 +1569,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 1360935252959238290}
   bearAgression: {fileID: 1096399025808873742}
   inputDisplay: {fileID: 1378183615, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
-  timeToReset: 5
   timer: {fileID: 2722797256944796536}
   sequenceLength: 3
   actionDone: 0
@@ -1584,6 +1584,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7469864691407592544}
   attackObject: {fileID: 4676734644381707009}
   gameOverPanel: {fileID: 5602399801254903471}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-9064167233603972156
 MonoBehaviour:
@@ -1595,6 +1597,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5223300167002815141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464341144708430015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1619900700736071879

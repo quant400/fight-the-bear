@@ -6745,6 +6745,7 @@ GameObject:
   - component: {fileID: 384496742309626316}
   - component: {fileID: -5027013112401590875}
   - component: {fileID: -3485239133949272981}
+  - component: {fileID: 6467188737910837863}
   m_Layer: 6
   m_Name: big-joe
   m_TagString: Player
@@ -7007,7 +7008,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 6951086304748538567}
   bearAgression: {fileID: 2807489239949558093}
   inputDisplay: {fileID: 1725337516879052833}
-  timeToReset: 5
   timer: {fileID: 866402539665108003}
   sequenceLength: 3
   actionDone: 0
@@ -7023,6 +7023,8 @@ MonoBehaviour:
   shieldObject: {fileID: 644132672290976435}
   attackObject: {fileID: 7568490990693973004}
   gameOverPanel: {fileID: 3032984277935611965}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-3485239133949272981
 MonoBehaviour:
@@ -7034,6 +7036,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6467188737910837863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9035484099570907133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &9148711640405971982

@@ -1975,6 +1975,7 @@ GameObject:
   - component: {fileID: 8104382748405398705}
   - component: {fileID: -6400589790116350794}
   - component: {fileID: -585827879586298601}
+  - component: {fileID: 2100899609820053977}
   m_Layer: 6
   m_Name: mr-marvelous
   m_TagString: Player
@@ -2233,7 +2234,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 1349734698, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
   bearAgression: {fileID: 5279891657934832735, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
   inputDisplay: {fileID: 1378183615, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
-  timeToReset: 5
   timer: {fileID: 2120925116, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
   sequenceLength: 3
   actionDone: 0
@@ -2249,6 +2249,8 @@ MonoBehaviour:
   shieldObject: {fileID: 3508964737566904964, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
   attackObject: {fileID: 1540404040680022583, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
   gameOverPanel: {fileID: 5454298125203578442, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-585827879586298601
 MonoBehaviour:
@@ -2260,6 +2262,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2100899609820053977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104382748405398706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8268101939974108391

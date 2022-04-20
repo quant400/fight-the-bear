@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 351593826670105327}
   - component: {fileID: 6644496660611160189}
   - component: {fileID: -7823858065894255133}
+  - component: {fileID: -790664197948587696}
   m_Layer: 6
   m_Name: sweetness
   m_TagString: Player
@@ -279,7 +280,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 2055621098009474616}
   bearAgression: {fileID: 7466671382570476543}
   inputDisplay: {fileID: 1386146052385001725}
-  timeToReset: 5
   timer: {fileID: 8852345546087010042}
   sequenceLength: 3
   actionDone: 0
@@ -295,6 +295,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7286686331675369743}
   attackObject: {fileID: 1417534783403474691}
   gameOverPanel: {fileID: 9156340909383033211}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-7823858065894255133
 MonoBehaviour:
@@ -306,6 +308,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-790664197948587696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351593826670105324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &443502837930547897

@@ -560,6 +560,7 @@ GameObject:
   - component: {fileID: 702462770686711306}
   - component: {fileID: 3485334569373614217}
   - component: {fileID: -2093064429105796825}
+  - component: {fileID: -3083441215853174217}
   m_Layer: 6
   m_Name: Irish-pride
   m_TagString: Player
@@ -822,7 +823,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 2029861657389192190}
   bearAgression: {fileID: 1255888965521443242}
   inputDisplay: {fileID: 9186513969856585094}
-  timeToReset: 5
   timer: {fileID: 6443698734047295698}
   sequenceLength: 3
   actionDone: 0
@@ -838,6 +838,8 @@ MonoBehaviour:
   shieldObject: {fileID: 6989694920527855305}
   attackObject: {fileID: 138249135071216217}
   gameOverPanel: {fileID: 1108961554793182673}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-2093064429105796825
 MonoBehaviour:
@@ -849,6 +851,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3083441215853174217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702462770686711307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &733270912317257208

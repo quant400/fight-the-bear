@@ -3819,6 +3819,7 @@ GameObject:
   - component: {fileID: 4295645696653905021}
   - component: {fileID: -2191578300405433715}
   - component: {fileID: 9165460781080985250}
+  - component: {fileID: -6296595772419037162}
   m_Layer: 6
   m_Name: the-pirate
   m_TagString: Player
@@ -4081,7 +4082,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 44862461864110156}
   bearAgression: {fileID: 4282439324126387311}
   inputDisplay: {fileID: 8373827086493358957}
-  timeToReset: 5
   timer: {fileID: 4713794812026798658}
   sequenceLength: 3
   actionDone: 0
@@ -4097,6 +4097,8 @@ MonoBehaviour:
   shieldObject: {fileID: 4516269723264959610}
   attackObject: {fileID: 4082415434775922895}
   gameOverPanel: {fileID: 7360090081670174538}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &9165460781080985250
 MonoBehaviour:
@@ -4108,6 +4110,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-6296595772419037162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4295645696653905022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4410208486422417886

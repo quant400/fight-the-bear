@@ -4358,6 +4358,7 @@ GameObject:
   - component: {fileID: 6886300997052270662}
   - component: {fileID: -1865001648480644715}
   - component: {fileID: 6818322187708518443}
+  - component: {fileID: -6911305695641460030}
   m_Layer: 6
   m_Name: mr-handsome
   m_TagString: Player
@@ -4620,7 +4621,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 7495606760165538039}
   bearAgression: {fileID: 6109615991817308669}
   inputDisplay: {fileID: 7227542634667101586}
-  timeToReset: 5
   timer: {fileID: 1130135960686848659}
   sequenceLength: 3
   actionDone: 0
@@ -4636,6 +4636,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7021339506486005867}
   attackObject: {fileID: 8938107352692756005}
   gameOverPanel: {fileID: 1402520912582123022}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &6818322187708518443
 MonoBehaviour:
@@ -4647,6 +4649,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-6911305695641460030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6886300997052270661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6986229249343846025

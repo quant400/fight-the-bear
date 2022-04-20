@@ -863,6 +863,7 @@ GameObject:
   - component: {fileID: 1552550060799202673}
   - component: {fileID: 6308225142193683315}
   - component: {fileID: -5999305150358872838}
+  - component: {fileID: -5802141676639548925}
   m_Layer: 6
   m_Name: rebel
   m_TagString: Player
@@ -1125,7 +1126,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 5157659154265086633}
   bearAgression: {fileID: 4608198502778570268}
   inputDisplay: {fileID: 5542851942525340936}
-  timeToReset: 5
   timer: {fileID: 5521339870049653365}
   sequenceLength: 3
   actionDone: 0
@@ -1141,6 +1141,8 @@ MonoBehaviour:
   shieldObject: {fileID: 3513175002987476970}
   attackObject: {fileID: 5521298236524072928}
   gameOverPanel: {fileID: 3335907139377892417}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-5999305150358872838
 MonoBehaviour:
@@ -1152,6 +1154,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5802141676639548925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552550060799202672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1592436041473504899

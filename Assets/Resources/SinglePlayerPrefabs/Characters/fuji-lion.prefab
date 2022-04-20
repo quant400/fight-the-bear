@@ -3270,6 +3270,7 @@ GameObject:
   - component: {fileID: 3950680865189392139}
   - component: {fileID: -1862453160429745359}
   - component: {fileID: -736496989641997093}
+  - component: {fileID: -8135285907402197943}
   m_Layer: 6
   m_Name: fuji-lion
   m_TagString: Player
@@ -3532,7 +3533,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 4019128260023045319}
   bearAgression: {fileID: 2750395761622770246}
   inputDisplay: {fileID: 3970308978286199614}
-  timeToReset: 5
   timer: {fileID: 5936908931484067004}
   sequenceLength: 3
   actionDone: 0
@@ -3548,6 +3548,8 @@ MonoBehaviour:
   shieldObject: {fileID: 8931237336277405585}
   attackObject: {fileID: 6058714704537633848}
   gameOverPanel: {fileID: 7567842901887648030}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-736496989641997093
 MonoBehaviour:
@@ -3559,6 +3561,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8135285907402197943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5140170054448716710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5405527717223462529

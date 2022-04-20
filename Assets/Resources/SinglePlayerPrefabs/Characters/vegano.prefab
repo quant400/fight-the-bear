@@ -5025,6 +5025,7 @@ GameObject:
   - component: {fileID: 7177940399640630319}
   - component: {fileID: -1223646074852429781}
   - component: {fileID: 1206700911670814526}
+  - component: {fileID: 5410569579986417434}
   m_Layer: 6
   m_Name: vegano
   m_TagString: Player
@@ -5287,7 +5288,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 6167873744324833865}
   bearAgression: {fileID: 5256279475046931604}
   inputDisplay: {fileID: 5491572191412528393}
-  timeToReset: 5
   timer: {fileID: 2120925116, guid: 263a6e6851397e54692d4d808a91e860, type: 3}
   sequenceLength: 3
   actionDone: 0
@@ -5303,6 +5303,8 @@ MonoBehaviour:
   shieldObject: {fileID: 5691181268210544841}
   attackObject: {fileID: 4480871520325427804}
   gameOverPanel: {fileID: 1249552299676016312}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &1206700911670814526
 MonoBehaviour:
@@ -5314,6 +5316,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5410569579986417434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7177940399640630318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7223187134218502793

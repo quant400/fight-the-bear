@@ -5561,6 +5561,7 @@ GameObject:
   - component: {fileID: 4381784223749246989}
   - component: {fileID: -490063999444180292}
   - component: {fileID: -4285360327068025110}
+  - component: {fileID: -7303001864139718581}
   m_Layer: 6
   m_Name: hawk
   m_TagString: Player
@@ -5823,7 +5824,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 4097184769730136203}
   bearAgression: {fileID: 745073837277064923}
   inputDisplay: {fileID: 3932728331344268462}
-  timeToReset: 5
   timer: {fileID: 3266529756739649686}
   sequenceLength: 3
   actionDone: 0
@@ -5839,6 +5839,8 @@ MonoBehaviour:
   shieldObject: {fileID: 5692257236761838475}
   attackObject: {fileID: 460017606634458767}
   gameOverPanel: {fileID: 5386137703419369943}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-4285360327068025110
 MonoBehaviour:
@@ -5850,6 +5852,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7303001864139718581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7614844692825193642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7655633752224807590

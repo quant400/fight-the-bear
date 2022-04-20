@@ -5905,6 +5905,7 @@ GameObject:
   - component: {fileID: 4580558819409832402}
   - component: {fileID: 6874687549047112042}
   - component: {fileID: 3938133608020373473}
+  - component: {fileID: -1729334520863528265}
   m_Layer: 6
   m_Name: gaelic-prince
   m_TagString: Player
@@ -6167,7 +6168,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 4339257798898811582}
   bearAgression: {fileID: 2055194001938548820}
   inputDisplay: {fileID: 7479087950976832578}
-  timeToReset: 5
   timer: {fileID: 6816411833435481926}
   sequenceLength: 3
   actionDone: 0
@@ -6183,6 +6183,8 @@ MonoBehaviour:
   shieldObject: {fileID: 2493255148210162054}
   attackObject: {fileID: 8482735418220264163}
   gameOverPanel: {fileID: 3746153538433212064}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &3938133608020373473
 MonoBehaviour:
@@ -6194,6 +6196,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1729334520863528265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7838749366163415662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7930393399413385787

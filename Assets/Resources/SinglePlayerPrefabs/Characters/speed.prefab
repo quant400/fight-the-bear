@@ -3426,6 +3426,7 @@ GameObject:
   - component: {fileID: 5188493392616320606}
   - component: {fileID: -3132975510084921872}
   - component: {fileID: -1225649337680719319}
+  - component: {fileID: -5685623608355715134}
   m_Layer: 6
   m_Name: speed
   m_TagString: Player
@@ -3688,7 +3689,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 8240687656485867385}
   bearAgression: {fileID: 6320541406520403193}
   inputDisplay: {fileID: 7719073938080245720}
-  timeToReset: 5
   timer: {fileID: 5821266170376144034}
   sequenceLength: 3
   actionDone: 0
@@ -3704,6 +3704,8 @@ MonoBehaviour:
   shieldObject: {fileID: 4568590691730694441}
   attackObject: {fileID: 6434103394222587419}
   gameOverPanel: {fileID: 7721695006512936270}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-1225649337680719319
 MonoBehaviour:
@@ -3715,6 +3717,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5685623608355715134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5188493392616320601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5251229935399859660

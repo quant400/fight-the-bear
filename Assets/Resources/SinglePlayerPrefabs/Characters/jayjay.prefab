@@ -5867,6 +5867,7 @@ GameObject:
   - component: {fileID: 7692377747917343585}
   - component: {fileID: 3972972146813135322}
   - component: {fileID: 4980976039262734248}
+  - component: {fileID: -8962185179641976161}
   m_Layer: 6
   m_Name: jayjay
   m_TagString: Player
@@ -6129,7 +6130,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 586996849869537831}
   bearAgression: {fileID: 4202876672190300021}
   inputDisplay: {fileID: 5761616716059732697}
-  timeToReset: 5
   timer: {fileID: 8338020974051798982}
   sequenceLength: 3
   actionDone: 0
@@ -6145,6 +6145,8 @@ MonoBehaviour:
   shieldObject: {fileID: 8116004468783786582}
   attackObject: {fileID: 2642375020299026765}
   gameOverPanel: {fileID: 8783879507574611801}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &4980976039262734248
 MonoBehaviour:
@@ -6156,6 +6158,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8962185179641976161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7692377747917343584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7717900618769077813

@@ -631,6 +631,7 @@ GameObject:
   - component: {fileID: 744200762206507941}
   - component: {fileID: 5433352040834055069}
   - component: {fileID: 6572900404259980649}
+  - component: {fileID: -4187064545312448220}
   m_Layer: 6
   m_Name: the-explosive
   m_TagString: Player
@@ -893,7 +894,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 4469327868485275679}
   bearAgression: {fileID: 9093508690967983857}
   inputDisplay: {fileID: 4549225550191058119}
-  timeToReset: 5
   timer: {fileID: 1625143605310103675}
   sequenceLength: 3
   actionDone: 0
@@ -909,6 +909,8 @@ MonoBehaviour:
   shieldObject: {fileID: 6037602281841430157}
   attackObject: {fileID: 7542177246999483072}
   gameOverPanel: {fileID: 5092725480289308606}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &6572900404259980649
 MonoBehaviour:
@@ -920,6 +922,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4187064545312448220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744200762206507940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &771535193127130077

@@ -4340,6 +4340,7 @@ GameObject:
   - component: {fileID: -4721355807398545182}
   - component: {fileID: 5026425303133796144}
   - component: {fileID: 914976469111345764}
+  - component: {fileID: -722518785648763158}
   m_Layer: 6
   m_Name: arachnid
   m_TagString: Player
@@ -4602,7 +4603,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 1499243939814033577}
   bearAgression: {fileID: 1046893341555346126}
   inputDisplay: {fileID: 9032365893553305237}
-  timeToReset: 5
   timer: {fileID: 2806874712131339185}
   sequenceLength: 3
   actionDone: 0
@@ -4618,6 +4618,8 @@ MonoBehaviour:
   shieldObject: {fileID: 2905362695730819470}
   attackObject: {fileID: 4907585652850093623}
   gameOverPanel: {fileID: 3929893383050551389}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &914976469111345764
 MonoBehaviour:
@@ -4629,6 +4631,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-722518785648763158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5479246004295643399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5512628603652330686

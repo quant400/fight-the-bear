@@ -6323,6 +6323,7 @@ GameObject:
   - component: {fileID: 5966759167504982570}
   - component: {fileID: -3230494921174287092}
   - component: {fileID: -1738933851902750646}
+  - component: {fileID: 1963535464190877019}
   m_Layer: 6
   m_Name: hellfire
   m_TagString: Player
@@ -6585,7 +6586,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 2747572396388127346}
   bearAgression: {fileID: 1215411876848389335}
   inputDisplay: {fileID: 1071052703987738236}
-  timeToReset: 5
   timer: {fileID: 5147573966405230930}
   sequenceLength: 3
   actionDone: 0
@@ -6601,6 +6601,8 @@ MonoBehaviour:
   shieldObject: {fileID: 8135743700516464479}
   attackObject: {fileID: 880660056704444512}
   gameOverPanel: {fileID: 3422534323634402271}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-1738933851902750646
 MonoBehaviour:
@@ -6612,6 +6614,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1963535464190877019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8715991115719352461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8805615335374301400

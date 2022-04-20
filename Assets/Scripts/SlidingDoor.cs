@@ -14,8 +14,12 @@ public class SlidingDoor : MonoBehaviour
 
     void Open()
     {
+        FightController fc = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
+        fc.DisableMovement();
         transform.DOMove(new Vector3(transform.position.x, -15, transform.position.z), 4f).OnComplete(() =>
-            transform.parent.GetChild(2).GetComponent<CinemachineVirtualCamera>().Priority = 9
-            );
+        {
+            transform.parent.GetChild(2).GetComponent<CinemachineVirtualCamera>().Priority = 9;
+            fc.EnableMovement();
+        });
     }
 }

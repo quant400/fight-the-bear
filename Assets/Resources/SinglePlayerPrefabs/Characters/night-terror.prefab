@@ -1787,6 +1787,7 @@ GameObject:
   - component: {fileID: 2492524731696559743}
   - component: {fileID: -1516016981092040791}
   - component: {fileID: -6571427684337204796}
+  - component: {fileID: -1475843738713441362}
   m_Layer: 6
   m_Name: night-terror
   m_TagString: Player
@@ -2049,7 +2050,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 8849855238784579963}
   bearAgression: {fileID: 4593809362815130306}
   inputDisplay: {fileID: 248025149608666387}
-  timeToReset: 5
   timer: {fileID: 1102405850761847784}
   sequenceLength: 3
   actionDone: 0
@@ -2065,6 +2065,8 @@ MonoBehaviour:
   shieldObject: {fileID: 1039766133074388599}
   attackObject: {fileID: 7542644597029493488}
   gameOverPanel: {fileID: 3569016252399915529}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-6571427684337204796
 MonoBehaviour:
@@ -2076,6 +2078,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1475843738713441362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2492524731696559742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2574525155230608404

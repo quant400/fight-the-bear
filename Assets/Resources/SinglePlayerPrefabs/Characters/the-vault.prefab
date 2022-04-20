@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 378281805521440043}
   - component: {fileID: 6650486491171347809}
   - component: {fileID: 2640539647765685763}
+  - component: {fileID: -7799476374269680711}
   m_Layer: 6
   m_Name: the-vault
   m_TagString: Player
@@ -557,7 +558,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 4570549463310375173}
   bearAgression: {fileID: 8171016975536944186}
   inputDisplay: {fileID: 8744879331044646393}
-  timeToReset: 5
   timer: {fileID: 1657825620185764033}
   sequenceLength: 3
   actionDone: 0
@@ -573,6 +573,8 @@ MonoBehaviour:
   shieldObject: {fileID: 7028110858171848652}
   attackObject: {fileID: 2249193996496212568}
   gameOverPanel: {fileID: 4130813233803119181}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &2640539647765685763
 MonoBehaviour:
@@ -584,6 +586,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7799476374269680711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378281805521440040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &481130230327897819

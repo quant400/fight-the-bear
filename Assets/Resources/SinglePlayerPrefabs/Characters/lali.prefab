@@ -5707,6 +5707,7 @@ GameObject:
   - component: {fileID: 7350707698413437126}
   - component: {fileID: -5835037804165709215}
   - component: {fileID: 1495902677894708529}
+  - component: {fileID: -3753376918933885597}
   m_Layer: 6
   m_Name: lali
   m_TagString: Player
@@ -5969,7 +5970,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 891097448534010432}
   bearAgression: {fileID: 1580473797588750058}
   inputDisplay: {fileID: 1858584652336544903}
-  timeToReset: 5
   timer: {fileID: 6972279663712257629}
   sequenceLength: 3
   actionDone: 0
@@ -5985,6 +5985,8 @@ MonoBehaviour:
   shieldObject: {fileID: 6296731735266888407}
   attackObject: {fileID: 7257595596731798348}
   gameOverPanel: {fileID: 3771077933032374184}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &1495902677894708529
 MonoBehaviour:
@@ -5996,6 +5998,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3753376918933885597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7350707698413437127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7420699784528935084

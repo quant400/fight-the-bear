@@ -3690,6 +3690,7 @@ GameObject:
   - component: {fileID: 2058141535826924406}
   - component: {fileID: -7731796882672968033}
   - component: {fileID: 1126942651565063468}
+  - component: {fileID: -7178879408037029814}
   m_Layer: 6
   m_Name: the-mexican-bee
   m_TagString: Player
@@ -3952,7 +3953,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 4496057318039986771}
   bearAgression: {fileID: 7010789669540371607}
   inputDisplay: {fileID: 3931999609750318964}
-  timeToReset: 5
   timer: {fileID: 4190155851056187540}
   sequenceLength: 3
   actionDone: 0
@@ -3968,6 +3968,8 @@ MonoBehaviour:
   shieldObject: {fileID: 626956562647228021}
   attackObject: {fileID: 5915367802173318189}
   gameOverPanel: {fileID: 8256449713343814800}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &1126942651565063468
 MonoBehaviour:
@@ -3979,6 +3981,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7178879408037029814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905660825969494907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5065118687720677050

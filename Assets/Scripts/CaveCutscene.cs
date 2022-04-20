@@ -15,7 +15,7 @@ public class CaveCutscene : MonoBehaviour
   
     GameObject player;
     private bool started;
-
+    public bool last=false;
     private void Start()
     {
         cam = mCam.GetCinemachineComponent<CinemachineTrackedDolly>();
@@ -44,7 +44,7 @@ public class CaveCutscene : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player")&& MapController.MC.IsLast())
+        if(other.CompareTag("Player") && last)
         {
             player = other.gameObject;
             var FC = player.GetComponent<FightController>();
@@ -52,6 +52,7 @@ public class CaveCutscene : MonoBehaviour
             FC.ActivateText("Enter Text Here");
             mCam.m_Priority = 20;
             started = true;
+            transform.GetComponent<BoxCollider>().enabled = false;
         }
     }
 }

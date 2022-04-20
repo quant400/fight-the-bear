@@ -4282,6 +4282,7 @@ GameObject:
   - component: {fileID: 4255991600523398588}
   - component: {fileID: -5412454240232713716}
   - component: {fileID: -5244328616786100022}
+  - component: {fileID: -2193423965237658929}
   m_Layer: 6
   m_Name: wildcat
   m_TagString: Player
@@ -4544,7 +4545,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 8592788951867945014}
   bearAgression: {fileID: 7202882072497732622}
   inputDisplay: {fileID: 1225513146628713621}
-  timeToReset: 5
   timer: {fileID: 6859341419186489081}
   sequenceLength: 3
   actionDone: 0
@@ -4560,6 +4560,8 @@ MonoBehaviour:
   shieldObject: {fileID: 6693928764471455103}
   attackObject: {fileID: 3402439148097525804}
   gameOverPanel: {fileID: 1441659938595177661}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &-5244328616786100022
 MonoBehaviour:
@@ -4571,6 +4573,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2193423965237658929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4255991600523398589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4299988001854814984

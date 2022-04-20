@@ -5183,6 +5183,7 @@ GameObject:
   - component: {fileID: 6824548944163436656}
   - component: {fileID: 7990640245918455621}
   - component: {fileID: 4266604936075459028}
+  - component: {fileID: 5445426304714969673}
   m_Layer: 6
   m_Name: the-wind-bender
   m_TagString: Player
@@ -5445,7 +5446,6 @@ MonoBehaviour:
   playerHelthDisplay: {fileID: 867480392454815}
   bearAgression: {fileID: 3450382203886922049}
   inputDisplay: {fileID: 6584536258878184292}
-  timeToReset: 5
   timer: {fileID: 837429720969162615}
   sequenceLength: 3
   actionDone: 0
@@ -5461,6 +5461,8 @@ MonoBehaviour:
   shieldObject: {fileID: 2974131284815983120}
   attackObject: {fileID: 8890344634410475929}
   gameOverPanel: {fileID: 1688309937460403529}
+  died: 0
+  timeEnded: 0
   FightStyle: 
 --- !u!114 &4266604936075459028
 MonoBehaviour:
@@ -5472,6 +5474,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cf91e5f67f5e3741bb55cca5d575305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5445426304714969673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6824548944163436657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6955388828903541344
