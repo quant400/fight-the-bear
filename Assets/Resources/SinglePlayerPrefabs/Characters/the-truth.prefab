@@ -3567,6 +3567,8 @@ GameObject:
   - component: {fileID: -401082820532163903}
   - component: {fileID: -8912633267951239965}
   - component: {fileID: 1403896819469324804}
+  - component: {fileID: -7861269325169095558}
+  - component: {fileID: 1032277830113997752}
   m_Layer: 6
   m_Name: the-truth
   m_TagString: Player
@@ -3847,6 +3849,7 @@ MonoBehaviour:
   died: 0
   timeEnded: 0
   FightStyle: 
+  pSFXC: {fileID: 0}
 --- !u!114 &-8912633267951239965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3871,6 +3874,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a661150103fb10e429c3c0aa9e1130f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &-7861269325169095558
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5045160677947145244}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.34875694, y: 0.62470734, z: 0.395333}
+  m_Center: {x: 0.01103802, y: 0.2869885, z: -0.01386293}
+--- !u!114 &1032277830113997752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5045160677947145244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b7ac510514595439842153b5627cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 8300000, guid: f3aa482e2ff60b943b8c5cb3642328d8, type: 3}
+  swoosh: {fileID: 8300000, guid: f5c19fe957d023a429a1e58493a21c3e, type: 3}
+  hit: {fileID: 0}
+  walk:
+  - {fileID: 8300000, guid: ef6bb9642e308d8489467bf476a9c9f8, type: 3}
+  - {fileID: 8300000, guid: 761f5c160b0c94b498c393c173fa03e6, type: 3}
+  - {fileID: 8300000, guid: e3fe7199e5ac2a4409b800c6f40ea39a, type: 3}
+  - {fileID: 8300000, guid: 398b9827451e84a49b2d76246bc9c1c9, type: 3}
+  - {fileID: 8300000, guid: 32495206fa3313842985a58eed466ee0, type: 3}
+  - {fileID: 8300000, guid: da01efe0b98c21a428d7ddb19933733e, type: 3}
+  - {fileID: 8300000, guid: 4933f2249fe0ca04dad54a4048f0e777, type: 3}
+  - {fileID: 8300000, guid: dfa03c40d5fa9d949bb7fd50f3708781, type: 3}
+  - {fileID: 8300000, guid: 0cf2824a8f8cdc74683224e265fd1021, type: 3}
+  - {fileID: 8300000, guid: 1de032b22328165448a83eb0c550c55a, type: 3}
+  m_StepInterval: 7
 --- !u!1 &5050263912673609832
 GameObject:
   m_ObjectHideFlags: 0

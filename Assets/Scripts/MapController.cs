@@ -64,6 +64,7 @@ public class MapController : MonoBehaviour
             previoustrrain.transform.GetChild(1).gameObject.SetActive(true);
             previoustrrain.transform.GetChild(0).gameObject.SetActive(true);
             previoustrrain.transform.GetChild(0).GetComponent<CaveCutscene>().last = true;
+            GetComponent<PathPowerup>().SpawnPowerups();
            
         }
 

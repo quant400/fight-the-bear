@@ -49,7 +49,7 @@ public class CaveCutscene : MonoBehaviour
             player = other.gameObject;
             var FC = player.GetComponent<FightController>();
             FC.DisableMovement();
-            FC.ActivateText("Enter Text Here");
+            FC.ActivateText("ENTER TEXT HERE"); 
             mCam.m_Priority = 20;
             started = true;
             transform.GetComponent<BoxCollider>().enabled = false;

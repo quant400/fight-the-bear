@@ -59,7 +59,7 @@ public class FightController : MonoBehaviour
 
     bool inFight =false;
     bool specialAttack = false;
-    public bool canHit;
+    public bool canHit=true;
 
     float score;
     [SerializeField]
@@ -86,6 +86,12 @@ public class FightController : MonoBehaviour
     public bool timeEnded=false;
     bool punch;
     public string FightStyle; // later get from chosen nft
+
+    public PlayerSFXController pSFXC;
+
+    DamageDisplay DD;
+
+    Quaternion originalRot;
     private void Awake()
     {
         //bearNumber = LoaderScript.instance.bearNumber;
@@ -96,6 +102,8 @@ public class FightController : MonoBehaviour
         Cursor.visible = false;
         CC = GetComponent<CharacterController>();
         FightStyle = "boxing";
+        pSFXC = GetComponent<PlayerSFXController>();
+        DD = GetComponentInChildren<DamageDisplay>();
 
     }
 
@@ -172,12 +180,14 @@ public class FightController : MonoBehaviour
         {
             if (currentState != States.Blocking)
             {
+                originalRot = transform.localRotation;
                 currentState = States.Attacking;
                 currentAttackingState = AttackingStates.punching;
                 DisableMovement();
                 int p = Random.Range(1, 3);
                 if (specialAttack)
                     p = 10;
+                pSFXC.PlaySwoosh();
                 playerAnim.SetFloat("PunchVal", p);
                 playerAnim.SetTrigger("Punch");
             }
@@ -196,13 +206,14 @@ public class FightController : MonoBehaviour
         {
             if (currentState != States.Blocking)
             {
-
+                originalRot = transform.localRotation;
                 currentState = States.Attacking;
                 currentAttackingState = AttackingStates.kicking;
                 DisableMovement();
                 int p = Random.Range(1, 3);
                 if (specialAttack)
                     p = 10;
+                pSFXC.PlaySwoosh();
                 playerAnim.SetFloat("KickVal", p);
                 playerAnim.SetTrigger("Kick");
             }
@@ -237,6 +248,7 @@ public class FightController : MonoBehaviour
                 currentState = States.Hit;
                 playerHelth -= ammount;
                 score -= ammount;
+                DD.DisplayDamage(ammount);
                 UpdateValues();
                 if (playerHelth <= 0)
                 {
@@ -258,6 +270,7 @@ public class FightController : MonoBehaviour
                 currentState = States.Hit;
                 playerHelth -= (ammount - 10);
                 score -= (ammount - 10);
+                DD.DisplayDamage(ammount-10);
                 //playerHelth -= ((ammount/2) * (1-(def/100)));
                 UpdateValues();
                 if (playerHelth <= 0)
@@ -308,7 +321,10 @@ public class FightController : MonoBehaviour
         if (!timeEnded && !specialAttack)
         {
             if (currentState == States.Attacking)
+            {
+                transform.localRotation = originalRot;
                 Invoke("EnableMovement", 0.5f);
+            }
             else
                 EnableMovement();
         }

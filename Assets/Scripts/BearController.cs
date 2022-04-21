@@ -29,6 +29,8 @@ public class BearController : MonoBehaviour
     float timer;
     float timeLeft;
     bool following;
+
+    DamageDisplay bDD;
     public void StartFight()
     {
         playerSeen = true;
@@ -44,6 +46,7 @@ public class BearController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         playerFC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
+        bDD = GetComponentInChildren<DamageDisplay>();
         
     }
 
@@ -126,6 +129,7 @@ public class BearController : MonoBehaviour
             currentState = States.Hit;
             bearHealth -= (int)(dammage+sliderVal);
             playerFC.GivePoints((dammage + sliderVal));
+            bDD.DisplayDamage((dammage + sliderVal));
             sliderVal = 0;
             if (bearHealth <= 0)
             {

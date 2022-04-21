@@ -83,6 +83,8 @@ public class HitScript : MonoBehaviour
             {
                 Instantiate(enemyHit, transform.position, Quaternion.identity);
             }
+
+            myFC.pSFXC.PlayPunch();
         }
             
         
