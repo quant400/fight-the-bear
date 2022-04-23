@@ -17,13 +17,13 @@ public class CaveCutscene : MonoBehaviour
     private bool started;
     public bool last=false;
     string[] lines = {
-        "Watch out!\n\n micro tragedy!\n\n China wants to ban bitcoin again.",
-        "Oh no Ethereum 2.0 is delayed to next year again.",
-        "Be careful funds are not safu.",
-        "Contract hacked. Funds drained.",
-        "OMG another rug pull.",
-        "That meme coin is pumping.\n\n You should have bought.",
-        "Aaaaaaaaaaaaaaand its gone."
+        "Watch out! micro tragedy!\n\n China wants to ban bitcoin again",
+        "Oh no Ethereum 2.0 is delayed to next year again",
+        "Be careful funds are not safu",
+        "Contract hacked. Funds drained",
+        "OMG another rug pull",
+        "That meme coin is pumping.\n\n You should have bought",
+        "Aaaaaaaaaaaaaaand its gone"
     };
     private void Start()
     {

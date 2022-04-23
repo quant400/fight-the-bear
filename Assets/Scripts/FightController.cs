@@ -84,7 +84,7 @@ public class FightController : MonoBehaviour
     public bool died;
     bool stoptimer = false;
     public bool timeEnded=false;
-    bool punch;
+    bool punch=true;
     public string FightStyle; // later get from chosen nft
 
     public PlayerSFXController pSFXC;
@@ -259,7 +259,7 @@ public class FightController : MonoBehaviour
                 }
                 else
                 {
-                    PushBack(2);
+                    PushBack(1);
                     playerAnim.SetTrigger("Hit");
                 }
 

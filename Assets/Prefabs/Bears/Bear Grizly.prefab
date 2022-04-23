@@ -1604,8 +1604,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.67420685, y: 0.10556579, z: 2.1759014}
-  m_Center: {x: 0, y: 1.7335851, z: 0.8701477}
+  m_Size: {x: 0.67420685, y: 0.10556579, z: 2.7992332}
+  m_Center: {x: 0, y: 1.74, z: 0.85761964}
 --- !u!114 &5838569651178314979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1712,6 +1712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6638792408653724509}
   - component: {fileID: 6638792408653724508}
+  - component: {fileID: 7550263823388573915}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: BearHitBox
@@ -1742,11 +1743,24 @@ CapsuleCollider:
   m_GameObject: {fileID: 6638792408653724510}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5872682
   m_Height: 2.2840014
   m_Direction: 2
   m_Center: {x: 0.070838936, y: 0.64570665, z: 0.94850725}
+--- !u!65 &7550263823388573915
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6638792408653724510}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.9654423, z: 2.0351963}
+  m_Center: {x: 0, y: 0.628626, z: 0.96317536}
 --- !u!1 &6638792409392445986
 GameObject:
   m_ObjectHideFlags: 0

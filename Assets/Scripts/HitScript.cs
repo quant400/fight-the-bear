@@ -25,6 +25,12 @@ public class HitScript : MonoBehaviour
           
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+        Debug.Log(collision.gameObject.name);
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (gameObject.CompareTag("Kick"))

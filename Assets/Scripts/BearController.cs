@@ -28,7 +28,8 @@ public class BearController : MonoBehaviour
     float sliderVal=0;
     float timer;
     float timeLeft;
-    bool following;
+    public bool canFollow=true;
+ 
 
     DamageDisplay bDD;
     public void StartFight()
@@ -70,7 +71,7 @@ public class BearController : MonoBehaviour
 
 
             }
-            else if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) > attackRange && currentState == States.Idel && canAttackIn / tempAttackTime >= 0.5f)
+            else if (canFollow && currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) > attackRange && currentState == States.Idel && canAttackIn / tempAttackTime >= 0.5f)
             {
                 Follow();
             }
