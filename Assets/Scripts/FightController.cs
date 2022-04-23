@@ -130,7 +130,7 @@ public class FightController : MonoBehaviour
         inFight = false;
         if(!died && !timeEnded)
             startingTime += TimeAddedPerBear;
-        timerDisplay.text = "Time Left : " + startingTime.ToString("00");
+        timerDisplay.text = ("Time Left : ").ToUpper() + startingTime.ToString("00");
     }
 
     void ActivateInputs()
@@ -310,7 +310,7 @@ public class FightController : MonoBehaviour
     {
         playerHelthDisplay.fillAmount = playerHelth/100f;
         bearHealth.fillAmount = bearC.GetBearHelth()/(100f+25f*(float)(bearNumber-1));
-        scoreDisplay.text = "Score : " + score;
+        scoreDisplay.text = ("Score : ").ToUpper() + score;
     }
 
     public void ResetAnim()
@@ -566,7 +566,7 @@ public class FightController : MonoBehaviour
             if (!stoptimer)
             {
                 startingTime -= Time.deltaTime;
-                timerDisplay.text = "Time Left : " + startingTime.ToString("00");
+                timerDisplay.text = ("Time Left : ").ToUpper() + startingTime.ToString("00");
                 if (startingTime <= 0)
                 {
                     StopTimer();

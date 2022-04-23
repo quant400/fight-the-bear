@@ -191,6 +191,7 @@ public class BearController : MonoBehaviour
 
     public void Die()
     {
+        GetComponent<BoxCollider>().enabled = false;
         GameObject.FindGameObjectWithTag("Door").GetComponent<SlidingDoor>().OpenDoor();
         playerFC.ExitFight();
     }
@@ -213,25 +214,3 @@ public class BearController : MonoBehaviour
     }
 
 }
-/*
- *  if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange && currentState == States.Idel && !playerFC.GetSpecialAttackStatus())
-        {
-            anim.SetBool("Follow", false);
-            if (canAttackIn <= 0)
-            {
-                canAttackIn = Random.Range(3, maxAttackInterval + 1);
-                tempAttackTime = canAttackIn;
-                transform.LookAt(playerFC.transform);
-                StartAttack(0);
-            }
-            else
-            {
-                canAttackIn -= Time.deltaTime;
-            }
-
-
-        }
-        else if (currentState != States.Dead && playerSeen && Vector3.Distance(playerFC.transform.position, transform.position) > attackRange && currentState == States.Idel)
-        {
-            Follow();
-        }*/

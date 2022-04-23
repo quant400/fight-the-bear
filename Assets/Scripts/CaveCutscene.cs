@@ -16,6 +16,15 @@ public class CaveCutscene : MonoBehaviour
     GameObject player;
     private bool started;
     public bool last=false;
+    string[] lines = {
+        "Watch out!\n\n micro tragedy!\n\n China wants to ban bitcoin again.",
+        "Oh no Ethereum 2.0 is delayed to next year again.",
+        "Be careful funds are not safu.",
+        "Contract hacked. Funds drained.",
+        "OMG another rug pull.",
+        "That meme coin is pumping.\n\n You should have bought.",
+        "Aaaaaaaaaaaaaaand its gone."
+    };
     private void Start()
     {
         cam = mCam.GetCinemachineComponent<CinemachineTrackedDolly>();
@@ -44,12 +53,18 @@ public class CaveCutscene : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") && last)
+        if (other.CompareTag("Player") && last)
         {
             player = other.gameObject;
             var FC = player.GetComponent<FightController>();
             FC.DisableMovement();
-            FC.ActivateText("ENTER TEXT HERE"); 
+            if (FC.GetBearNumber() <= 7)
+                FC.ActivateText(lines[FC.GetBearNumber()].ToUpper());
+            else
+            {
+                int ind = Random.Range(0, 8);
+                FC.ActivateText(lines[ind].ToUpper());
+            }
             mCam.m_Priority = 20;
             started = true;
             transform.GetComponent<BoxCollider>().enabled = false;
