@@ -252,14 +252,16 @@ public class FightController : MonoBehaviour
                 UpdateValues();
                 if (playerHelth <= 0)
                 {
+                    DisableMovement();
                     died = true;
                     currentState = States.Dead;
+                    playerAnim.applyRootMotion = true;
                     playerAnim.SetBool("Dead", true);
                     //ExitFight();
                 }
                 else
                 {
-                    PushBack(1);
+                    //PushBack(1);
                     playerAnim.SetTrigger("Hit");
                 }
 
@@ -275,6 +277,7 @@ public class FightController : MonoBehaviour
                 UpdateValues();
                 if (playerHelth <= 0)
                 {
+                    DisableMovement();
                     died = true;
                     currentState = States.Dead;
                     playerAnim.SetBool("Block", false);
@@ -315,8 +318,6 @@ public class FightController : MonoBehaviour
 
     public void ResetAnim()
     {
-       
-        
         canHit = true;
         if (!timeEnded && !specialAttack)
         {
@@ -526,7 +527,7 @@ public class FightController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log((currentState, died));
+        //Debug.Log((currentState, died));
         if (inFight && currentState!=States.Dead && !timeEnded )
         {
             if (takingIputs)
@@ -627,7 +628,7 @@ public class FightController : MonoBehaviour
     {
         if (specialAttack)
             DisableSpecialAttack();
-        DisableMovement();
+        
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         if (died)

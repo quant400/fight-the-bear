@@ -57,8 +57,8 @@ public class AnimStateChange : StateMachineBehaviour
             BearController bc = animator.gameObject.GetComponent<BearController>();
             bc.actionDone = true;
             bc.ResetAnim();
-            if (fc.actionDone && !fc.GetSpecialAttackStatus())
-                fc.PlayActions();
+            //if (fc.actionDone && !fc.GetSpecialAttackStatus())
+                //fc.PlayActions();
            
 
         }
