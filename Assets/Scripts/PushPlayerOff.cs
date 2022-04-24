@@ -9,14 +9,14 @@ public class PushPlayerOff : MonoBehaviour
     {
         bc = GetComponentInParent<BearController>();
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
        
        
         if (other.CompareTag("Kick"))
         {
             bc.canFollow = false;
-            other.GetComponentInParent<FightController>().PushBack(5);
+            other.GetComponentInParent<FightController>().PushBack(2);
             Invoke("FollowAgain", 1f);
         }
     }

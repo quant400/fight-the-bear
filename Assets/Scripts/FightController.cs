@@ -104,7 +104,7 @@ public class FightController : MonoBehaviour
         FightStyle = "boxing";
         pSFXC = GetComponent<PlayerSFXController>();
         DD = GetComponentInChildren<DamageDisplay>();
-
+        inFight = true;
     }
 
     #region Fight Functions
@@ -318,7 +318,7 @@ public class FightController : MonoBehaviour
 
     public void ResetAnim()
     {
-        canHit = true;
+       
         if (!timeEnded && !specialAttack)
         {
             if (currentState == States.Attacking)
@@ -329,6 +329,7 @@ public class FightController : MonoBehaviour
             else
                 EnableMovement();
         }
+        canHit=true;
         currentState = States.Idel;
         playerAnim.SetBool("Block", false);
         playerAnim.ResetTrigger("Hit");
@@ -349,6 +350,11 @@ public class FightController : MonoBehaviour
         CC.enabled = true;
         GetComponent<StarterAssets.ThirdPersonController>().enabled = true;
         GetComponent<UnityEngine.InputSystem.PlayerInput>().enabled = true;
+        
+    }
+    void EnableAttack()
+    {
+        canHit = true;
     }
     void EnableInputs()
     {
@@ -387,27 +393,30 @@ public class FightController : MonoBehaviour
 
     public void ResetGame()
     {
-        bearNumber = 0;
-        
-        playerAnim.SetBool("Dead", false);
-        playerHelth = 100;
-        currentState = States.Idel;
-        transform.position = new Vector3(0, 0, -45);
-        transform.LookAt(Vector3.forward);
-        specialAttack = false;
-        startingTime = 45;
-        timerDisplay.text = "Time Left : " + startingTime.ToString("00");
-        score = 0;
-        UpdateValues();
-        ExitFight();
-        EnableMovement();
-        died = false;
-        timeEnded =false;
-        gameOverPanel.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        SceneManager.LoadScene(1);
-       
+        /* bearNumber = 0;
+
+         playerAnim.SetBool("Dead", false);
+         playerHelth = 100;
+         currentState = States.Idel;
+         transform.position = new Vector3(0, 0, -45);
+         transform.LookAt(Vector3.forward);
+         specialAttack = false;
+         startingTime = 45;
+         timerDisplay.text = "Time Left : " + startingTime.ToString("00");
+         score = 0;
+         UpdateValues();
+         ExitFight();
+         EnableMovement();
+         died = false;
+         timeEnded =false;
+         gameOverPanel.SetActive(false);
+         Cursor.lockState = CursorLockMode.Locked;
+         Cursor.visible = false;
+         SceneManager.LoadScene(1);
+        */
+
+        TemporaryRestartScript.instance.Reset(gameObject);
+
 
 
     }
