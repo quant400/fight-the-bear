@@ -104,7 +104,6 @@ public class FightController : MonoBehaviour
         FightStyle = "boxing";
         pSFXC = GetComponent<PlayerSFXController>();
         DD = GetComponentInChildren<DamageDisplay>();
-        inFight = true;
     }
 
     #region Fight Functions
