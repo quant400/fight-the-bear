@@ -11,12 +11,11 @@ public class PushPlayerOff : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-       
-       
+        //Debug.Log(other.tag);
         if (other.CompareTag("Kick"))
         {
             bc.canFollow = false;
-            other.GetComponentInParent<FightController>().PushBack(1);
+            other.GetComponentInParent<FightController>().PushBack(2);
             Invoke("FollowAgain", 1f);
         }
     }

@@ -104,6 +104,7 @@ public class FightController : MonoBehaviour
         FightStyle = "boxing";
         pSFXC = GetComponent<PlayerSFXController>();
         DD = GetComponentInChildren<DamageDisplay>();
+       
     }
 
     #region Fight Functions
@@ -121,7 +122,7 @@ public class FightController : MonoBehaviour
     public void ExitFight()
     {
         fightCanvas.SetActive(false);
-        playerAnim.applyRootMotion = false;
+        //playerAnim.applyRootMotion = false;
         playerAnim.SetBool("Block", false);
         playerAnim.SetBool("Fight", false);
         currentState = States.Idel;
@@ -143,7 +144,7 @@ public class FightController : MonoBehaviour
     void EnableSpecialAttack()
     {
         specialAttack = true;
-        playerAnim.applyRootMotion = true;
+        //playerAnim.applyRootMotion = true;
         GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = false;
         GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = false;
         GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
@@ -166,10 +167,10 @@ public class FightController : MonoBehaviour
         GetComponent<StarterAssets.ThirdPersonController>().enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        CC.enabled = true;
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 9;
         gaugeInputs.SetActive(false);
         currentState = States.Idel;
+        playerAnim.SetBool("Fight", false);
         EnableMovement();
     }
 
@@ -229,8 +230,10 @@ public class FightController : MonoBehaviour
     {
         if (currentState == States.Idel)
         {
+           
             playerAnim.SetBool("Fight", true);
             currentState = States.Blocking;
+            DisableMovement();
             playerAnim.SetBool("Block", true);
         }
         
@@ -256,7 +259,7 @@ public class FightController : MonoBehaviour
                     DisableMovement();
                     died = true;
                     currentState = States.Dead;
-                    playerAnim.applyRootMotion = true;
+                    //playerAnim.applyRootMotion = true;
                     playerAnim.SetBool("Dead", true);
                     //ExitFight();
                 }
@@ -324,7 +327,7 @@ public class FightController : MonoBehaviour
         {
             if (currentState == States.Attacking)
             {
-                transform.localRotation = originalRot;
+                //transform.localRotation = originalRot;
                 Invoke("EnableMovement", 0.5f);
             }
             else
@@ -339,8 +342,12 @@ public class FightController : MonoBehaviour
     public void DisableMovement()
     {  
         CC.enabled = false;
-        GetComponent<UnityEngine.InputSystem.PlayerInput>().enabled = false;
-        if (currentState != States.Attacking)
+        if(currentState != States.Blocking)
+        {
+            GetComponent<UnityEngine.InputSystem.PlayerInput>().enabled = false;
+        }
+        
+        if (currentState != States.Attacking && currentState!=States.Blocking)
         {
             GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
 
@@ -560,7 +567,7 @@ public class FightController : MonoBehaviour
                     punch = !punch;
                 if (Input.GetMouseButtonDown(0))
                 {
-                    playerAnim.applyRootMotion = true;
+                    //playerAnim.applyRootMotion = true;
                     playerAnim.SetBool("Fight", true);
                     if (punch)
                         Punch();
@@ -569,7 +576,7 @@ public class FightController : MonoBehaviour
                 }
                 if (Input.GetMouseButtonDown(1))
                 {
-                    playerAnim.applyRootMotion = true;
+                    //playerAnim.applyRootMotion = true;
                     playerAnim.SetBool("Fight", true);
                     Block();
                 }
@@ -620,16 +627,17 @@ public class FightController : MonoBehaviour
     {
         if (inFight && !specialAttack && !died)
         {
-            playerAnim.applyRootMotion = false;
+            //playerAnim.applyRootMotion = false;
             playerAnim.SetBool("Fight", false);
         }
     }
 
     public void PushBack(float dist)
     {
+       // Debug.Log(("PushBack",currentState,CC.enabled));
         CC.enabled = false;
-        transform.DOMove(transform.position + (bear.transform.forward * dist), 0.5f);
-        CC.enabled = true;
+        transform.DOMove(transform.position + (bear.transform.forward * dist), 0.5f).OnComplete(()=>CC.enabled=true);
+        //CC.enabled = true;
     }
    
 
