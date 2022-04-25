@@ -247,6 +247,8 @@ public class FightController : MonoBehaviour
                 currentState = States.Hit;
                 playerHelth -= ammount;
                 score -= ammount;
+                if (score < 0)
+                    score = 0;
                 DD.DisplayDamage(ammount);
                 UpdateValues();
                 if (playerHelth <= 0)

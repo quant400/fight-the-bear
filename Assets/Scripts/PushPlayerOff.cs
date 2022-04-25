@@ -16,7 +16,7 @@ public class PushPlayerOff : MonoBehaviour
         if (other.CompareTag("Kick"))
         {
             bc.canFollow = false;
-            other.GetComponentInParent<FightController>().PushBack(2);
+            other.GetComponentInParent<FightController>().PushBack(1);
             Invoke("FollowAgain", 1f);
         }
     }
