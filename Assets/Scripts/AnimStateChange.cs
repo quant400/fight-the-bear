@@ -40,7 +40,7 @@ public class AnimStateChange : StateMachineBehaviour
             fc.actionDone = true;
             if (!fc.died)
             {
-                if (fc.GetSpecialAttackStatus() && fc.GetState() != States.Hit)
+                if (fc.GetSpecialAttackStatus() && fc.GetState()==States.Attacking)
                 {
                     fc.DisableSpecialAttack();
                     return;
