@@ -18,7 +18,7 @@ public class CaveCutscene : MonoBehaviour
     public bool last=false;
     string[] lines = {
         "Watch out! micro tragedy!\n\n China wants to ban bitcoin again",
-        "Oh no Ethereum 2.0 is delayed to next year again",
+        "Oh no Ethereum 2.0 is delayed 'till next year again",
         "Be careful funds are not safu",
         "Contract hacked. Funds drained",
         "OMG another rug pull",

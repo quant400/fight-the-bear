@@ -8,9 +8,9 @@ public class HitScript : MonoBehaviour
     FightController myFC;
     BearController myBC;
     [SerializeField]
-    ParticleSystem enemyHit;
+    GameObject playerHit;
     [SerializeField]
-    ParticleSystem specialkAttack;
+    GameObject bearHit;
     private void Start()
     {
         if (gameObject.CompareTag("Punch") || gameObject.CompareTag("Kick"))
@@ -40,7 +40,7 @@ public class HitScript : MonoBehaviour
                 var bearC = other.GetComponentInParent<BearController>();
                 if (bearC.GetState() == States.Idel)
                 {
-                    PlayHit();
+                    PlayHitPlayer();
                     int additionalDamage = 0;
                     if (myFC.FightStyle == "mma")
                         additionalDamage = 10;
@@ -57,7 +57,7 @@ public class HitScript : MonoBehaviour
                 var bearC = other.GetComponentInParent<BearController>();
                 if (bearC.GetState() == States.Idel)
                 {
-                    PlayHit();
+                    PlayHitPlayer();
                     int additionalDamage = 0;
                     if (myFC.FightStyle == "boxing")
                         additionalDamage = 10;
@@ -71,29 +71,32 @@ public class HitScript : MonoBehaviour
             if (other.CompareTag("Player") && myBC.GetState() == States.Attacking)
             {
                 myBC.SetState(States.Idel);
+                PlayHitBear();
                 myFC.TakeDammage(myBC.GetBearDammage()); ;
             }
         }
     }
 
-    public void PlayHit()
+    public void PlayHitPlayer()
     {
         if(myFC.canHit)
         {
             myFC.canHit = false;
-            if(myFC.GetSpecialAttackStatus())
-            {
-                Instantiate(specialkAttack, transform.position + new Vector3(0.5f,0f,0), Quaternion.Euler(-60,0,0));
-            }
-            else
-            {
-                Instantiate(enemyHit, transform.position, Quaternion.identity);
-            }
+            
+            
+                Instantiate(playerHit, transform.position, Quaternion.identity);
+            
 
             myFC.pSFXC.PlayPunch();
         }
-            
-        
-       
+
+
+
+    }
+    public void PlayHitBear()
+    {
+        if(myFC.GetState()!=States.Hit)
+            Instantiate(bearHit, transform.position, Quaternion.identity);
+
     }
 }

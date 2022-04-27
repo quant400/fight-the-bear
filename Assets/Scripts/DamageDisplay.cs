@@ -10,11 +10,13 @@ public class DamageDisplay : MonoBehaviour
     TMP_Text text;
     bool active;
     Transform cam;
+    GameObject image;
     private void Start()
     {
         originalPos = transform.localPosition;
-        text = GetComponent<TMP_Text>();
+        text = GetComponentInChildren<TMP_Text>();
         cam = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0);
+        image = transform.GetChild(0).gameObject;
     }
 
 
@@ -22,10 +24,15 @@ public class DamageDisplay : MonoBehaviour
     {
         active = true;
         text.text = damage.ToString();
-        transform.DOLocalMoveY(transform.localPosition.y+1, 1f).OnComplete(()=>
+        image.SetActive(true);
+        float upVal = 1;
+        if (transform.parent.CompareTag("Player"))
+            upVal = 0.25f;
+        transform.DOLocalMoveY(transform.localPosition.y+upVal, 1f).OnComplete(()=>
         {
             text.text = "";
             transform.localPosition = originalPos;
+            image.SetActive(false);
             active = false;
         });
     }

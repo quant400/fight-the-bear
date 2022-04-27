@@ -73,6 +73,8 @@ public class FightController : MonoBehaviour
     float TimeAddedPerBear;
     [SerializeField]
     TMP_Text CutSceneText;
+    [SerializeField]
+    GameObject cutSceneImage;
    
     private bool shield=false;
     [SerializeField]
@@ -373,10 +375,12 @@ public class FightController : MonoBehaviour
     {
         CutSceneText.text = info;
         CutSceneText.gameObject.SetActive(true);
+        cutSceneImage.SetActive(true);
     } 
     public void DeactivateText()
     {
         CutSceneText.gameObject.SetActive(false);
+        cutSceneImage.SetActive(false);
     }
 
     public void GivePoints(float val)
