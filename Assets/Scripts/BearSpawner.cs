@@ -12,11 +12,6 @@ public class BearSpawner : MonoBehaviour
     {
         fc = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
         int br = fc.GetBearNumber();
-        /*int randomNum = Random.Range(0, 101);
-        if (randomNum <= chanceForRare)
-        {
-            Instantiate(bears[3], transform);
-        }*/
         switch (br)
         {
             case 0:
