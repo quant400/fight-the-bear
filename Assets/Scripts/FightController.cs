@@ -94,6 +94,11 @@ public class FightController : MonoBehaviour
     DamageDisplay DD;
 
     Quaternion originalRot;
+
+    //for alternate score
+    float score2,score3;
+    float timer2, timer3;
+    bool timing2, timing3;
     private void Awake()
     {
         //bearNumber = LoaderScript.instance.bearNumber;
@@ -119,6 +124,7 @@ public class FightController : MonoBehaviour
         bearC = bear.GetComponent<BearController>();
         stoptimer = false;
         //bearC.StartFight();
+        StartT2();
         UpdateValues();
     }
     public void ExitFight()
@@ -130,9 +136,13 @@ public class FightController : MonoBehaviour
         currentState = States.Idel;
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 9;
         inFight = false;
-        if(!died && !timeEnded)
+        if (!died && !timeEnded)
+        {
             startingTime += TimeAddedPerBear;
+            StopT2();
+        }
         timerDisplay.text = ("Time Left : ").ToUpper() + startingTime.ToString("00");
+       
     }
 
     void ActivateInputs()
@@ -253,7 +263,7 @@ public class FightController : MonoBehaviour
                 playerHelth -= ammount;
                 score -= ammount;
                 if (score < 0)
-                    score = 0;
+                    score = 0;               
                 DD.DisplayDamage(ammount);
                 UpdateValues();
                 if (playerHelth <= 0)
@@ -268,6 +278,7 @@ public class FightController : MonoBehaviour
                 else
                 {
                     //PushBack(1);
+                    DisableMovement();
                     playerAnim.SetTrigger("Hit");
                 }
 
@@ -277,7 +288,9 @@ public class FightController : MonoBehaviour
 
                 currentState = States.Hit;
                 playerHelth -= (ammount - 10);
-                score -= (ammount - 10);
+                score -= ammount;
+                if (score < 0)
+                    score = 0;
                 DD.DisplayDamage(ammount-10);
                 //playerHelth -= ((ammount/2) * (1-(def/100)));
                 UpdateValues();
@@ -386,6 +399,7 @@ public class FightController : MonoBehaviour
     public void GivePoints(float val)
     {
         score += val;
+       
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -589,6 +603,8 @@ public class FightController : MonoBehaviour
             {
                 startingTime -= Time.deltaTime;
                 timerDisplay.text = ("Time Left : ").ToUpper() + startingTime.ToString("00");
+                if (timing2 && timer2 > 0)
+                    timer2 -= Time.deltaTime;
                 if (startingTime <= 0)
                 {
                     StopTimer();
@@ -597,6 +613,9 @@ public class FightController : MonoBehaviour
                 }
             }
         }
+
+        if (timing3 && timer3 > 0)
+            timer3 -= Time.deltaTime;
     }
 
     private void PlaySingleActions()
@@ -659,7 +678,8 @@ public class FightController : MonoBehaviour
         {
             gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "You ran out of time.";
         }
-
+        gameOverPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = ((int)(score2+score)).ToString();
+        gameOverPanel.transform.GetChild(4).GetComponent<TMP_Text>().text = ((int)(score3 + score)).ToString();
         gameOverPanel.SetActive(true);
 
     }
@@ -671,5 +691,42 @@ public class FightController : MonoBehaviour
             result += x;
         }
         return result;
+    }
+
+
+    //for alternate score 
+    public void StartT2()
+    {
+        timer2 = 50;
+        timing2 = true;
+    }
+
+    public void StartT3()
+    {
+        timer3= 50;
+        timing3 = true;
+        
+    }
+    public void StopT2()
+    {
+        timing2 = false;
+        if (timer2 >= 0)
+        {
+            score2 += timer2;
+            score3 += timer2;
+        }
+    }
+    public void StoptT3()
+    {
+        Debug.Log(timer3);
+        timing3 = false;
+        if(timer3>=0)
+            score3 += timer3;
+    }
+
+
+    public (int ,int ,int) GetScores()
+    {
+        return ((int)score, (int)score2, (int)score3);
     }
 }

@@ -21,9 +21,9 @@ public class HitEffect : MonoBehaviour
         transform.DOScale(scale, 0.5f);
         int dir=Random.Range(0, 2);
         if (dir == 0)
-            transform.DOLocalMoveX(transform.position.x + 0.65f, 0.5f);
+            transform.DOLocalMoveX(transform.position.x + 0.75f, 0.5f);
         else if (dir == 1)
-            transform.DOLocalMoveX(transform.position.x - 0.65f, 0.5f);
+            transform.DOLocalMoveX(transform.position.x - 0.75f, 0.5f);
     }
 
     private void LateUpdate()
