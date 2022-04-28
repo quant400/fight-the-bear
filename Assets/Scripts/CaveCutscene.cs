@@ -47,7 +47,7 @@ public class CaveCutscene : MonoBehaviour
                 started = false;
                 var FC = player.GetComponent<FightController>();
                 FC.EnableMovement();
-                FC.DeactivateText();
+                UIController.instance.DeactivateText();
             }
         }
     }
@@ -59,11 +59,11 @@ public class CaveCutscene : MonoBehaviour
             var FC = player.GetComponent<FightController>();
             FC.DisableMovement();
             if (FC.GetBearNumber() <= 7)
-                FC.ActivateText(lines[FC.GetBearNumber()].ToUpper());
+                UIController.instance.ActivateText(lines[FC.GetBearNumber()].ToUpper());
             else
             {
                 int ind = Random.Range(0, 8);
-                FC.ActivateText(lines[ind].ToUpper());
+               UIController.instance.ActivateText(lines[ind].ToUpper());
             }
             mCam.m_Priority = 20;
             started = true;

@@ -79,7 +79,7 @@ public class BearController : MonoBehaviour
             {
 
                 canAttackIn += Time.deltaTime;
-                playerFC.SetAggression(canAttackIn / tempAttackTime);
+                UIController.instance.SetAggression(canAttackIn / tempAttackTime);
 
             }
             timer += Time.deltaTime;

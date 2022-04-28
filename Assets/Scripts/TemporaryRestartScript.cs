@@ -17,9 +17,9 @@ public class TemporaryRestartScript : MonoBehaviour
     }
 
 
-    public void Reset(GameObject g)
+    public void Reset()
     {
-        Destroy(g);
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
         SceneManager.LoadScene(1);
     }
 }
