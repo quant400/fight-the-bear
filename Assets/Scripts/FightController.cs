@@ -72,10 +72,7 @@ public class FightController : MonoBehaviour
 
     DamageDisplay DD;
 
-    //for alternate score
-    float score2, score3;
-    float timer2, timer3;
-    bool timing2, timing3;
+    
     private void Awake()
     {
         //bearNumber = LoaderScript.instance.bearNumber;
@@ -101,7 +98,6 @@ public class FightController : MonoBehaviour
         bearC = bear.GetComponent<BearController>();
         stoptimer = false;
         //bearC.StartFight();
-        StartT2();
         UpdateValues();
     }
     public void ExitFight()
@@ -116,8 +112,9 @@ public class FightController : MonoBehaviour
         inFight = false;
         if (!died && !timeEnded)
         {
+            score += startingTime;
             startingTime += TimeAddedPerBear;
-            StopT2();
+            
         }
         UIController.instance.UpdateTimerVal(startingTime);
         //timerDisplay.text = ("Time Left : ").ToUpper() + startingTime.ToString("00");
@@ -586,8 +583,6 @@ public class FightController : MonoBehaviour
                 startingTime -= Time.deltaTime;
                 UIController.instance.UpdateTimerVal(startingTime);
                 //timerDisplay.text = ("Time Left : ").ToUpper() + startingTime.ToString("00");
-                if (timing2 && timer2 > 0)
-                    timer2 -= Time.deltaTime;
                 if (startingTime <= 0)
                 {
                     StopTimer();
@@ -597,8 +592,7 @@ public class FightController : MonoBehaviour
             }
         }
 
-        if (timing3 && timer3 > 0)
-            timer3 -= Time.deltaTime;
+       
     }
 
     private void PlaySingleActions()
@@ -655,12 +649,13 @@ public class FightController : MonoBehaviour
         
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        score += startingTime;
         if (died)
-            UIController.instance.DisplayGameOver("You Died!", score, score2, score3);
+            UIController.instance.DisplayGameOver("You Died!", score);
             //gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "You Died.";
         else
         {
-            UIController.instance.DisplayGameOver("You ran out of time.", score, score2, score3);
+            UIController.instance.DisplayGameOver("You ran out of time.", score);
             //gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "You ran out of time.";
         }
         /*gameOverPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = ((int)(score2+score)).ToString();
@@ -679,39 +674,6 @@ public class FightController : MonoBehaviour
     }
 
 
-    //for alternate score 
-    public void StartT2()
-    {
-        timer2 = 50;
-        timing2 = true;
-    }
-
-    public void StartT3()
-    {
-        timer3= 50;
-        timing3 = true;
-        
-    }
-    public void StopT2()
-    {
-        timing2 = false;
-        if (timer2 >= 0)
-        {
-            score2 += timer2;
-            score3 += timer2;
-        }
-    }
-    public void StoptT3()
-    {
-       
-        timing3 = false;
-        if(timer3>=0)
-            score3 += timer3;
-    }
-
-
-    public (int ,int ,int) GetScores()
-    {
-        return ((int)score, (int)score2, (int)score3);
-    }
+   
+  
 }

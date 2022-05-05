@@ -69,7 +69,7 @@ public class UIController : MonoBehaviour
     {
         playerHelthDisplay.fillAmount = PH;
         bearHealth.fillAmount = BH;
-        scoreDisplay.text = ("Score : ").ToUpper() + score;
+        scoreDisplay.text = ("Score : ").ToUpper() + score.ToString("00");
     }
 
     public void UpdateTimerVal(float val)
@@ -104,12 +104,12 @@ public class UIController : MonoBehaviour
 
     
     // move to game over view later
-    public void DisplayGameOver(string message, float score,float score2 , float score3)
+    public void DisplayGameOver(string message, float score)
     {
-        gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = message;
+        gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = message.ToUpper();
 
-        gameOverPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = ((int)(score2 + score)).ToString();
-        gameOverPanel.transform.GetChild(4).GetComponent<TMP_Text>().text = ((int)(score3 + score)).ToString();
+        gameOverPanel.transform.GetChild(3).GetComponent<TMP_Text>().text ="SCORE: " +((int)(score)).ToString();
+       
         gameOverPanel.SetActive(true);
     }
 
@@ -124,6 +124,7 @@ public class UIController : MonoBehaviour
     public void ResetGame()
     {
         fightCanvas.SetActive(false);
+        gameOverPanel.SetActive(false);
         scoreDisplay.text = ("Score : ").ToUpper()+"0";
         timerDisplay.text = ("Time Left : ").ToUpper() + "45";
         TemporaryRestartScript.instance.Reset();
