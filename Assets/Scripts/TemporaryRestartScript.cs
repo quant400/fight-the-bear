@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class TemporaryRestartScript : MonoBehaviour
 {
     public static TemporaryRestartScript instance;
-
+    //move to some other script later
     void Awake()
     {
         if (instance != null)

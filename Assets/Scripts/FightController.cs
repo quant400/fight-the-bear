@@ -21,7 +21,7 @@ public class FightController : MonoBehaviour
     private Quaternion originalRot;
     States currentState;
     AttackingStates currentAttackingState;
-    int bearNumber = 0;
+    public static int bearNumber = 0;
     [SerializeField]
 
     float atk, def, tek;
