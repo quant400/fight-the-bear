@@ -46,6 +46,7 @@ public class bearView : MonoBehaviour
     ReactiveProperty<bool> isIdle = new ReactiveProperty<bool>();
     float jumpSpeedRage=2;
     public bool castRock;
+
     public void StartFight()
     {
         timeLeft = 15;
@@ -137,7 +138,8 @@ public class bearView : MonoBehaviour
                     
                     break;
                 case FightModel.bearFightModes.BearDistanceAttacking:
-                    FightModel.currentFightMode = 1;
+                    following = false;
+                    anim.SetBool("Following", false);
                     desState = destinationMode(FightModel.currentFightMode);
                     anim.SetTrigger("IsDistanceAttacking");
                     anim.Play("DistanceAttackBear", 0);
@@ -372,10 +374,9 @@ public class bearView : MonoBehaviour
     {
         FightModel.currentFightMode = 3;
 
-        if (distance < 3)
+        if (distance < 4)
         {
-            checkIfPlayerCloseToHit(attackRange - 1, bearHead);
-            Debug.Log("player Close");
+            checkIfPlayerCloseToHit(attackRange, bearHead);
             isRageFollow.Value = false;
             desState = destinationMode(FightModel.currentFightMode);
             FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
@@ -389,7 +390,7 @@ public class bearView : MonoBehaviour
             {
                 Debug.Log("hit rock");
                 FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearKnokedShortly;
-                StartCoroutine(backToState(FightModel.bearFightModes.BearIdle, 5, "IsStunned"));
+                StartCoroutine(backToState( 5, "IsStunned"));
                 isRageFollow.Value = false;
                 return;
             }
@@ -405,16 +406,15 @@ public class bearView : MonoBehaviour
 
         }
     }
-    IEnumerator backToState(FightModel.bearFightModes state,float t,string anString)
+    IEnumerator backToState(float t,string anString)
     {
+        FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
         yield return new WaitForSeconds(t);
         if (anString != null)
         {
             anim.SetBool(anString, false);
         }
-        FightModel.currentFightMode = 1;
-        desState = destinationMode(FightModel.currentFightMode);
-        FightModel.currentBearStatus.Value = state;
+        FightModel.fightStatusValue.Value = 1;
         bearRageDes.Value = 1000;
 
     }

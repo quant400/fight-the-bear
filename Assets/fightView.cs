@@ -40,7 +40,7 @@ public class fightView : MonoBehaviour
     ReactiveProperty<bool> isComboIdle = new ReactiveProperty<bool>();
     [SerializeField]
     Image bearHealth, playerHelthDisplay;
-    
+    bool canChangeStatus;
     public class modesetted
     {
         public bool[] modes = new bool[3] { false, false, false };
@@ -51,53 +51,61 @@ public class fightView : MonoBehaviour
     {
         currentBearShieldHealth.Value = FightModel.bearShielHealth;
         currentBearHealthDistance.Value = FightModel.bearDistanceHealth;
-
-        observeBearShield();
+        canChangeStatus = true;
+        canHitAgainCombo.Value = true;
         observeFightStatus();
-        currenCombo = comboNames.Idle;
         observePlayerAndBearHealth();
+        observeBearShield();
+        observePlayerCombo();
+        currenCombo = comboNames.Idle;
     }
     void setGameModeFromHealth(float bearHealt)
     {
         int ran = UnityEngine.Random.Range(2, 3);
 
-        if ((bearHealt <= 125) || (bearHealt >= 100))
+        if ((bearHealt <= 125) && (bearHealt >= 110))
         {
-            setFightMode(1);
+            FightModel.fightStatusValue.Value = 1;
             return;
         }
-        else if ((bearHealt < 100) || (bearHealt > 90))
+        else if ((bearHealt < 110) && (bearHealt > 90))
         {
-            setFightMode(ran);
+            FightModel.fightStatusValue.Value = ran;
+            return;
+
 
         }
-        else if ((bearHealt <= 90) || (bearHealt >= 70))
+        else if ((bearHealt <= 90) && (bearHealt >= 70))
         {
-            setFightMode(1);
+            FightModel.fightStatusValue.Value = 1;
+            return;
 
         }
-        else if ((bearHealt < 70) || (bearHealt > 60))
+        else if ((bearHealt < 70) && (bearHealt > 60))
         {
-            setFightMode(ran);
+            FightModel.fightStatusValue.Value = ran;
+            return;
+        }
+        else if ((bearHealt <= 60) && (bearHealt >= 40))
+        {
+            FightModel.fightStatusValue.Value = 1;
+            return;
+        }
+        else if ((bearHealt < 40) && (bearHealt > 30))
+        {
+            FightModel.fightStatusValue.Value = ran;
+            return;
+        }
+        else if ((bearHealt <= 30) && (bearHealt >= 10))
+        {
+            FightModel.fightStatusValue.Value = 1;
+            return;
 
         }
-        else if ((bearHealt <= 60) || (bearHealt >= 40))
+        else if ((bearHealt < 10) && (bearHealt > 0))
         {
-            setFightMode(1);
-
-        }
-        else if ((bearHealt < 40) || (bearHealt > 30))
-        {
-            setFightMode(ran);
-        }
-        else if ((bearHealt <= 30) || (bearHealt >= 10))
-        {
-            setFightMode(1);
-
-        }
-        else if ((bearHealt < 10) || (bearHealt > 0))
-        {
-            setFightMode(ran);
+            FightModel.fightStatusValue.Value = ran;
+            return;
         }
        
     }
@@ -153,10 +161,15 @@ public class fightView : MonoBehaviour
             .Subscribe()
             .AddTo(this);
         FightModel.currentBearHealth
-            //.Do(_=> setGameModeFromHealth(_))
+            .Do(_=> setGameModeFromHealth(_))
             .Do(_ => bearHealth.fillAmount = _ / FightModel.bearStartHealth)
             .Subscribe()
             .AddTo(this);
+        FightModel.fightStatusValue
+           .Where(_ => canChangeStatus)
+           .Do(_ => FightModel.currentFightStatus.Value = FightModel.fightStatus.OnChangeState)
+           .Subscribe()
+           .AddTo(this);
     }
     void desShield(float v)
     {
@@ -209,29 +222,6 @@ public class fightView : MonoBehaviour
                     break;
                 case FightModel.fightStatus.OnCloseDistanceFight:
                     initilizeBeardistanceAttack(false);
-                    canHitAgainCombo.Value = false;
-                    canHitAgainCombo
-                        .Where(_=> _== false)
-                        
-                        .Delay(TimeSpan.FromSeconds(comboTimes[comboValue.Value]/2))
-                        .Do(_=>StartCoroutine(comboHitBear(0.5f, comboHitTimes[comboValue.Value])))
-                        .Delay(TimeSpan.FromSeconds(comboTimes[comboValue.Value] / 2))
-                        .Do(_ => canHitAgainCombo.Value = true)
-                        .Delay(TimeSpan.FromSeconds(1))
-                        .Where(_ => comboValue.Value == comboTimes.Length)
-                        .Delay(TimeSpan.FromSeconds(1))
-                        .Do(_ => resetCombo())
-                        .Subscribe()
-                        .AddTo(this);
-                    isComboIdle
-                        .Where(_ => _==true)
-                        .DelayFrame(1)
-                        .Where(_ => _ == true)
-                        .Do(_ => resetCombo())
-                        .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle)
-                        .Subscribe()
-                        .AddTo(this);
-
                     break;
                 case FightModel.fightStatus.OnRangeDistanceFight:
                     initilizeBeardistanceAttack(true);
@@ -266,9 +256,47 @@ public class fightView : MonoBehaviour
 
 
                     break;
+                case FightModel.fightStatus.OnChangeState:
+                    Debug.Log("set to next");
+                    Observable.Timer(TimeSpan.Zero)
+                                          .Do(_ => initilizeBeardistanceAttack(false))
+                                          .Do(_ => setFightMode(FightModel.fightStatusValue.Value))
+                                          .Do(_ => canChangeStatus = false)
+                                          .Delay(TimeSpan.FromSeconds(10f))
+                                          .Do(_ => canChangeStatus = true)
+                                          .Subscribe()
+                                          .AddTo(this);
+                    break;
+
 
             }
         }
+       
+    }
+    void observePlayerCombo()
+    {
+        canHitAgainCombo
+                        .Where(_=> FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight)
+                        .Where(_ => _ == false)
+                        .Delay(TimeSpan.FromSeconds(comboTimes[comboValue.Value] / 2))
+                        .Do(_ => StartCoroutine(comboHitBear(0.5f, comboHitTimes[comboValue.Value])))
+                        .Delay(TimeSpan.FromSeconds(comboTimes[comboValue.Value] / 2))
+                        .Do(_ => canHitAgainCombo.Value = true)
+                        .Delay(TimeSpan.FromSeconds(1))
+                        .Where(_ => comboValue.Value == comboTimes.Length)
+                        .Delay(TimeSpan.FromSeconds(1))
+                        .Do(_ => resetCombo())
+                        .Subscribe()
+                        .AddTo(this);
+        isComboIdle
+            .Where(_ => FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight)
+            .Where(_ => _ == true)
+            .DelayFrame(1)
+            .Where(_ => _ == true)
+            .Do(_ => resetCombo())
+            .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle)
+            .Subscribe()
+            .AddTo(this);
     }
     IEnumerator comboHitBear(float waitTime, int combosCount)
     {
@@ -355,7 +383,6 @@ public class fightView : MonoBehaviour
         playerAnimator.SetInteger("comboCounter", 0);
         currenCombo = comboNames.Idle;
         FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle;
-
     }
     bool checkCanGoNextCombo()
     {
@@ -393,10 +420,11 @@ public class fightView : MonoBehaviour
 
                 break;
             case 2:
-                
-                    FightModel.currentFightStatus.Value = FightModel.fightStatus.OnRangeDistanceFight;
+                FightModel.currentFightMode = 2;
+
+                FightModel.currentFightStatus.Value = FightModel.fightStatus.OnRangeDistanceFight;
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDistanceAttacking;
-                
+                FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle;
                 break;
             case 3:
                

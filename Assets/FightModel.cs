@@ -19,6 +19,8 @@ public class FightModel
         OnFightWon,
         OnFightLost,
         OnTimeUp,
+        OnChangeState,
+
     }
     public enum bearFightModes
     {
@@ -78,4 +80,6 @@ public class FightModel
     public static bool bearIsStunned;
     public static float bearStunnedDuration=5f;
     public static int currentFightMode=1;
+    public static ReactiveProperty<int> fightStatusValue = new ReactiveProperty<int>();
+
 }
