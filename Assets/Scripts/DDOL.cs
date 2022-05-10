@@ -23,11 +23,13 @@ public class DDOL : MonoBehaviour
     public void ResetPos(Scene scene, LoadSceneMode mode)
     {
         //change to 1 later
+       
         if(scene.buildIndex==2)
         {
+            
             transform.GetComponent<CharacterController>().enabled = false;
             transform.GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
-            transform.position = new Vector3(0, 1, -35);
+            transform.position = new Vector3(0, 1, -30);
            
         }
             

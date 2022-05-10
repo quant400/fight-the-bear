@@ -5,6 +5,8 @@ using DG.Tweening;
 using Cinemachine;
 public class SlidingDoor : MonoBehaviour
 {
+    [SerializeField]
+    GameObject dooreffect;
     public void OpenDoor()
     {
        transform.parent.GetChild(2).GetComponent<CinemachineVirtualCamera>().Priority = 11;
@@ -19,6 +21,7 @@ public class SlidingDoor : MonoBehaviour
         transform.DOMove(new Vector3(transform.position.x, -15, transform.position.z), 4f).OnComplete(() =>
         {
             transform.parent.GetChild(2).GetComponent<CinemachineVirtualCamera>().Priority = 9;
+            dooreffect.SetActive(true);
             fc.EnableMovement();
         });
     }

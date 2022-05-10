@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,7 +36,12 @@ public class MapController : MonoBehaviour
 
         if (GameObject.FindGameObjectWithTag("Player") == null)
         {
-            playerLoc = Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity).transform;
+            //chosenNFTName = NameToSlugConvert(gameplayView.instance.chosenNFT.name);
+            string n = gameplayView.instance.chosenNFT.name;
+            GameObject resource = Resources.Load(Path.Combine("SinglePlayerPrefabs/Characters", NameToSlugConvert(n))) as GameObject;
+            //GameObject temp = Instantiate(resource, spawnPoint.position, Quaternion.identity);
+            playerLoc = Instantiate(resource, new Vector3(0, 0, -45), Quaternion.identity).transform; 
+            //Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity).transform;
         }
         else
             playerLoc = GameObject.FindGameObjectWithTag("Player").transform;
@@ -64,6 +70,7 @@ public class MapController : MonoBehaviour
             previoustrrain.transform.GetChild(1).gameObject.SetActive(true);
             previoustrrain.transform.GetChild(0).gameObject.SetActive(true);
             previoustrrain.transform.GetChild(0).GetComponent<CaveCutscene>().last = true;
+            GetComponent<PathPowerup>().SpawnPowerups();
            
         }
 
@@ -94,5 +101,14 @@ public class MapController : MonoBehaviour
         //change value later
         return 2;
     }
-    
+
+
+
+    string NameToSlugConvert(string name)
+    {
+        string slug;
+        slug = name.ToLower().Replace(".", "").Replace("'", "").Replace(" ", "-");
+        return slug;
+
+    }
 }

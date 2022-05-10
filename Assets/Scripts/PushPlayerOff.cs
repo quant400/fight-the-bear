@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class PushPlayerOff : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    BearController bc;
+    private void Start()
     {
-       
+        bc = GetComponentInParent<BearController>();
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        //Debug.Log(other.tag);
         if (other.CompareTag("Kick"))
         {
+            bc.canFollow = false;
             other.GetComponentInParent<FightController>().PushBack(2);
+            Invoke("FollowAgain", 1f);
         }
+    }
+
+    void FollowAgain()
+    {
+        bc.canFollow = true;
     }
 }
