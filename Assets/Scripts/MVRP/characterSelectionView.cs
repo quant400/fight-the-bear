@@ -47,8 +47,8 @@ public class characterSelectionView : MonoBehaviour
     {
       
         gameplayView.instance.dailysessionReactive
-            .Do(_ => setPlayButtonDependtoSessions(_))
-            .Do(_=>chickenGameModel.currentNFTSession=_)
+            .Do(_ => setPlayButtonDependtoSessions(0))
+            .Do(_=>chickenGameModel.currentNFTSession=0)
             .Subscribe()
             .AddTo(this);
     }

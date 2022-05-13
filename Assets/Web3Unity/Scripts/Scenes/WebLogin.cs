@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-#if UNITY_WEBGL
+
 public class WebLogin : MonoBehaviour
 {
     [DllImport("__Internal")]
@@ -75,4 +75,4 @@ public class WebLogin : MonoBehaviour
         nftGetter.Skip();
     }
 }
-#endif
+

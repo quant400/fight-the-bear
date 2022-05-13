@@ -55,10 +55,15 @@ public class bearView : MonoBehaviour
         playerFC.StartFight(gameObject);
         
     }
+    private void Awake()
+    {
+        FightModel.currentBear = gameObject;
 
+    }
     // Start is called before the first frame update
     private void Start()
     {
+
         cameraShake = GetComponent<shakeCamera>();
         instance = this;
         anim = GetComponent<Animator>();
@@ -82,23 +87,29 @@ public class bearView : MonoBehaviour
             switch (status)
             {
                 case FightModel.bearFightModes.BearIdle:
-                    resetRageMode();
-                    desState = destinationMode(FightModel.currentFightMode);
-                    cameraShake.setShake(0);
-                    hitted = false;
-                    following = false;
-                    anim.SetBool("Following", false);
-                    anim.Play("Idle", 0);
-                    Observable.Timer(TimeSpan.Zero)
-                                           .Do(_ => anim.SetBool("IsIdle", true))
-                                           .Delay(TimeSpan.FromSeconds(1.5f))
-                                           .Do(_ => anim.SetBool("IsIdle", false))
-                                           .Do(_ => FightModel.currentBearStatus.Value = desState)
-                                           .Subscribe()
-                        .AddTo(this);
+                    if ((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
+                    {
+                        resetRageMode();
+                        desState = destinationMode(FightModel.currentFightMode);
+                        cameraShake.setShake(0);
+                        hitted = false;
+                        following = false;
+                        anim.SetBool("Following", false);
+                        Observable.Timer(TimeSpan.Zero)
+                                               .Do(_ => anim.SetBool("IsIdle", true))
+                                               .Delay(TimeSpan.FromSeconds(1f))
+                                               .Do(_ => anim.SetBool("IsIdle", false))
+                                               .Where(_ => (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
+                                               .Do(_ => FightModel.currentBearStatus.Value = desState)
+                                               .Subscribe()
+                            .AddTo(this);
+                    }
+
                     break;
                 case FightModel.bearFightModes.BearShortFollowing:
-                    Observable.Timer(TimeSpan.Zero)  
+                    Observable.Timer(TimeSpan.Zero)
+                        .Delay(TimeSpan.FromSeconds(0.5f))
+                        .Where(_ => (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
                         .Do(_ => following = true)
                         .Do(_ => anim.SetBool("Following", true))
                         .Do(_ => anim.SetTrigger("Follow"))
@@ -110,10 +121,6 @@ public class bearView : MonoBehaviour
                     following = false;
                     anim.SetBool("Following", false);
                     transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
-                    if (Vector3.Distance(transform.position, playerFC.transform.position) <= 2f)
-                    {
-                       transform.Translate(Vector3.back,transform );
-                    }
                     if (!hitted)
                     {
                         Observable.Timer(TimeSpan.Zero)
@@ -122,7 +129,7 @@ public class bearView : MonoBehaviour
                                     .Delay(TimeSpan.FromSeconds(0.5f))
                                     .Do(_=> checkIfPlayerCloseToHit(attackRange-1, bearHead))
                                     .Do(_ => desState = destinationMode(FightModel.currentFightMode))
-                                    .Delay(TimeSpan.FromSeconds(0.5f))
+                                    .Delay(TimeSpan.FromSeconds(1f))
                                     .Do(_=>FightModel.currentBearStatus.Value= FightModel.bearFightModes.BearIdle)
                                     .Subscribe()
                                     .AddTo(this);
@@ -148,18 +155,28 @@ public class bearView : MonoBehaviour
                     cameraShake.setShake(0);
                     anim.SetBool("IsStunned",true);
                     break;
+                case FightModel.bearFightModes.BearDead:
+                    anim.SetBool("IsDead", true);
+                    anim.SetBool("OnDeath", true);
+                    anim.Play("Dead", 0);
+
+                    break;
                 case FightModel.bearFightModes.BearTakeDamage:
-                      
+                      if((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
+                    {
                         following = false;
                         hitted = true;
                         Observable.Timer(TimeSpan.Zero)
-                           .Do(_=> anim.SetFloat("hitBlend",Mathf.RoundToInt(UnityEngine.Random.Range(0,3))))
+                           .Do(_ => anim.SetFloat("hitBlend", Mathf.RoundToInt(UnityEngine.Random.Range(0, 3))))
                            .Do(_ => anim.SetTrigger("Hit"))
-                           .Where(_=> FightModel.currentBearHealth.Value>0)
-                           .Do(_=>FightModel.currentBearHealth.Value-= damageFromMode(FightModel.currentFightMode))
+                           .Where(_ => FightModel.currentBearHealth.Value > 0)
+                           .Do(_ => FightModel.currentBearHealth.Value -= damageFromMode(FightModel.currentFightMode))
                            .Subscribe()
                            .AddTo(this);
-                
+                    }
+                  
+
+
 
                     break;
                 case FightModel.bearFightModes.BearRageMode:
@@ -190,6 +207,7 @@ public class bearView : MonoBehaviour
             }
         }
         this.UpdateAsObservable()
+            .Where(_ => (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
             .Do(_=> rageFollow())
             .Do(_ => isIdle.Value = anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             .Do(_=> currentState=FightModel.currentBearStatus.Value)
@@ -214,6 +232,7 @@ public class bearView : MonoBehaviour
                         .Subscribe()
                         .AddTo(this);
         isIdle
+                        .Where(_ => FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearDead)
                         .Where(_ => _ == true)
                         .DelayFrame(2)
                         .Where(_ => _ == true)
@@ -260,7 +279,7 @@ public class bearView : MonoBehaviour
     }
     void checkPlayerDistance()
     {
-        float playerPushBackPostion = 20;
+        float playerPushBackPostion = 10;
         float disDiff = Mathf.Abs(Vector3.Distance(transform.position, playerFC.transform.position));
         Debug.Log(disDiff);
         Ray ray = new Ray(transform.position, transform.forward);

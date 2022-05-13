@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UniRx.Operators;
 using UniRx;
 using UniRx.Triggers;
-#if UNITY_WEBGL
+
 public class webLoginView : MonoBehaviour
 {
     [DllImport("__Internal")]
@@ -85,5 +85,5 @@ public class webLoginView : MonoBehaviour
         nftGetter.Skip();
     }
 }
-#endif
+
 

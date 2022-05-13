@@ -34,17 +34,20 @@ public class MapController : MonoBehaviour
     private void Start()
     {
 
-        if (GameObject.FindGameObjectWithTag("Player") == null)
-        {
-            //chosenNFTName = NameToSlugConvert(gameplayView.instance.chosenNFT.name);
-            string n = gameplayView.instance.chosenNFT.name;
-            GameObject resource = Resources.Load(Path.Combine("SinglePlayerPrefabs/Characters", NameToSlugConvert(n))) as GameObject;
-            //GameObject temp = Instantiate(resource, spawnPoint.position, Quaternion.identity);
-            playerLoc = Instantiate(resource, new Vector3(0, 0, -45), Quaternion.identity).transform; 
-            //Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity).transform;
-        }
-        else
-            playerLoc = GameObject.FindGameObjectWithTag("Player").transform;
+        //if (GameObject.FindGameObjectWithTag("Player") == null)
+        //{
+        //    //chosenNFTName = NameToSlugConvert(gameplayView.instance.chosenNFT.name);
+        //    string n = gameplayView.instance.chosenNFT.name;
+        //    GameObject resource = Resources.Load(Path.Combine("SinglePlayerPrefabs/Characters", NameToSlugConvert(n))) as GameObject;
+        //    //GameObject temp = Instantiate(resource, spawnPoint.position, Quaternion.identity);
+        //    playerLoc = Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity).transform; 
+        //    //Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity).transform;
+        //}
+        //else
+        //    playerLoc = GameObject.FindGameObjectWithTag("Player").transform;
+
+        playerLoc = Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity).transform;
+
         SpawnStartingt();
     }
     void SpawnStartingt()

@@ -53,6 +53,18 @@ public class FightModel
         playerWon,
         playerDead,
     }
+    public enum comboNames
+    {
+        Idle,
+        ComboOne,
+        ComboTwo,
+        ComboThree,
+        ComboFour,
+        ComboFive,
+        ComboSix,
+        ComboSeven,
+    }
+    public static comboNames currentCombo;
     public static ReactiveProperty<fightStatus> currentFightStatus = new ReactiveProperty<fightStatus>();
     public static ReactiveProperty<PlayerFightModes> currentPlayerStatus = new ReactiveProperty<PlayerFightModes>();
     public static ReactiveProperty<bearFightModes> currentBearStatus = new ReactiveProperty<bearFightModes>();
@@ -66,10 +78,10 @@ public class FightModel
 
     public static ReactiveProperty<float> currentPlayerHealth=new ReactiveProperty<float>();
     public static ReactiveProperty<float> currentBearHealth = new ReactiveProperty<float>();
-    public static float playerCloseHitValue=1;
-    public static float playerDistanceHitValue=3;
-    public static float bearCloseHitValue = 2;
-    public static float bearDistanceHitValue = 4;
+    public static float playerCloseHitValue=6;
+    public static float playerDistanceHitValue=8;
+    public static float bearCloseHitValue = 6;
+    public static float bearDistanceHitValue = 10;
     public static float shortAttackRangeValue = 5;
 
     public static int DistanceFightDuration;
@@ -81,5 +93,7 @@ public class FightModel
     public static float bearStunnedDuration=5f;
     public static int currentFightMode=1;
     public static ReactiveProperty<int> fightStatusValue = new ReactiveProperty<int>();
-
+    public static GameObject currentBear;
+    public static GameObject currentPlayer;
+    public static int currentPlayerLevel=1;
 }

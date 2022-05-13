@@ -26,6 +26,12 @@ public class RockThrowView : MonoBehaviour
         rocks = GameObject.FindGameObjectsWithTag("ThrowRocks");
 
     }
+    public void findRocks()
+    {
+        Bear = FightModel.currentBear.transform;
+        rocks = GameObject.FindGameObjectsWithTag("ThrowRocks");
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -39,8 +45,7 @@ public class RockThrowView : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnRangeDistanceFight)
-            {
+            
                 if (closesestRock != null)
                 {
                     if (!rockPicked)
@@ -58,7 +63,7 @@ public class RockThrowView : MonoBehaviour
                         playerAnimator.SetBool("PickRock", false);
                     }
                 }
-            }
+            
         }
     }
     public void pickUp()

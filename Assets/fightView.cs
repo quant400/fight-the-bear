@@ -21,92 +21,85 @@ public class fightView : MonoBehaviour
     }
     AnimatorClipInfo[] m_CurrentClipInfo;
     public GameObject bear;
-    public GameObject player;
-    public Animator playerAnimator;
-    public Animator bearAnimator;
     public GameObject bearShield;
     public GameObject ThowringSpheres;
     public GameObject distanceFightEffects;
-
+    public SlidingDoor door;
+    public GameObject hittedRocks;
     ReactiveProperty<float> currentBearShieldHealth = new ReactiveProperty<float>();
     ReactiveProperty<float> currentBearHealthDistance = new ReactiveProperty<float>();
 
-    float[] comboTimes = new float[8] { 0.15f, 0.15f, 0.15f, 0.15f, 0.15f, 0.1f, 0.15f, 0.15f };
-    int[] comboHitTimes = new int[8] { 1, 3, 4, 3, 4, 3, 5, 4 };
 
-    comboNames currenCombo;
-    public ReactiveProperty<bool> canHitAgainCombo = new ReactiveProperty<bool>();
-    public ReactiveProperty<int> comboValue = new ReactiveProperty<int>();
-    ReactiveProperty<bool> isComboIdle = new ReactiveProperty<bool>();
     [SerializeField]
-    Image bearHealth, playerHelthDisplay;
+    Image bearHealth, playerHelthDisplay,bearAnger;
     bool canChangeStatus;
     public class modesetted
     {
         public bool[] modes = new bool[3] { false, false, false };
     }
     public modesetted modesStatus = new modesetted();
+    public int currentLevel;
+    private void Awake()
+    {
+        setGameLevel(currentLevel);
+
+    }
     // Start is called before the first frame update
     void Start()
     {
         currentBearShieldHealth.Value = FightModel.bearShielHealth;
         currentBearHealthDistance.Value = FightModel.bearDistanceHealth;
         canChangeStatus = true;
-        canHitAgainCombo.Value = true;
         observeFightStatus();
         observePlayerAndBearHealth();
         observeBearShield();
-        observePlayerCombo();
-        currenCombo = comboNames.Idle;
+        bear = FightModel.currentBear;
+        FightModel.currentPlayer.GetComponent<RockThrowView>().findRocks();
     }
     void setGameModeFromHealth(float bearHealt)
     {
-        int ran = UnityEngine.Random.Range(2, 3);
+        int ran = UnityEngine.Random.Range(2, 4);
 
-        if ((bearHealt <= 125) && (bearHealt >= 110))
+        if ((bearHealt <= 1) && (bearHealt >= 0.85f))
         {
             FightModel.fightStatusValue.Value = 1;
             return;
         }
-        else if ((bearHealt < 110) && (bearHealt > 90))
+        else if ((bearHealt <0.85f) && (bearHealt > 0.75f))
         {
             FightModel.fightStatusValue.Value = ran;
             return;
 
 
         }
-        else if ((bearHealt <= 90) && (bearHealt >= 70))
+        else if ((bearHealt <=  0.75f) && (bearHealt >= 0.55f))
         {
             FightModel.fightStatusValue.Value = 1;
             return;
 
         }
-        else if ((bearHealt < 70) && (bearHealt > 60))
+        else if ((bearHealt <  0.55f) && (bearHealt > 0.45f))
         {
             FightModel.fightStatusValue.Value = ran;
             return;
         }
-        else if ((bearHealt <= 60) && (bearHealt >= 40))
+        else if ((bearHealt <=  0.45f) && (bearHealt >=  0.25f))
         {
             FightModel.fightStatusValue.Value = 1;
             return;
         }
-        else if ((bearHealt < 40) && (bearHealt > 30))
+        else if ((bearHealt <  0.25f) && (bearHealt > 0.15f))
         {
             FightModel.fightStatusValue.Value = ran;
             return;
         }
-        else if ((bearHealt <= 30) && (bearHealt >= 10))
+        else if ((bearHealt <= 0.15f) && (bearHealt > 0))
         {
             FightModel.fightStatusValue.Value = 1;
             return;
 
         }
-        else if ((bearHealt < 10) && (bearHealt > 0))
-        {
-            FightModel.fightStatusValue.Value = ran;
-            return;
-        }
+       
        
     }
         void initilizeBeardistanceAttack(bool state)
@@ -128,8 +121,10 @@ public class fightView : MonoBehaviour
             .Subscribe()
             .AddTo(bearShield);
         bear.OnTriggerEnterAsObservable()
-                    .Where(_ => currentBearShieldHealth.Value < 1)
+                    .Where(_ => bearShield.activeSelf==false)
                     .Where(_ => _.CompareTag("ThrowRocks"))
+                    .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearTakeDamage)
+                    .Where(_=> FightModel.currentFightStatus.Value == FightModel.fightStatus.OnRangeDistanceFight)
                     .Do(_ => currentBearHealthDistance.Value--)
                     .Subscribe()
                     .AddTo(bear);
@@ -141,7 +136,7 @@ public class fightView : MonoBehaviour
             .Do(_=> ThowringSpheres.SetActive(false))
             .Do(_=> distanceFightEffects.SetActive(false))
             .Delay(TimeSpan.FromSeconds(FightModel.bearStunnedDuration))
-            .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearRageMode)
+            .Do(_ => setFightMode(1))
             .Do(_ => bear.GetComponent<Animator>().SetBool("IsStunned", false))
             .Subscribe()
             .AddTo(this);
@@ -158,11 +153,23 @@ public class fightView : MonoBehaviour
         FightModel.currentBearHealth.Value = FightModel.bearStartHealth;
         FightModel.currentPlayerHealth
             .Do(_ => playerHelthDisplay.fillAmount = _ / FightModel.playerStartHealth)
+            .Where(_ => _ <= 0)
+            .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerDead)
+            .Do(_=> FightModel.currentFightStatus.Value=FightModel.fightStatus.OnFightLost)
+            .Do(_=> FightModel.currentFightMode = 1)
+            .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle)
+            .Delay(TimeSpan.FromMilliseconds(3000))
+            .Do(_=>Time.timeScale=0)
             .Subscribe()
             .AddTo(this);
         FightModel.currentBearHealth
-            .Do(_=> setGameModeFromHealth(_))
             .Do(_ => bearHealth.fillAmount = _ / FightModel.bearStartHealth)
+            .Do(_ => setGameModeFromHealth(bearHealth.fillAmount))
+            .Where(_=>_<=0)
+            .Do(_=> FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDead)
+            .Do(_ => FightModel.currentFightStatus.Value = FightModel.fightStatus.OnFightWon)
+            .Delay(TimeSpan.FromMilliseconds(3000))
+            .Do(_=> endGame(true))
             .Subscribe()
             .AddTo(this);
         FightModel.fightStatusValue
@@ -170,6 +177,14 @@ public class fightView : MonoBehaviour
            .Do(_ => FightModel.currentFightStatus.Value = FightModel.fightStatus.OnChangeState)
            .Subscribe()
            .AddTo(this);
+    }
+    public void endGame(bool winState)
+    {
+        if (winState)
+        {
+            door.OpenDoor();
+            hittedRocks.gameObject.SetActive(false);
+        }
     }
     void desShield(float v)
     {
@@ -186,9 +201,6 @@ public class fightView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        observePlayerPunch();
-        observePlayerBlock();
-        isComboIdle.Value = playerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Idle");
         if (Input.GetKeyDown(KeyCode.F1))
         {
             setFightMode(1);
@@ -246,10 +258,11 @@ public class fightView : MonoBehaviour
                     break;
                 case FightModel.fightStatus.OnFightWon:
 
-
+                    FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDead;
                     break;
                 case FightModel.fightStatus.OnFightLost:
-
+                    FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerDead;
+                    FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
 
                     break;
                 case FightModel.fightStatus.OnTimeUp:
@@ -273,147 +286,16 @@ public class fightView : MonoBehaviour
         }
        
     }
-    void observePlayerCombo()
-    {
-        canHitAgainCombo
-                        .Where(_=> FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight)
-                        .Where(_ => _ == false)
-                        .Delay(TimeSpan.FromSeconds(comboTimes[comboValue.Value] / 2))
-                        .Do(_ => StartCoroutine(comboHitBear(0.5f, comboHitTimes[comboValue.Value])))
-                        .Delay(TimeSpan.FromSeconds(comboTimes[comboValue.Value] / 2))
-                        .Do(_ => canHitAgainCombo.Value = true)
-                        .Delay(TimeSpan.FromSeconds(1))
-                        .Where(_ => comboValue.Value == comboTimes.Length)
-                        .Delay(TimeSpan.FromSeconds(1))
-                        .Do(_ => resetCombo())
-                        .Subscribe()
-                        .AddTo(this);
-        isComboIdle
-            .Where(_ => FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight)
-            .Where(_ => _ == true)
-            .DelayFrame(1)
-            .Where(_ => _ == true)
-            .Do(_ => resetCombo())
-            .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle)
-            .Subscribe()
-            .AddTo(this);
-    }
-    IEnumerator comboHitBear(float waitTime, int combosCount)
-    {
-        for ( int i =0; i < combosCount; i++)
-        {
-            yield return new WaitForSeconds(waitTime / combosCount);
-            onHitBear();
-        }
-    }
-    void observePlayerPunch()
-    {
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight)
-            {
-                if (canHitAgainCombo.Value)
-                {
-                    if (comboValue.Value < comboTimes.Length-1)
-                    {
-                        if (checkCanGoNextCombo())
-                        {
-                            comboValue.Value++;
-                            canHitAgainCombo.Value = false;
-                            currenCombo = (comboNames)comboValue.Value;
-                            FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerCombo;
-                        }
-                    }
-                    setComboInAnimator();
-                }
-            }
-            
-        }
-       
-
-    }
-    void observePlayerBlock()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            if (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight)
-            {
-                FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerBlockShortAttack;
-            }
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            if (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight)
-            {
-                FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle;
-            }
-        }
-    }
-    void onHitBear()
-    {
-        if (Vector3.Distance(player.transform.position, bear.transform.position) < FightModel.shortAttackRangeValue)
-        {
-            
-                
-                    FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearTakeDamage;
-
-            
-        }
-    }
-    void setComboInAnimator()
-    {
-        if (comboValue.Value > comboTimes.Length)
-        {
-            canHitAgainCombo.Value = false;
-            
-            return;
-        }
-        else
-        {
-            playerAnimator.SetBool("Fight", true);;
-            playerAnimator.SetInteger("comboCounter", comboValue.Value);
-        }
-
-    }
-    void resetCombo()
-    {
-        comboValue.Value = 0;
-        playerAnimator.SetBool("Fight", false);
-        playerAnimator.SetInteger("comboCounter", 0);
-        currenCombo = comboNames.Idle;
-        FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle;
-    }
-    bool checkCanGoNextCombo()
-    {
-        bool r=false;
-        
-            if (playerAnimator.GetCurrentAnimatorStateInfo(1).IsName(((comboNames)comboValue.Value).ToString()))
-            {
-                r = true;
-
-            }
-            else
-            {
-                r = false;
-            }
-
-        return r;
-    }
-    void checkComboDoneOrInterepted()
-    {
-        if(playerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Idle"))
-        {
-            resetCombo();
-        }               
-    }
+   
+   
+  
     public void setFightMode(int i)
     {
 
         switch (i)
         {
             case 1 :
-                
+                bearAnger.fillAmount = 0.1f;
                     FightModel.currentFightMode = 1;
                     FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
@@ -421,6 +303,7 @@ public class fightView : MonoBehaviour
                 break;
             case 2:
                 FightModel.currentFightMode = 2;
+                bearAnger.fillAmount = 0.5f;
 
                 FightModel.currentFightStatus.Value = FightModel.fightStatus.OnRangeDistanceFight;
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDistanceAttacking;
@@ -429,7 +312,9 @@ public class fightView : MonoBehaviour
             case 3:
                
                     FightModel.currentFightMode = 3;
-                    FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
+                bearAnger.fillAmount = 1f;
+
+                FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
                 
                 break;
@@ -446,6 +331,17 @@ public class fightView : MonoBehaviour
                 modesStatus.modes[j] = false;
 
             }
+        }
+    }
+    void setGameLevel(int level)
+    {
+        FightModel.bearStartHealth = 125 + (10 * level);
+        FightModel.bearCloseHitValue = 6+level;
+        FightModel.bearDistanceHitValue = 10+(level*2);
+        if (level != 0)
+        {
+            FightModel.playerCloseHitValue = (6 / level) + 2;
+            FightModel.playerDistanceHitValue = (8 / level) + 2;
         }
     }
 }
