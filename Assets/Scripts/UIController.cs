@@ -4,34 +4,35 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+using UniRx;
+using System;
 public class UIController : MonoBehaviour
 {
     public static UIController instance;
 
     [SerializeField]
-    GameObject fightCanvas;
+    public GameObject fightCanvas;
     [SerializeField]
-    Image bearHealth, playerHelthDisplay;
+    public Image bearHealth, playerHelthDisplay;
     [SerializeField]
-    Image bearAgression;
+    public Image bearAgression;
 
     [SerializeField]
-    SliderScript slider;
+    public SliderScript slider;
     [SerializeField]
     GameObject sequenceInputs, gaugeInputs;
 
     [SerializeField]
-    TMP_Text scoreDisplay;
+    public TMP_Text scoreDisplay;
     [SerializeField]
-    TMP_Text timerDisplay;
+    public TMP_Text timerDisplay;
     [SerializeField]
-    TMP_Text CutSceneText;
+    public  TMP_Text CutSceneText;
     [SerializeField]
-    GameObject cutSceneImage;
+    public GameObject cutSceneImage;
 
     [SerializeField]
-    GameObject gameOverPanel;
+    public GameObject gameOverPanel;
 
 
 
@@ -43,8 +44,26 @@ public class UIController : MonoBehaviour
             instance = this;
 
         DontDestroyOnLoad(this);
+        observeScoreAndTimer();
     }
-
+    void observeScoreAndTimer()
+    {
+        FightModel.gameScore
+            .Do(_ => scoreDisplay.text ="SCORE "+ _.ToString())
+            .Subscribe()
+            .AddTo(this);
+        FightModel.gameTime
+           .Do(_ => timerDisplay.text = "TIME LEFT : " + _.ToString())
+           .Where(_ => _==0)
+           .Do(_ =>gameOverPanel.SetActive(true))
+            .Do(_ => FightModel.currentFightStatus.Value = FightModel.fightStatus.OnFightLost)
+            .Do(_ => FightModel.currentFightMode = 1)
+            .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle)
+            .Delay(TimeSpan.FromMilliseconds(3000))
+            .Do(_ => Time.timeScale = 0)
+           .Subscribe()
+           .AddTo(this);
+    }
     public void ActivateInputs()
     {
         fightCanvas.SetActive(true);
@@ -127,6 +146,8 @@ public class UIController : MonoBehaviour
         gameOverPanel.SetActive(false);
         scoreDisplay.text = ("Score : ").ToUpper()+"0";
         timerDisplay.text = ("Time Left : ").ToUpper() + "45";
+        FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = true;
+        FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = true;
         TemporaryRestartScript.instance.Reset();
     }
 

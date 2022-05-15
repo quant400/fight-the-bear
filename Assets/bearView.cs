@@ -12,7 +12,7 @@ public class bearView : MonoBehaviour
     Animator anim;
     [SerializeField]
     float attackInterval;
-    FightController playerFC;
+    GameObject playerFC;
     [SerializeField]
     int bearAttack;
     [SerializeField]
@@ -46,13 +46,13 @@ public class bearView : MonoBehaviour
     ReactiveProperty<bool> isIdle = new ReactiveProperty<bool>();
     float jumpSpeedRage=2;
     public bool castRock;
+    public ReactiveProperty<bool> playerHitted = new ReactiveProperty<bool>();
+    public float timeToHitAgain=2;
 
     public void StartFight()
     {
         timeLeft = 15;
-        bearAttack = 10 * (playerFC.GetBearNumber() + 1);
-        bearHealth = 100 + 25 * (playerFC.GetBearNumber());
-        playerFC.StartFight(gameObject);
+      
         
     }
     private void Awake()
@@ -67,7 +67,7 @@ public class bearView : MonoBehaviour
         cameraShake = GetComponent<shakeCamera>();
         instance = this;
         anim = GetComponent<Animator>();
-        playerFC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
+        playerFC = FightModel.currentPlayer ;
         FightModel.currentFightMode = 1;
         desState = destinationMode(FightModel.currentFightMode);
         observeBearStatus();
@@ -97,7 +97,7 @@ public class bearView : MonoBehaviour
                         anim.SetBool("Following", false);
                         Observable.Timer(TimeSpan.Zero)
                                                .Do(_ => anim.SetBool("IsIdle", true))
-                                               .Delay(TimeSpan.FromSeconds(1f))
+                                               .Delay(TimeSpan.FromSeconds(1.5f))
                                                .Do(_ => anim.SetBool("IsIdle", false))
                                                .Where(_ => (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
                                                .Do(_ => FightModel.currentBearStatus.Value = desState)
@@ -107,6 +107,7 @@ public class bearView : MonoBehaviour
 
                     break;
                 case FightModel.bearFightModes.BearShortFollowing:
+                    cameraShake.setShake(0);
                     Observable.Timer(TimeSpan.Zero)
                         .Delay(TimeSpan.FromSeconds(0.5f))
                         .Where(_ => (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
@@ -145,11 +146,10 @@ public class bearView : MonoBehaviour
                     
                     break;
                 case FightModel.bearFightModes.BearDistanceAttacking:
+                    cameraShake.setShake(0);
                     following = false;
                     anim.SetBool("Following", false);
-                    desState = destinationMode(FightModel.currentFightMode);
                     anim.SetTrigger("IsDistanceAttacking");
-                    anim.Play("DistanceAttackBear", 0);
                     break;
                 case FightModel.bearFightModes.BearKnokedShortly:
                     cameraShake.setShake(0);
@@ -162,8 +162,19 @@ public class bearView : MonoBehaviour
 
                     break;
                 case FightModel.bearFightModes.BearTakeDamage:
-                      if((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
+                    cameraShake.setShake(0);
+                    if ((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
                     {
+                        if (FightModel.rageModeValue.Value < 1)
+                        {
+                            FightModel.rageModeValue.Value += damageFromMode(FightModel.currentFightMode) / 30;
+                        }
+                        else
+                        {
+                            FightModel.rageModeValue.Value = 1;
+                        }
+                        FightModel.gameScore.Value += 2;
+                        Debug.Log("bear Hitted");
                         following = false;
                         hitted = true;
                         Observable.Timer(TimeSpan.Zero)
@@ -171,6 +182,7 @@ public class bearView : MonoBehaviour
                            .Do(_ => anim.SetTrigger("Hit"))
                            .Where(_ => FightModel.currentBearHealth.Value > 0)
                            .Do(_ => FightModel.currentBearHealth.Value -= damageFromMode(FightModel.currentFightMode))
+                           .Do(_=> FightModel.currentBearStatus.Value = desState)
                            .Subscribe()
                            .AddTo(this);
                     }
@@ -240,6 +252,13 @@ public class bearView : MonoBehaviour
                         .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle)
                         .Subscribe()
                         .AddTo(this);
+        playerHitted
+            .Where(_=>_==true)
+            .Delay(TimeSpan.FromSeconds(timeToHitAgain/(FightModel.currentPlayerLevel+1)))
+            .Do(_=> playerHitted.Value=false)
+            .Subscribe()
+            .AddTo(this);
+
 
     }
     void rageFollow()
@@ -281,12 +300,10 @@ public class bearView : MonoBehaviour
     {
         float playerPushBackPostion = 10;
         float disDiff = Mathf.Abs(Vector3.Distance(transform.position, playerFC.transform.position));
-        Debug.Log(disDiff);
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100, CaveHitLayer))
         {
-            Debug.Log(Mathf.Abs(Vector3.Distance(hit.point, playerFC.transform.position)));
             if (Mathf.Abs(Vector3.Distance(hit.point, playerFC.transform.position)) < playerPushBackPostion-4)
             {
                 if (disDiff < playerPushBackPostion)
@@ -407,15 +424,17 @@ public class bearView : MonoBehaviour
 
             if (castRock)
             {
-                Debug.Log("hit rock");
+                anim.Play("Idle", 0);
+                anim.SetInteger("RageMode", 0);
                 FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearKnokedShortly;
-                StartCoroutine(backToState( 5, "IsStunned"));
-                isRageFollow.Value = false;
+                FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
+                castRock = false;
+
+                StartCoroutine(backToState(4, "IsStunned"));
                 return;
             }
             else
             {
-                Debug.Log("player Far");
 
                 desState = destinationMode(FightModel.currentFightMode);
                 FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
@@ -427,20 +446,23 @@ public class bearView : MonoBehaviour
     }
     IEnumerator backToState(float t,string anString)
     {
-        FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
         yield return new WaitForSeconds(t);
         if (anString != null)
         {
+            anim.SetInteger("RageMode", 0);
+            anim.Play("Idle", 0);
             anim.SetBool(anString, false);
+            FightModel.rageModeValue.Value = 0;
+            bearRageDes.Value = 1000; 
+            isRageFollow.Value = false;
         }
-        FightModel.fightStatusValue.Value = 1;
-        bearRageDes.Value = 1000;
+
 
     }
     void observeBearCloseFromPlayer()
     {
         if (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearDead
-                 && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange )
+                  && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange)
         {
             FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearShortAttacking;
             anim.SetBool("Following", false);
@@ -448,59 +470,18 @@ public class bearView : MonoBehaviour
         }
     }
             
-            private void updatingState()
-    {
-        if ( playerFC.GetState() != States.Dead && !playerFC.timeEnded && currentState != FightModel.bearFightModes.BearDead)
-        {
-            if (currentState != FightModel.bearFightModes.BearDead 
-                 && Vector3.Distance(playerFC.transform.position, transform.position) <= attackRange 
-                && currentState == FightModel.bearFightModes.BearIdle && !playerFC.GetSpecialAttackStatus())
-            {
-                anim.SetBool("Follow", false);
-                if (canAttackIn >= tempAttackTime)
-                {
-                    tempAttackTime =UnityEngine.Random.Range(3, maxAttackInterval + 1);
-                    canAttackIn = 0;
-                    transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
-                    if (Vector3.Distance(transform.position, playerFC.transform.position) <= 2f)
-                        transform.Translate(Vector3.back * 0.5f);
-                    StartAttack(0);
-                }
-
-
-
-            }
-            else if (currentState != FightModel.bearFightModes.BearDead  
-                && Vector3.Distance(playerFC.transform.position, transform.position) > attackRange 
-                && currentState == FightModel.bearFightModes.BearIdle && canAttackIn / tempAttackTime >= 0.5f)
-            {
-                Follow();
-            }
-            if (!playerFC.GetSpecialAttackStatus() && currentState != FightModel.bearFightModes.BearDead)
-            {
-
-                canAttackIn += Time.deltaTime;
-
-            }
-            timer += Time.deltaTime;
-            timeLeft -= Time.deltaTime;
-            if (timeLeft <= 0)
-            {
-                bearAttack += 10;
-                bearSpeed += 0.1f;
-                timeLeft = 15;
-            }
-        }
-
-    }
     private void LateUpdate()
     {
         if(isRageFollow.Value == false)
         {
-            Vector3 eulerRotation = transform.rotation.eulerAngles;
-            transform.rotation = Quaternion.Euler(0, eulerRotation.y, 0);
-            if (playerFC != null && currentState != FightModel.bearFightModes.BearDead)
-                transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
+            if ((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
+            {
+                Vector3 eulerRotation = transform.rotation.eulerAngles;
+                transform.rotation = Quaternion.Euler(0, eulerRotation.y, 0);
+                if (playerFC != null && currentState != FightModel.bearFightModes.BearDead)
+                    transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
+            }
+         
         }
         
     }
@@ -510,94 +491,34 @@ public class bearView : MonoBehaviour
         transform.Translate(Vector3.forward * bearSpeed * Time.deltaTime);
     }
 
-    public void TakeDammage(float dammage)
-    {
-        if (currentState == FightModel.bearFightModes.BearIdle)
-        {
-            if (stunned)
-            {
-                anim.SetBool("Stunned", false);
-                stunned = false;
-                sliderVal = Mathf.Abs(playerFC.GetCurrentSliderVal() - 0.5f);
-                if (sliderVal >= 0.15 && sliderVal <= 0.35)
-                {
-                    sliderVal = 5;
-                }
-                else if (sliderVal <= 0.15)
-                {
-                    sliderVal = 10;
-                }
-                else
-                    sliderVal = 0;
-            }
-            currentState = FightModel.bearFightModes.BearTakeDamage;
-            bearHealth -= (int)(dammage + sliderVal);
-            sliderVal = 0;
-            if (bearHealth <= 0)
-            {
-                currentState = FightModel.bearFightModes.BearDead;
-                anim.SetTrigger("Die");
-                //StopAllCoroutines();
-            }
-            else
-            {
-                knockBack();
-                anim.SetTrigger("Hit");
-            }
-        }
-
-
-    }
     public void checkIfPlayerCloseToHit(float distance,Transform bearHead)
     {
-        if (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearDead
-                && Vector3.Distance(playerFC.transform.position, bearHead.position) <= distance )
+        if(!playerHitted.Value)
         {
-            if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerBlockShortAttack)
-            FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerTakeDamage;
-        }
-    }
-    public void StartAttack(float delay)
-    {
-        StartCoroutine(Attack(delay));
-    }
+            if (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearDead
+                           && Vector3.Distance(playerFC.transform.position, bearHead.position) <= distance)
+            {
+                if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerBlockShortAttack)
+                {
+                    playerHitted.Value = true;
+                    FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerTakeDamage;
 
-    IEnumerator Attack(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (stunned)
-        {
-            anim.SetBool("Stunned", false);
-            stunned = false;
+                }
+            }
         }
+       
+
+
+  
     }
       
 
-    public void StopTimer()
-    {
-        playerFC.StopTimer();
-    }
-
-    public void Stunned()
-    {
-        currentState = FightModel.bearFightModes.BearIdle;
-        anim.SetBool("Stunned", true);
-        stunned = true;
-    }
-
-    void knockBack()
-    {
-        transform.DOMove(transform.position + (transform.forward * -0.5f), 0.5f);
-    }
-    public void ResetAnim()
-    {
-        currentState = FightModel.bearFightModes.BearIdle;
-    }
+   
 
     public void Die()
     {
         GameObject.FindGameObjectWithTag("Door").GetComponent<SlidingDoor>().OpenDoor();
-        playerFC.ExitFight();
+        //playerFC.ExitFight();
     }
 
     public int GetBearHelth()

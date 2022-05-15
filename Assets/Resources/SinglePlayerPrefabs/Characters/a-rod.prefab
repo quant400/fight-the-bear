@@ -199,7 +199,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 415453427369970771}
   m_LocalRotation: {x: 0.069663554, y: 0.000000004291144, z: -2.9966435e-10, w: 0.9975706}
-  m_LocalPosition: {x: 0, y: -0.60000014, z: 1.3000011}
+  m_LocalPosition: {x: 0, y: -0.60000014, z: 1.3000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6903727945446556585}
@@ -430,7 +430,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1032214769544044072}
   m_LocalRotation: {x: 0.069663554, y: -0.0000000042911457, z: 2.9966446e-10, w: 0.9975706}
-  m_LocalPosition: {x: 0, y: -0.60000014, z: 1.3000011}
+  m_LocalPosition: {x: 0, y: -0.60000014, z: 1.3000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4557021110266530000}
@@ -704,7 +704,6 @@ GameObject:
   - component: {fileID: 8083888998786118860}
   - component: {fileID: 9193184234356127520}
   - component: {fileID: 5060619488738145554}
-  - component: {fileID: 354534754}
   - component: {fileID: 354534755}
   - component: {fileID: 4911342384092891427}
   - component: {fileID: 2315378621958873308}
@@ -953,34 +952,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &354534754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100460704390582310}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6231736d1e871dc4c85383073d50a371, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHelth: 100
-  playerDammage: 10
-  atk: 0
-  def: 0
-  tek: 0
-  sequenceLength: 3
-  actionDone: 0
-  canHit: 0
-  startingTime: 45
-  TimeAddedPerBear: 30
-  shieldObject: {fileID: 3508964737566904964}
-  attackObject: {fileID: 1540404040680022583}
-  died: 0
-  timeEnded: 0
-  FightStyle: 
-  pSFXC: {fileID: 0}
 --- !u!114 &354534755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1073,6 +1044,9 @@ MonoBehaviour:
     value: 0
   detectionCollider: {fileID: 136757260}
   hittedPannel: {fileID: 1030987450}
+  bearHitted:
+    value: 0
+  initilized: 0
   canChangeStatus: 0
 --- !u!1 &2115637549731952013
 GameObject:
@@ -1238,7 +1212,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4429314429144054597}
   - component: {fileID: 354534760}
-  - component: {fileID: 354534759}
   m_Layer: 0
   m_Name: Wrist_L
   m_TagString: Punch
@@ -1273,20 +1246,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.06
   m_Center: {x: 0.03, y: 0, z: 0}
---- !u!114 &354534759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2528067174518153783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9f87976e092dee419605f63bb2c7b1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHit: {fileID: 3104946324731698151, guid: 21313a70b7979844ebab43d8bb646968, type: 3}
-  bearHit: {fileID: 1622540158876588974, guid: 917c1d4771b863b4ca40cabf97fc813f, type: 3}
 --- !u!1 &2577256656029596213
 GameObject:
   m_ObjectHideFlags: 0
@@ -1852,7 +1811,6 @@ GameObject:
   m_Component:
   - component: {fileID: 927159886443644706}
   - component: {fileID: 354534762}
-  - component: {fileID: 354534761}
   m_Layer: 0
   m_Name: Ankle_R
   m_TagString: Kick
@@ -1888,20 +1846,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.05
   m_Center: {x: -0.03, y: 0.04, z: 0}
---- !u!114 &354534761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3947258157555539239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9f87976e092dee419605f63bb2c7b1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHit: {fileID: 3104946324731698151, guid: 21313a70b7979844ebab43d8bb646968, type: 3}
-  bearHit: {fileID: 1622540158876588974, guid: 917c1d4771b863b4ca40cabf97fc813f, type: 3}
 --- !u!1 &4164439959845016617
 GameObject:
   m_ObjectHideFlags: 0
@@ -2058,7 +2002,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4706400087066797517}
   - component: {fileID: 354534758}
-  - component: {fileID: 354534757}
   m_Layer: 0
   m_Name: Wrist_R
   m_TagString: Punch
@@ -2094,20 +2037,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.06
   m_Center: {x: -0.03, y: 0, z: 0}
---- !u!114 &354534757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4321192127396265367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9f87976e092dee419605f63bb2c7b1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHit: {fileID: 3104946324731698151, guid: 21313a70b7979844ebab43d8bb646968, type: 3}
-  bearHit: {fileID: 1622540158876588974, guid: 917c1d4771b863b4ca40cabf97fc813f, type: 3}
 --- !u!1 &4471854959332154789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,7 +2139,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2900688916020764193}
   - component: {fileID: 354534763}
-  - component: {fileID: 3800689025872258877}
   m_Layer: 0
   m_Name: Ankle_L
   m_TagString: Kick
@@ -2246,20 +2174,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.05
   m_Center: {x: 0.03, y: -0.04, z: 0}
---- !u!114 &3800689025872258877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5304594257910582917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9f87976e092dee419605f63bb2c7b1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHit: {fileID: 3104946324731698151, guid: 21313a70b7979844ebab43d8bb646968, type: 3}
-  bearHit: {fileID: 1622540158876588974, guid: 917c1d4771b863b4ca40cabf97fc813f, type: 3}
 --- !u!1 &5464459946514434383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2439,7 +2353,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6514262051314091359}
   m_LocalRotation: {x: 0.069663554, y: -0.000000004291144, z: 2.9966435e-10, w: 0.9975706}
-  m_LocalPosition: {x: 0, y: -0.60000014, z: 1.3000011}
+  m_LocalPosition: {x: 0, y: -0.60000014, z: 1.3000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7070443845633742959}

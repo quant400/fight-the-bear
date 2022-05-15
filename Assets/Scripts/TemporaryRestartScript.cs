@@ -21,5 +21,10 @@ public class TemporaryRestartScript : MonoBehaviour
     {
         Destroy(GameObject.FindGameObjectWithTag("Player"));
         SceneManager.LoadScene(1);
+        FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
+        FightModel.currentPlayerLevel = 0;
+        FightModel.gameTime.Value = 120;
+        FightModel.gameScore.Value = 0;
+        Time.timeScale = 1;
     }
 }

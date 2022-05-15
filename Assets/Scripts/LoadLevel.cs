@@ -15,7 +15,8 @@ public class LoadLevel : MonoBehaviour
                 MapController.MC.LoadLevel();
             else if(SceneManager.GetActiveScene().buildIndex == 2)
             {
-                other.GetComponent<FightController>().MoveToNext();
+                SceneManager.LoadScene(2);
+
                 //Destroy(other.gameObject);
                 //SceneManager.LoadScene(0);
             }

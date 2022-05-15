@@ -26,13 +26,17 @@ public class DDOL : MonoBehaviour
        
         if(scene.buildIndex==2)
         {
-            
-           // transform.GetComponent<CharacterController>().enabled = false;
-          //  transform.GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
+            // transform.GetComponent<CharacterController>().enabled = false;
+            //  transform.GetComponent<StarterAssets.ThirdPersonController>().enabled = false;3
+            transform.GetComponent<CharacterController>().enabled = false;
             transform.position = new Vector3(0, 1, -15);
-           
+            transform.GetComponent<CharacterController>().enabled = true;
+            fightView.instance.startGame();
+
+
+
         }
-            
+
     }
 
    

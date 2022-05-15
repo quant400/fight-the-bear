@@ -118,11 +118,14 @@ namespace StarterAssets
 
 		private void Update()
 		{
-			_hasAnimator = TryGetComponent(out _animator);
+			if ((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
+			{
+				_hasAnimator = TryGetComponent(out _animator);
 			
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+			}
 		}
 
 		private void LateUpdate()
@@ -218,8 +221,11 @@ namespace StarterAssets
 				_targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
 				float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
 
-				// rotate to face input direction relative to camera position
-				transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                // rotate to face input direction relative to camera position
+                if (rotation != 0)
+                {
+					transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+				}
 			}
 
 
@@ -236,7 +242,7 @@ namespace StarterAssets
 			}
 
 
-			pSFXC.ProgressStepCycle(targetSpeed, _input.move.x, _input.move.y);
+			//pSFXC.ProgressStepCycle(targetSpeed, _input.move.x, _input.move.y);
 		}
 
 		private void JumpAndGravity()

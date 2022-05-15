@@ -10,12 +10,12 @@ using UnityEngine.SceneManagement;
 
     public class mainPresenter : MonoBehaviour
     {
-    [SerializeField] gameplayView gameView;
-    [SerializeField] webLoginView webView;
-    [SerializeField] characterSelectionView characterSelectionView;
-    [SerializeField] uiView uiView;
-    [SerializeField] gameEndView gameEndView;
-    [SerializeField] DatabaseManagerRestApi dataView;
+        [SerializeField] gameplayView gameView;
+        [SerializeField] webLoginView webView;
+        [SerializeField] characterSelectionView characterSelectionView;
+        [SerializeField] uiView uiView;
+        [SerializeField] gameEndView gameEndView;
+        [SerializeField] DatabaseManagerRestApi dataView;
 
 
     private void Awake()
@@ -28,6 +28,7 @@ using UnityEngine.SceneManagement;
         {
             Observable.Timer(TimeSpan.Zero)
                         .DelayFrame(2)
+                        .Do(_ => UIController.instance.fightCanvas.SetActive(false))
                         .Do(_ => chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnStartGame)
                         .Subscribe()
                         .AddTo(this);
@@ -95,6 +96,7 @@ using UnityEngine.SceneManagement;
                     uiView.goToMenu("characterSelected");
                     gameEndView.resetDisplay();
                     scenesView.loadSinglePlayerScene(1);
+                    UIController.instance.fightCanvas.SetActive(false);
 
                     break;
                 case chickenGameModel.GameSteps.OnStartGame:

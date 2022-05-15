@@ -38,12 +38,28 @@ public class RockThrowView : MonoBehaviour
 
         if (!rockPicked)
         {
-            if (isClose())
+            if (rocks != null)
             {
-                closesestRock = closestRock(rocks);
+                if (rocks.Length >0)
+                {
+                    if (rocks[0] != null) 
+                    {
+                        if (isClose())
+                        {
+                            closesestRock = closestRock(rocks);
+                        }
+                    }
+                    else
+                    {
+                        rocks = new GameObject[] { };
+                    }
+
+                    
+                }
             }
+           
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             
                 if (closesestRock != null)
@@ -102,11 +118,15 @@ public class RockThrowView : MonoBehaviour
         float closestDisttance = pickUpDistance;
         foreach (GameObject v in rocks)
         {
-            if (Mathf.Abs(Vector3.Distance(v.transform.position, player.position)) < closestDisttance)
+            if (v != null)
             {
-                localRock = v.transform;
-                closestDisttance = Mathf.Abs(Vector3.Distance(v.transform.position, player.position));
+                if (Mathf.Abs(Vector3.Distance(v.transform.position, player.position)) < closestDisttance)
+                {
+                    localRock = v.transform;
+                    closestDisttance = Mathf.Abs(Vector3.Distance(v.transform.position, player.position));
+                }
             }
+          
         }
         if (localRock != null)
         {

@@ -95,5 +95,9 @@ public class FightModel
     public static ReactiveProperty<int> fightStatusValue = new ReactiveProperty<int>();
     public static GameObject currentBear;
     public static GameObject currentPlayer;
-    public static int currentPlayerLevel=1;
+    public static int currentPlayerLevel=0;
+    public static ReactiveProperty<float> rageModeValue =new ReactiveProperty<float>();
+    public static ReactiveProperty<float> gameScore =new ReactiveProperty<float>(0);
+    public static ReactiveProperty<float> gameTime = new ReactiveProperty<float>(120);
+
 }
