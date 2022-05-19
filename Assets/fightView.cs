@@ -6,6 +6,7 @@ using UniRx.Triggers;
 using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 public class fightView : MonoBehaviour
 {
     public static fightView instance;
@@ -36,13 +37,19 @@ public class fightView : MonoBehaviour
     public Image bearHealth, playerHelthDisplay,bearAnger;
     bool canChangeStatus;
     ReactiveProperty<bool> timerOn = new ReactiveProperty<bool>();
-    bool gameStarted;
+    public float cinematicTime;
     public class modesetted
     {
         public bool[] modes = new bool[3] { false, false, false };
     }
     public modesetted modesStatus = new modesetted();
     public int currentLevel;
+    public ReactiveProperty<bool> isInDistanceRage = new ReactiveProperty<bool>();
+    Vector3 bearPosRage;
+    ReactiveProperty<bool> gameStarted = new ReactiveProperty<bool>();
+    Transform spawnPointsParent;
+    List<Transform> spawnPoints=new List<Transform>();
+
     private void Awake()
     {
         currentLevel = FightModel.currentPlayerLevel;
@@ -56,30 +63,50 @@ public class fightView : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameStarted = true;
+        gameStarted.Value= true;
         FightModel.rageModeValue.Value = 0;
         FighterView.instance.intilize();
-
         FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearCinematicMode;
         FightModel.currentFightStatus.Value = FightModel.fightStatus.OnEnterCave;
         currentBearShieldHealth.Value = FightModel.bearShielHealth;
         currentBearHealthDistance.Value = FightModel.bearDistanceHealth;
         canChangeStatus = true;
+        Observable.Timer(TimeSpan.Zero)
+                                .Do(_ => cinematicView.setCamera(true, 0))
+                                .Delay(TimeSpan.FromSeconds(cinematicTime))
+                                 .Do(_ => cinematicView.setCamera(false, 0))
+                                 .Do(_ => FightModel.playerCameraBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut)
+                                 .Do(_=>FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled=false)
+                                 .Do(_=> FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
+                                 .Do(_=> FightModel.currentPlayer.transform.position= GetMostFarPosFromBear())
+                                 .Delay(TimeSpan.FromSeconds(1))
+                                 .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
+                                 .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
+                                 .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
+                                .Do(_ => gameStarted.Value = true)
+                                .Do(_ => observeTimerAndRage())
+                          .Subscribe()
+                          .AddTo(this);
         observeFightStatus();
         observePlayerAndBearHealth();
         observeBearShield();
         bear = FightModel.currentBear;
         FightModel.currentPlayer.GetComponent<RockThrowView>().findRocks();
-        observeTimer();
-        timerOn.Value = true;
+        int children = spawnPointsParent.childCount;
+        if (children > 0)
+        {
+            for (int i = 0; i < children; ++i)
+                spawnPoints.Add(spawnPointsParent.GetChild(i));
+        }
+  
 
     }
-    void observeTimer()
+    void observeTimerAndRage()
     {
 
         timerOn
             .Where(_ => FightModel.gameTime.Value > 0)
-            .Where(_=> gameStarted)
+            .Where(_=> gameStarted.Value)
             .Where(_=>_)
             .Delay(TimeSpan.FromSeconds(1))
             .Do(_=>FightModel.gameTime.Value--)
@@ -89,36 +116,123 @@ public class fightView : MonoBehaviour
 
             .Subscribe()
                     .AddTo(this);
+        FightModel.rageModeValue
+            .Where(_=> gameStarted.Value)
+          .Do(_ => bearAnger.fillAmount = _)
+          .Where(_ => _ == 0 || _ == 1)
+                      .Do(_ => setGameModeFromHealth(_))
+                      .Subscribe()
+         .AddTo(this);
 
     }
     void setGameModeFromHealth(float bearRage)
     {
         int ran = UnityEngine.Random.Range(2, 4);
-
-        if (bearRage ==0)
+        if(FightModel.lastRand== ran)
         {
-            setFightMode(1);
-            return;
+            if (ran == 3)
+            {
+                ran = 2;
+                if (bearRage == 0)
+                {
+                    setFightMode(1);
+                    FightModel.bearIsStunned = false;
+                    return;
+                }
+                else if (bearRage >= 1)
+                {
+                    setFightMode(ran);
+
+                }
+                FightModel.lastRand = ran;
+                return;
+            }
+            else 
+            {
+                ran = 3;
+                if (bearRage == 0)
+                {
+                    setFightMode(1);
+                    FightModel.bearIsStunned = false;
+                    return;
+                }
+                else if (bearRage >= 1)
+                {
+                    setFightMode(ran);
+
+                }
+                FightModel.lastRand = ran;
+                return;
+            }
         }
-        else if (bearRage >= 1)
+        else
         {
-            setFightMode(ran);
+            if (bearRage == 0)
+            {
+                setFightMode(1);
+                FightModel.bearIsStunned = false;
+                return;
+            }
+            else if (bearRage >= 1)
+            {
+                setFightMode(ran);
 
+            }
+            FightModel.lastRand = ran;
         }
-
-
-
     }
         void initilizeBeardistanceAttack(bool state)
     {
-        currentBearShieldHealth.Value = FightModel.bearShielHealth;
-        currentBearHealthDistance.Value = FightModel.bearDistanceHealth;
-        ThowringSpheres.SetActive(state);
-        distanceFightEffects.SetActive(state);
-        bearShield.SetActive(state);
-        bearShield.transform.position = new Vector3(bear.transform.position.x, bearShield.transform.position.y, bear.transform.position.z);
-        distanceFightEffects.transform.position = bear.transform.position;
 
+        if (!state)
+        {
+            currentBearShieldHealth.Value = FightModel.bearShielHealth;
+            currentBearHealthDistance.Value = FightModel.bearDistanceHealth;
+            ThowringSpheres.SetActive(state);
+            distanceFightEffects.SetActive(state);
+            bearShield.SetActive(state);
+            bearPosRage = bear.transform.position;
+            bearShield.transform.position = new Vector3(bear.transform.position.x, bearShield.transform.position.y, bear.transform.position.z);
+            distanceFightEffects.transform.position = bear.transform.position;
+        }
+        else
+        {
+            bearPosRage = bear.transform.position;
+            bearShield.transform.position = new Vector3(bear.transform.position.x, bearShield.transform.position.y, bear.transform.position.z);
+            distanceFightEffects.transform.position = bear.transform.position;
+            currentBearShieldHealth.Value = FightModel.bearShielHealth;
+            currentBearHealthDistance.Value = FightModel.bearDistanceHealth;
+            float timeToWait = cinematicTime +0.5f;
+            Observable.Timer(TimeSpan.Zero)
+
+                                          .Delay(TimeSpan.FromSeconds(1))
+                                          .Do(_ => bearShield.SetActive(true))
+                                          .Delay(TimeSpan.FromSeconds(timeToWait))
+                                          .Do(_ => activateAfterDelay())
+                                          .Subscribe()
+                                          .AddTo(this);
+        }
+       
+    }
+    void activateAfterDelay()
+    {
+        
+        ThowringSpheres.SetActive(true);
+        distanceFightEffects.SetActive(true);      
+    }
+    Vector3 GetMostFarPosFromBear()
+    {
+        float d = 1000f;
+        Vector3 target = spawnPoints[0].position;
+        foreach (Transform t in spawnPoints)
+        {
+            if (Vector3.Distance(FightModel.currentBear.transform.position, t.position) < d)
+            {
+                target = t.position;
+                d = Vector3.Distance(FightModel.currentBear.transform.position, t.position);
+            }
+        }
+        return target;
     }
     void observeBearShield()
     {
@@ -144,15 +258,49 @@ public class fightView : MonoBehaviour
             .Do(_=> distanceFightEffects.SetActive(false))
             .Delay(TimeSpan.FromSeconds(FightModel.bearStunnedDuration))
             .Do(_ => bear.GetComponent<Animator>().SetBool("IsStunned", false))
-              .Do(_ => FightModel.rageModeValue.Value = 0)
+            .Do(_ => FightModel.rageModeValue.Value = 0)
             .Subscribe()
             .AddTo(this);
         currentBearShieldHealth
             .Do(_=> desShield(_))
             .Subscribe()
             .AddTo(this);
+        this.UpdateAsObservable()
+            .Where(_=> FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon&& FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost)
+            .Do(_=> setBearPosFromRage())
+            .Subscribe()
+            .AddTo(this);
+        isInDistanceRage
+            .Where(_=>_==false)
+            .Where(_ => FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon && FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost)
+            .Where(_ => FightModel.currentFightMode == 1)
+            .Do(_ => bear.GetComponent<Animator>().Play("Idle", 0))
+            .Do(_ => bear.GetComponent<Animator>().SetBool("IsIdle", true))
+            .Subscribe()
+            .AddTo(this);
 
-     
+    }
+    void setBearPosFromRage()
+    {
+        if (isInDistanceRage.Value)
+        {
+            if (bear.transform.position != bearPosRage)
+            {
+                bear.transform.position = bearPosRage;
+            }
+            if (FighterView.instance != null)
+            {
+                if (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearKnokedShortly)
+                    if (FighterView.instance.playerAnimator.GetInteger("comboCounter")!= 0) 
+                {
+                    FighterView.instance.comboValue.Value = 0;
+                    FighterView.instance.currentState = 0;
+                    FighterView.instance.playerAnimator.SetInteger("comboCounter", 0);
+                    FighterView.instance.playerAnimator.SetBool("Fight", false);
+
+                }
+            }
+        }
     }
     void observePlayerAndBearHealth()
     {
@@ -184,18 +332,8 @@ public class fightView : MonoBehaviour
            .Do(_ => FightModel.currentFightStatus.Value = FightModel.fightStatus.OnChangeState)
            .Subscribe()
            .AddTo(this);
-        FightModel.rageModeValue
-            
-            .Where(_=>_==0||_==1)
-                        .Do(_ => setGameModeFromHealth(bearHealth.fillAmount))
-                        .Subscribe()
-           .AddTo(this);
-        FightModel.rageModeValue
-            .Do(_ => bearAnger.fillAmount = _)
-            .Where(_ => _ == 0 || _ == 1)
-                        .Do(_ => setGameModeFromHealth(_))
-                        .Subscribe()
-           .AddTo(this);
+   
+      
 
     }
     public void endGame(bool winState)
@@ -253,6 +391,8 @@ public class fightView : MonoBehaviour
     }
     void observeFightStatus()
     {
+       
+
         FightModel.currentFightStatus
              .Subscribe(procedeFight)
                .AddTo(this);
@@ -294,7 +434,7 @@ public class fightView : MonoBehaviour
 
                     break;
                 case FightModel.fightStatus.OnFightWon:
-                    gameStarted = false;
+                    gameStarted.Value = false;
                     FightModel.gameScore.Value += 20;
                     FightModel.gameTime.Value += 25;
 
@@ -304,7 +444,7 @@ public class fightView : MonoBehaviour
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 10.5f;
                     break;
                 case FightModel.fightStatus.OnFightLost:
-                    gameStarted = false;
+                    gameStarted.Value = false;
                     FightModel.currentPlayerLevel = 0;
                     FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerDead;
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
@@ -347,15 +487,35 @@ public class fightView : MonoBehaviour
                     FightModel.currentFightMode = 1;
                     FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
+                isInDistanceRage.Value = false;
+
 
                 break;
             case 2:
                 FightModel.currentFightMode = 2;
-
                 FightModel.currentFightStatus.Value = FightModel.fightStatus.OnRangeDistanceFight;
                 FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDistanceAttacking;
                 FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle;
                 FighterView.instance.comboValue.Value = 0;
+                isInDistanceRage.Value = true;
+
+                Observable.Timer(TimeSpan.Zero)
+                                .Do(_ => cinematicView.setCamera(true, 2))
+                                .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
+                                .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
+                                .Do(_ => FightModel.currentPlayer.transform.position = GetMostFarPosFromBear())
+                                .Delay(TimeSpan.FromSeconds(1))
+                                .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
+                                .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
+                                .Delay(TimeSpan.FromSeconds(cinematicTime))
+                                .Do(_ => cinematicView.setCamera(false, 0))
+                                .Do(_ => FightModel.playerCameraBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut)
+                                .Delay(TimeSpan.FromSeconds(3))
+                                .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
+                                .Delay(TimeSpan.FromSeconds(1))
+                                .Do(_ => observeFightStatus())
+                          .Subscribe()
+                          .AddTo(this);
                 break;
             case 3:
                
@@ -363,7 +523,25 @@ public class fightView : MonoBehaviour
 
                 FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
-                
+                isInDistanceRage.Value = false;
+
+                Observable.Timer(TimeSpan.Zero)
+                                .Do(_ => cinematicView.setCamera(true, 1))
+                                 .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
+                                .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
+                                .Do(_ => FightModel.currentPlayer.transform.position = GetMostFarPosFromBear())
+                                .Delay(TimeSpan.FromSeconds(1))
+                                .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
+                                .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
+                                .Delay(TimeSpan.FromSeconds(cinematicTime-1))
+                                .Do(_ => cinematicView.setCamera(false, 0))
+                                .Do(_ => FightModel.playerCameraBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut)
+                                .Delay(TimeSpan.FromSeconds(3))
+                                .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
+                                .Delay(TimeSpan.FromSeconds(1f))
+                                .Do(_ => observeFightStatus())
+                          .Subscribe()
+                          .AddTo(this);
                 break;
         }
         for (int j = 0; j < modesStatus.modes.Length; j++)

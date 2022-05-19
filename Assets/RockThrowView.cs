@@ -59,9 +59,10 @@ public class RockThrowView : MonoBehaviour
             }
            
         }
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            
+            if (FightModel.currentFightMode != 3)
+            {
                 if (closesestRock != null)
                 {
                     if (!rockPicked)
@@ -79,7 +80,7 @@ public class RockThrowView : MonoBehaviour
                         playerAnimator.SetBool("PickRock", false);
                     }
                 }
-            
+            }
         }
     }
     public void pickUp()

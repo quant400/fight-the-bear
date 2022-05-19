@@ -6,11 +6,11 @@ using System;
 using UniRx;
 using UniRx.Triggers;
 using StarterAssets;
-
+using Cinemachine;
 public class FighterView : MonoBehaviour
 {
     public static FighterView instance;
-    Animator playerAnimator;
+    public Animator playerAnimator;
     ThirdPersonController playerController;
     public FightModel.PlayerFightModes currentState;
     FightModel.PlayerFightModes desState;
@@ -28,11 +28,17 @@ public class FighterView : MonoBehaviour
     public GameObject hittedPannel;
     public ReactiveProperty<bool> bearHitted = new ReactiveProperty<bool>();
     public bool initilized;
+    public GameObject playerCamera;
+    public CinemachineBrain playerCameraBrain;
+
     [SerializeField]
     bool canChangeStatus;
     private void Awake()
     {
         FightModel.currentPlayer = gameObject;
+        FightModel.playerCamera = playerCamera;
+        FightModel.playerCameraBrain = playerCameraBrain;
+
         if (instance != null)
             Destroy(this);
         else
@@ -47,6 +53,19 @@ public class FighterView : MonoBehaviour
             observePlayerPunch();
             observePlayerBlock();
             isComboIdle.Value = playerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Idle");
+        }
+        if (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon)
+        {
+        
+                if (playerAnimator.GetInteger("comboCounter") != 0)
+                {
+                    comboValue.Value = 0;
+                    currentState = 0;
+                    playerAnimator.SetInteger("comboCounter", 0);
+                    playerAnimator.SetBool("Fight", false);
+
+                }
+            
         }
         
 
@@ -112,9 +131,6 @@ public class FighterView : MonoBehaviour
                 FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearTakeDamage;
 
             }
-
-
-
         }
     }
     void observeFighterStatus()
@@ -128,6 +144,7 @@ public class FighterView : MonoBehaviour
             switch (status)
             {
                 case FightModel.PlayerFightModes.playerIdle:
+                    playerAnimator.SetBool("Dead", false);
                     comboValue.Value = 0;
                     playerAnimator.SetBool("isIdle", true);
                     playerAnimator.SetBool("Block", false);
@@ -145,7 +162,6 @@ public class FighterView : MonoBehaviour
                     if ((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
                     {
                         Debug.Log("player Hitted");
-
                         playerAnimator.SetTrigger("Hit");
                         Observable.Timer(TimeSpan.Zero)
                                .DelayFrame(1)
@@ -183,7 +199,7 @@ public class FighterView : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight)
+                if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight) || (FightModel.currentBearStatus.Value == FightModel.bearFightModes.BearKnokedShortly))
                 {
                     if (canHitAgainCombo.Value)
                     {
