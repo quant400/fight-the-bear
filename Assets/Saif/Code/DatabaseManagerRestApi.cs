@@ -69,7 +69,7 @@ public class DatabaseManagerRestApi : MonoBehaviour
   
     public void startSessionFromRestApi(int _assetID)
     {
-        StartCoroutine(startSessionApi("https://api.cryptofightclub.io/game/sdk/chicken/start-session", _assetID));
+        StartCoroutine(startSessionApi("https://api.cryptofightclub.io/game/sdk/bear/start-session", _assetID));
     }
 
     public void getDataFromRestApi(int assetId)
@@ -119,7 +119,7 @@ public class DatabaseManagerRestApi : MonoBehaviour
         postedData.score = scoreAdded;
         string idJsonData = JsonUtility.ToJson(postedData);
 
-        using (UnityWebRequest request = UnityWebRequest.Put("https://api.cryptofightclub.io/game/sdk/chicken/end-session", idJsonData))
+        using (UnityWebRequest request = UnityWebRequest.Put("https://api.cryptofightclub.io/game/sdk/bear/end-session", idJsonData))
         {
             byte[] bodyRaw = Encoding.UTF8.GetBytes(idJsonData);
             request.method = "POST";
@@ -155,7 +155,7 @@ public class DatabaseManagerRestApi : MonoBehaviour
         localID = assetId;
         string idJsonData = JsonUtility.ToJson(idData);
         Debug.Log(idData);
-        using (UnityWebRequest request = UnityWebRequest.Put("https://api.cryptofightclub.io/game/sdk/chicken/score", idJsonData))
+        using (UnityWebRequest request = UnityWebRequest.Put("https://api.cryptofightclub.io/game/sdk/bear/score", idJsonData))
         {
             byte[] bodyRaw = Encoding.UTF8.GetBytes(idJsonData);
             request.method = "POST";
