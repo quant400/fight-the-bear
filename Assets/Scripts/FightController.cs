@@ -21,7 +21,7 @@ public class FightController : MonoBehaviour
     private Quaternion originalRot;
     States currentState;
     AttackingStates currentAttackingState;
-    public static int bearNumber = 0;
+    public int bearNumber = 0;
     [SerializeField]
 
     float atk, def, tek;
@@ -110,12 +110,12 @@ public class FightController : MonoBehaviour
         currentState = States.Idel;
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 9;
         inFight = false;
-        if (!died && !timeEnded)
+       /* if (!died && !timeEnded)
         {
             score += startingTime;
             startingTime += TimeAddedPerBear;
             
-        }
+        }*/
         UIController.instance.UpdateTimerVal(startingTime);
         //timerDisplay.text = ("Time Left : ").ToUpper() + startingTime.ToString("00");
 
@@ -379,7 +379,11 @@ public class FightController : MonoBehaviour
     public void GivePoints(float val)
     {
         score += val;
-
+       
+    }
+     public float GetScore()
+    {
+        return score;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -578,7 +582,7 @@ public class FightController : MonoBehaviour
                     Block();
                 }
             }
-            if (!stoptimer)
+            /*if (!stoptimer)
             {
                 startingTime -= Time.deltaTime;
                 UIController.instance.UpdateTimerVal(startingTime);
@@ -589,7 +593,7 @@ public class FightController : MonoBehaviour
                     timeEnded = true;
                     Die();
                 }
-            }
+            }*/
         }
 
        
@@ -649,7 +653,8 @@ public class FightController : MonoBehaviour
         
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        score += startingTime;
+        //score += startingTime;
+        gameplayView.instance.SetLocalScore(score);
         if (died)
             UIController.instance.DisplayGameOver("You Died!", score);
             //gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "You Died.";
@@ -661,7 +666,7 @@ public class FightController : MonoBehaviour
         /*gameOverPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = ((int)(score2+score)).ToString();
         gameOverPanel.transform.GetChild(4).GetComponent<TMP_Text>().text = ((int)(score3 + score)).ToString();
         gameOverPanel.SetActive(true);*/
-
+        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnGameEnded;
     }
     private string ConvertToString(string[] tempDisp)
     {

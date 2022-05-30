@@ -22,6 +22,7 @@ public class DatabaseManagerRestApi : MonoBehaviour
     private void Update() {
         // if(Input.GetKeyDown(KeyCode.Space))
         //     setScore("00256454","THE RED FIGHTER",200);
+        
     }
 
     //Most of the calls in the api are async calls, which makes code clean and tidy, and powerful! 

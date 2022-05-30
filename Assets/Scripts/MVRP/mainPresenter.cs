@@ -24,7 +24,7 @@ using UnityEngine.SceneManagement;
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if ((scene.name == chickenGameModel.singlePlayerScene1.sceneName)||(scene.name == chickenGameModel.singlePlayerScene2.sceneName)) 
+        if ((scene.name == chickenGameModel.singlePlayerScene1.sceneName) && !gameplayView.instance.started) 
         {
             Observable.Timer(TimeSpan.Zero)
                         .DelayFrame(2)
@@ -111,7 +111,7 @@ using UnityEngine.SceneManagement;
                     Debug.Log("game Is running");
                     break;
                 case chickenGameModel.GameSteps.OnGameEnded:
-                    uiView.goToMenu("results");
+                    //uiView.goToMenu("results");
                     gameEndView.setScoreAtStart();
                     gameView.EndGame();
                     break;

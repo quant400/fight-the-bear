@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class TemporaryRestartScript : MonoBehaviour
 {
-    public static TemporaryRestartScript instance;
+   public static TemporaryRestartScript instance;
+    [SerializeField]
+    GameObject playerUI;
     //move to some other script later
     void Awake()
     {
@@ -19,7 +21,9 @@ public class TemporaryRestartScript : MonoBehaviour
 
     public void Reset()
     {
+        playerUI.GetComponent<UIController>().ResetGame();
+       
         Destroy(GameObject.FindGameObjectWithTag("Player"));
-        SceneManager.LoadScene(1);
+        //SceneManager.LoadScene(1);
     }
 }

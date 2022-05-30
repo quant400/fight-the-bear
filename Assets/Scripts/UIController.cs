@@ -127,12 +127,15 @@ public class UIController : MonoBehaviour
         gameOverPanel.SetActive(false);
         scoreDisplay.text = ("Score : ").ToUpper()+"0";
         timerDisplay.text = ("Time Left : ").ToUpper() + "45";
-        TemporaryRestartScript.instance.Reset();
+        //TemporaryRestartScript.instance.Reset();
+        //chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelected;
     }
 
     public void Exit()
     {
-        SceneManager.LoadScene(0);
-       
+        //SceneManager.LoadScene(0);
+        scenesView.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
+        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToMenu;
+
     }
 }

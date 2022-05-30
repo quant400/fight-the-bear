@@ -194,6 +194,12 @@ public class BearController : MonoBehaviour
     {
         GetComponent<BoxCollider>().enabled = false;
         GameObject.FindGameObjectWithTag("Door").GetComponent<SlidingDoor>().OpenDoor();
+        if (gameplayView.instance.isRestApi)
+        {
+            Debug.Log("before Score");
+            DatabaseManagerRestApi._instance.setScoreRestApiMain(gameplayView.instance.chosenNFT.id.ToString(), (int)gameplayView.instance.GetLocalScore());
+            Debug.Log("posted Score");
+        }
         playerFC.ExitFight();
     }
 
