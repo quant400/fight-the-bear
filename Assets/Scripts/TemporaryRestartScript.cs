@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,4 +27,6 @@ public class TemporaryRestartScript : MonoBehaviour
         Destroy(GameObject.FindGameObjectWithTag("Player"));
         //SceneManager.LoadScene(1);
     }
+
+ 
 }

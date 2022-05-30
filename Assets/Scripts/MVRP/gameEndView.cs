@@ -63,6 +63,8 @@ public class gameEndView : MonoBehaviour
                 Debug.Log("before Score");
                 DatabaseManagerRestApi._instance.setScoreRestApiMain(currentNFT.id.ToString(), (int)gameplayView.instance.GetLocalScore());
                 Debug.Log("posted Score");
+                if (gameplayView.instance.GetSessions() == 10)
+                    tryAgain.gameObject.SetActive(false);
             }
             else
             {
@@ -238,8 +240,10 @@ public class gameEndView : MonoBehaviour
     }
     public void goToMain()
     {
+        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelection;
+        TemporaryRestartScript.instance.Reset();
         scenesView.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToMenu;
+        
     }
 
     string NameToSlugConvert(string name)
