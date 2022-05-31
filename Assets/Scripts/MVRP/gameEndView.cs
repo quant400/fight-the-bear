@@ -55,6 +55,7 @@ public class gameEndView : MonoBehaviour
         {
             canvasToDisable = gameplayView.instance.gameObject.transform.GetChild(0).gameObject;
         }*/
+        tryAgain.gameObject.SetActive(false);
         currentNFT = gameplayView.instance.chosenNFT;
         if (gameplayView.instance.GetSessions() <= 10)
         {

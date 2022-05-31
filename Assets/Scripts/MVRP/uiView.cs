@@ -17,7 +17,7 @@ public class uiView : MonoBehaviour
     [SerializeField] GameObject startCanvas;
 
 
-    public Button loginBtn, PlayMode, Play, LeaderBoard, BackToCharacterSelection, Skip, tryout, backFromLeaderboard;
+    public Button loginBtn, PlayMode, Play, LeaderBoard, BackToCharacterSelection, Skip, tryout, backFromLeaderboard, tryagain;
     [SerializeField] webLoginView webloginView;
     // Start is called before the first frame update
     private void Awake()
@@ -159,5 +159,13 @@ public class uiView : MonoBehaviour
                 break;
 
         }
+    }
+
+
+    public void SetTryAgain(bool state)
+    {
+        if (gameplayView.instance.GetSessions() < 10)
+            tryagain.gameObject.SetActive(state);
+
     }
 }
