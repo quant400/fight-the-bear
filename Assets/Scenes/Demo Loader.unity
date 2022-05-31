@@ -213,6 +213,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1095185436 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5563223587690245332, guid: 0a974a8ad789e9c43a3d08fe44cd8f2f, type: 3}
+  m_PrefabInstance: {fileID: 1663576763}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d799eee4ff66b047b0b2c98084da192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1252137766
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,7 +716,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1476842802}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1095185436}
+        m_TargetAssemblyTypeName: webLoginView, Assembly-CSharp
+        m_MethodName: OnTryout
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1476842802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1054,7 +1077,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 0a8327f31b4fbc341a2b9951095daf20, type: 3}
     - target: {fileID: 4381750605995796525, guid: 0a974a8ad789e9c43a3d08fe44cd8f2f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -143024.39
+      value: -178478.86
       objectReference: {fileID: 0}
     - target: {fileID: 4907398251496491322, guid: 0a974a8ad789e9c43a3d08fe44cd8f2f, type: 3}
       propertyPath: gameEndView
@@ -1276,9 +1299,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126445882098143855, guid: 0a974a8ad789e9c43a3d08fe44cd8f2f, type: 3}
+      propertyPath: tryout
+      value: 
+      objectReference: {fileID: 1476842801}
+    - target: {fileID: 8126445882098143855, guid: 0a974a8ad789e9c43a3d08fe44cd8f2f, type: 3}
       propertyPath: resultsCanvas
       value: 
       objectReference: {fileID: 1918791395}
+    - target: {fileID: 8126445882098143855, guid: 0a974a8ad789e9c43a3d08fe44cd8f2f, type: 3}
+      propertyPath: BackToCharacterSelection
+      value: 
+      objectReference: {fileID: 1434423197}
     - target: {fileID: 8126445882110012919, guid: 0a974a8ad789e9c43a3d08fe44cd8f2f, type: 3}
       propertyPath: m_IsActive
       value: 1

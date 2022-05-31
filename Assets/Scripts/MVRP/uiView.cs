@@ -62,7 +62,12 @@ public class uiView : MonoBehaviour
           .Subscribe()
           .AddTo(this);
         BackToCharacterSelection.OnClickAsObservable()
-          .Do(_ => chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToCharacterSelection)
+          .Do(_ => {
+              if (gameplayView.instance.isTryout)
+                  chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnLogin;
+              else
+                  chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToCharacterSelection;
+          })
           .Where(_ => PlaySounds.instance != null)
           .Do(_ => PlaySounds.instance.Play())
           .Subscribe()

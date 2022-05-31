@@ -28,5 +28,16 @@ public class TemporaryRestartScript : MonoBehaviour
         //SceneManager.LoadScene(1);
     }
 
+
+    public void TryOutHomrBtn()
+    {
+        if (gameplayView.instance.isTryout)
+        {
+           
+            chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnLogin;
+            SceneManager.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
+
+        }
+    }
  
 }

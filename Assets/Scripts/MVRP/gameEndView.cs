@@ -34,14 +34,14 @@ public class gameEndView : MonoBehaviour
 
     private void OnEnable()
     {
-       /* if (gameplayView.instance.isTryout)
+        if (gameplayView.instance.isTryout)
         {
             tryAgain.gameObject.SetActive(false);
         }
         else
         {
             tryAgain.gameObject.SetActive(true);
-        }*/
+        }
     }
     public void Start()
     {
@@ -73,7 +73,7 @@ public class gameEndView : MonoBehaviour
             }
         }
         gameplayView.instance.GetScores();
-        setScoreResutls();
+        //setScoreResutls();
 
     }
     public void initializeValues()

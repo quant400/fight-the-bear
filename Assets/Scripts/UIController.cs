@@ -110,7 +110,7 @@ public class UIController : MonoBehaviour
 
         gameOverPanel.transform.GetChild(3).GetComponent<TMP_Text>().text ="SCORE: " +((int)(score)).ToString();
        
-        gameOverPanel.SetActive(true);
+        //gameOverPanel.SetActive(true);
     }
 
 

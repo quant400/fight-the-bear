@@ -283,11 +283,20 @@ public class characterSelectionView : MonoBehaviour
    
     public void Skip()
     {
-        skipping = true;
-        info = Resources.LoadAll("SinglePlayerPrefabs/DisplaySprites/HeadShots", typeof(Sprite));
-        characterNFTMap = new NFTInfo[info.Length];
-        SkipDisplayChars(0);
-        Done();
+        if (!gameplayView.instance.isTryout)
+        {
+            skipping = true;
+            info = Resources.LoadAll("SinglePlayerPrefabs/DisplaySprites/HeadShots", typeof(Sprite));
+            characterNFTMap = new NFTInfo[info.Length];
+            SkipDisplayChars(0);
+            Done();
+        }
+        else
+        {
+            gameplayView.instance.chosenNFT = new NFTInfo { name = "a-rod", id = 175 };
+            selected = true;
+            chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelected;
+        }
     }
    
     void SkipDisplayChars(int startingindex)
