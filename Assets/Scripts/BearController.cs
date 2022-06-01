@@ -38,10 +38,34 @@ public class BearController : MonoBehaviour
         timeLeft = 15;
         bearAttack = 10 * (playerFC.GetBearNumber()+1);
         bearHealth = 100 + 25 * (playerFC.GetBearNumber());
+        SetAttackRange(playerFC.GetBearNumber());
         playerFC.StartFight(gameObject);
         
         
     }
+
+    private void SetAttackRange(int v)
+    {
+        switch (v)
+        {
+            case (0):
+                attackRange = 2.9f;
+                break;
+            case (1):
+                attackRange = 3.2f;
+                break;
+            case (2):
+                attackRange = 3.7f;
+                break;
+            case (3):
+                attackRange = 4.2f;
+                break;
+            default:
+                attackRange = 4.2f;
+                break;
+        }
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -63,7 +87,7 @@ public class BearController : MonoBehaviour
                     tempAttackTime = Random.Range(3, maxAttackInterval + 1);
                     canAttackIn = 0;
                     transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
-                    if (Vector3.Distance(transform.position, playerFC.transform.position) <= 2f) 
+                    if (Vector3.Distance(transform.position, playerFC.transform.position) <= attackRange) 
                         transform.Translate(Vector3.back*0.5f);
                     StartAttack(0);
                 }
@@ -192,6 +216,7 @@ public class BearController : MonoBehaviour
 
     public void Die()
     {
+        currentState = States.Dead;
         GetComponent<BoxCollider>().enabled = false;
         GameObject.FindGameObjectWithTag("Door").GetComponent<SlidingDoor>().OpenDoor();
         
