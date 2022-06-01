@@ -504,7 +504,7 @@ public class FightController : MonoBehaviour
 
                 if (specialAttack)
                 {
-                    if (Input.GetKeyDown(currentKey))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         currentValue = UIController.instance.GetSliderValue();
                         PlaySingleActions();
