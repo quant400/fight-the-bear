@@ -25,7 +25,7 @@ public class BearController : MonoBehaviour
     public bool actionDone;
     bool playerSeen=false;
     private bool stunned = false;
-    float sliderVal=0;
+    float sliderVal=1;
     float timer;
     float timeLeft;
     public bool canFollow=true;
@@ -137,7 +137,7 @@ public class BearController : MonoBehaviour
         {
             if (stunned)
             {
-                anim.SetBool("Stunned", false);
+                /*anim.SetBool("Stunned", false);
                 stunned = false;
                 sliderVal = Mathf.Abs(playerFC.GetCurrentSliderVal() - 0.5f);
                 if (sliderVal >= 0.15 && sliderVal <= 0.35)
@@ -149,13 +149,14 @@ public class BearController : MonoBehaviour
                     sliderVal = 10;
                 }
                 else
-                    sliderVal = 0;
+                    sliderVal = 0;*/
+                sliderVal = 2;
             }
             currentState = States.Hit;
-            bearHealth -= (int)(dammage+sliderVal);
-            playerFC.GivePoints((dammage + sliderVal));
-            bDD.DisplayDamage((dammage + sliderVal));
-            sliderVal = 0;
+            bearHealth -= (int)(dammage*sliderVal);
+            playerFC.GivePoints((dammage * sliderVal));
+            bDD.DisplayDamage((dammage * sliderVal));
+            sliderVal = 1   ;
             if (bearHealth <= 0)
             {
                 currentState = States.Dead;

@@ -289,7 +289,7 @@ public class FightController : MonoBehaviour
                 }
                 else
                 {
-                    EnableSpecialAttack();
+                    //EnableSpecialAttack();
                     bearC.Stunned();
                     playerAnim.SetTrigger("Hit");
                 }
