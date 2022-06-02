@@ -131,7 +131,7 @@ public class FightController : MonoBehaviour
         GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        CC.transform.position = bear.transform.GetChild(5).position;
+        CC.transform.position = bear.transform.GetChild(5).position + -bear.transform.forward*bearNumber;
         CC.transform.LookAt(new Vector3(bear.transform.position.x, CC.transform.position.y, bear.transform.position.z));
         playerAnim.SetBool("Fight", true);
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 11;
@@ -232,6 +232,12 @@ public class FightController : MonoBehaviour
     }
     public void TakeDammage(float ammount)
     {
+        if(playerAnim.GetBool("Jump"))
+        {
+            playerAnim.SetBool("Jump", false);
+            playerAnim.SetBool("Grounded", true);
+            
+        }
         if (currentState != States.Hit && !shield)
         {
             playerAnim.SetBool("Fight", true);
