@@ -254,9 +254,11 @@ public class FightController : MonoBehaviour
                 {
                     DisableMovement();
                     died = true;
+                    Time.timeScale = 0.5f;
                     currentState = States.Dead;
                     //playerAnim.applyRootMotion = true;
                     playerAnim.SetBool("Dead", true);
+                    Invoke("RestoreTime", 2f);
                     //ExitFight();
                 }
                 else
@@ -283,8 +285,10 @@ public class FightController : MonoBehaviour
                     DisableMovement();
                     died = true;
                     currentState = States.Dead;
+                    Time.timeScale = 0.5f;
                     playerAnim.SetBool("Block", false);
                     playerAnim.SetBool("Dead", true);
+                    Invoke("RestoreTime", 2f);
                     //Die();
                 }
                 else
@@ -606,13 +610,13 @@ public class FightController : MonoBehaviour
         //score += startingTime;
         gameplayView.instance.SetLocalScore(score);
         if (died)
-            UIController.instance.DisplayGameOver("You Died!", score);
+            UIController.instance.DisplayGameOver("WASTED!", score);
         else
         {
             UIController.instance.DisplayGameOver("You ran out of time.", score);
            
         }
-       
+        
         chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnGameEnded;
     }
     private string ConvertToString(string[] tempDisp)
@@ -625,7 +629,10 @@ public class FightController : MonoBehaviour
         return result;
     }
 
-
+    void RestoreTime()
+    {
+        Time.timeScale = 1f;
+    }
    
   
 }

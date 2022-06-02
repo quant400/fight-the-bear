@@ -150,6 +150,8 @@ public class BearController : MonoBehaviour
                 }
                 else
                     sliderVal = 0;*/
+
+                anim.SetBool("Stunned", false);
                 sliderVal = 2;
             }
             currentState = States.Hit;
