@@ -73,7 +73,7 @@ public class PlayerSFXController : MonoBehaviour
 
         if (cC.velocity.sqrMagnitude > 0 && (x != 0 || y != 0))
         {
-            m_StepCycle += (cC.velocity.magnitude + speed) * Time.deltaTime;
+            m_StepCycle += (cC.velocity.magnitude + speed) * Time.fixedDeltaTime;
         }
 
         if (!(m_StepCycle > m_NextStep))
