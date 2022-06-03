@@ -14,7 +14,7 @@ public class PlayerSFXController : MonoBehaviour
     [SerializeField]
     AudioClip swoosh;
     [SerializeField]
-    AudioClip hit;
+    AudioClip [] hit;
 
     [SerializeField]
     AudioClip[] walk;
@@ -39,6 +39,13 @@ public class PlayerSFXController : MonoBehaviour
         playerAudio.clip = swoosh;
         playerAudio.Play();
     }
+    public void Playhit()
+    {
+        playerAudio.clip = hit[Random.Range(0, hit.Length)];
+        playerAudio.Play();
+    }
+
+
 
     public void PlayStep()
     {
@@ -66,7 +73,7 @@ public class PlayerSFXController : MonoBehaviour
 
         if (cC.velocity.sqrMagnitude > 0 && (x != 0 || y != 0))
         {
-            m_StepCycle += (cC.velocity.magnitude + speed) * Time.fixedDeltaTime;
+            m_StepCycle += (cC.velocity.magnitude + speed) * Time.deltaTime;
         }
 
         if (!(m_StepCycle > m_NextStep))

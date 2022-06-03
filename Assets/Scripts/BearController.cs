@@ -32,6 +32,10 @@ public class BearController : MonoBehaviour
  
 
     DamageDisplay bDD;
+
+    BearStageSfx bSFX;
+    
+   
     public void StartFight()
     {
         playerSeen = true;
@@ -72,7 +76,7 @@ public class BearController : MonoBehaviour
         anim = GetComponent<Animator>();
         playerFC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
         bDD = GetComponentInChildren<DamageDisplay>();
-        
+        bSFX = GetComponent<BearStageSfx>();
     }
 
     private void Update()
@@ -135,6 +139,7 @@ public class BearController : MonoBehaviour
     {
         if (currentState == States.Idel)
         {
+            bSFX.Playhit();
             if (stunned)
             {
                 /*anim.SetBool("Stunned", false);

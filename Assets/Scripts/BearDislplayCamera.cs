@@ -17,7 +17,7 @@ public class BearDislplayCamera : MonoBehaviour
     {
         cam = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTrackedDolly>();
         player = GameObject.FindGameObjectWithTag("Player");
-        bSFX = GameObject.FindGameObjectWithTag("BearRoar").GetComponent<BearStageSfx>();
+        bSFX = GetComponentInParent<BearStageSfx>();
         bSFX.Invoke("PlayRoar", 2f);
         Invoke("Roar", 2f);
         

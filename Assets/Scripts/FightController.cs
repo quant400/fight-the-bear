@@ -72,7 +72,6 @@ public class FightController : MonoBehaviour
 
     DamageDisplay DD;
 
-    
     private void Awake()
     {
         //bearNumber = LoaderScript.instance.bearNumber;
@@ -240,6 +239,7 @@ public class FightController : MonoBehaviour
         }
         if (currentState != States.Hit && !shield)
         {
+            pSFXC.Playhit();
             playerAnim.SetBool("Fight", true);
             if (currentState != States.Blocking)
             {
