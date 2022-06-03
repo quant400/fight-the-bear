@@ -74,6 +74,7 @@ public class BearController : MonoBehaviour
     private void Start()
     {
         anim = GetComponent<Animator>();
+        anim.SetFloat("Start", Random.Range(0, 4));
         playerFC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
         bDD = GetComponentInChildren<DamageDisplay>();
         bSFX = GetComponent<BearStageSfx>();
