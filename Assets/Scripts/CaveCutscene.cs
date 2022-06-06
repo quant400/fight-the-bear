@@ -69,7 +69,7 @@ public class CaveCutscene : MonoBehaviour
     void DisplayText()
     {
         
-            int ind = Random.Range(0, 8);
+            int ind = Random.Range(0, 7);
             UIController.instance.ActivateText(lines[ind].ToUpper());
         
     }

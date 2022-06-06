@@ -101,6 +101,8 @@ public class FightModel
     public static ReactiveProperty<float> gameTime = new ReactiveProperty<float>(120);
     public static GameObject playerCamera;
     public static GameObject CinematicCamera;
+    public static GameObject CinematicBackFakeCamera;
+
     public static CinemachineBrain playerCameraBrain;
     public static int lastRand;
 

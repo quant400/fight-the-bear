@@ -148,6 +148,8 @@ public class UIController : MonoBehaviour
         timerDisplay.text = ("Time Left : ").ToUpper() + "45";
         FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = true;
         FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         TemporaryRestartScript.instance.Reset();
     }
 

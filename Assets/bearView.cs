@@ -9,7 +9,7 @@ using UniRx.Triggers;
 public class bearView : MonoBehaviour
 {
     public static bearView instance;
-    Animator anim;
+    public Animator anim;
     [SerializeField]
     float attackInterval;
     GameObject playerFC;
@@ -163,10 +163,9 @@ public class bearView : MonoBehaviour
                     anim.SetBool("OnDeath", true);
                     anim.Play("Dead", 0);
                     Observable.Timer(TimeSpan.Zero)
-                                        .Do(_ => cinematicView.setCamera(true,3))
+                                        .Do(_ => cinematicView.instance.setCamera(true,3))
                                         .Delay(TimeSpan.FromSeconds(3f))
-                                        .Do(_ => cinematicView.setCamera(false, 0))
-                                                                         .Do(_ => FightModel.playerCameraBrain.m_DefaultBlend.m_Style = Cinemachine.CinemachineBlendDefinition.Style.Cut)
+                                        .Do(_ => cinematicView.instance.setCamera(false, 0))
                                         .Delay(TimeSpan.FromSeconds(1f))
                                   .Subscribe()
                                   .AddTo(this);

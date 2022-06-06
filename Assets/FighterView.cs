@@ -30,6 +30,8 @@ public class FighterView : MonoBehaviour
     public bool initilized;
     public GameObject playerCamera;
     public CinemachineBrain playerCameraBrain;
+    public DamageDisplay DD;
+    public GameObject fakeCamera;
 
     [SerializeField]
     bool canChangeStatus;
@@ -38,11 +40,16 @@ public class FighterView : MonoBehaviour
         FightModel.currentPlayer = gameObject;
         FightModel.playerCamera = playerCamera;
         FightModel.playerCameraBrain = playerCameraBrain;
-
+        FightModel.CinematicBackFakeCamera = fakeCamera;
         if (instance != null)
             Destroy(this);
         else
             instance = this;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = true;
+        GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = true;
 
     }
     // Update is called once per frame
@@ -163,6 +170,7 @@ public class FighterView : MonoBehaviour
                     {
                         Debug.Log("player Hitted");
                         playerAnimator.SetTrigger("Hit");
+                        DD.DisplayDamage(damageFromMode(FightModel.currentFightMode));
                         Observable.Timer(TimeSpan.Zero)
                                .DelayFrame(1)
                                .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)

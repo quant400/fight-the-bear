@@ -47,8 +47,9 @@ public class fightView : MonoBehaviour
     public ReactiveProperty<bool> isInDistanceRage = new ReactiveProperty<bool>();
     Vector3 bearPosRage;
     ReactiveProperty<bool> gameStarted = new ReactiveProperty<bool>();
-    Transform spawnPointsParent;
+    public Transform spawnPointsParent;
     List<Transform> spawnPoints=new List<Transform>();
+
 
     private void Awake()
     {
@@ -72,12 +73,11 @@ public class fightView : MonoBehaviour
         currentBearHealthDistance.Value = FightModel.bearDistanceHealth;
         canChangeStatus = true;
         Observable.Timer(TimeSpan.Zero)
-                                .Do(_ => cinematicView.setCamera(true, 0))
+                                .Do(_ => cinematicView.instance.setCamera(true, 0))
+                                  .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
+                                 .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
                                 .Delay(TimeSpan.FromSeconds(cinematicTime))
-                                 .Do(_ => cinematicView.setCamera(false, 0))
-                                 .Do(_ => FightModel.playerCameraBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut)
-                                 .Do(_=>FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled=false)
-                                 .Do(_=> FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
+                                 .Do(_ => cinematicView.instance.setCamera(false, 0))
                                  .Do(_=> FightModel.currentPlayer.transform.position= GetMostFarPosFromBear())
                                  .Delay(TimeSpan.FromSeconds(1))
                                  .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
@@ -222,11 +222,11 @@ public class fightView : MonoBehaviour
     }
     Vector3 GetMostFarPosFromBear()
     {
-        float d = 1000f;
+        float d = 0;
         Vector3 target = spawnPoints[0].position;
         foreach (Transform t in spawnPoints)
         {
-            if (Vector3.Distance(FightModel.currentBear.transform.position, t.position) < d)
+            if (Vector3.Distance(FightModel.currentBear.transform.position, t.position) > d)
             {
                 target = t.position;
                 d = Vector3.Distance(FightModel.currentBear.transform.position, t.position);
@@ -291,13 +291,19 @@ public class fightView : MonoBehaviour
             if (FighterView.instance != null)
             {
                 if (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearKnokedShortly)
-                    if (FighterView.instance.playerAnimator.GetInteger("comboCounter")!= 0) 
                 {
-                    FighterView.instance.comboValue.Value = 0;
-                    FighterView.instance.currentState = 0;
-                    FighterView.instance.playerAnimator.SetInteger("comboCounter", 0);
-                    FighterView.instance.playerAnimator.SetBool("Fight", false);
+                    if (!bearView.instance.anim.GetCurrentAnimatorStateInfo(0).IsName("DistanceAttackBear"))
+                    {
+                        bearView.instance.anim.Play("DistanceAttackBear");
+                    }
+                    if (FighterView.instance.playerAnimator.GetInteger("comboCounter") != 0)
+                    {
+                        FighterView.instance.comboValue.Value = 0;
+                        FighterView.instance.currentState = 0;
+                        FighterView.instance.playerAnimator.SetInteger("comboCounter", 0);
+                        FighterView.instance.playerAnimator.SetBool("Fight", false);
 
+                    }
                 }
             }
         }
@@ -442,6 +448,7 @@ public class fightView : MonoBehaviour
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDead;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 7f;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 10.5f;
+                    FightModel.currentPlayer.GetComponent<RockThrowView>().throwRockWon(0.2f,0.5f);
                     break;
                 case FightModel.fightStatus.OnFightLost:
                     gameStarted.Value = false;
@@ -451,9 +458,10 @@ public class fightView : MonoBehaviour
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 0f;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 0f;
                     UIController.instance.gameOverPanel.SetActive(true);
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
                     FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = false;
-                    FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = false;
-
+                    FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = true;
                     break;
                 case FightModel.fightStatus.OnTimeUp:
 
@@ -500,7 +508,7 @@ public class fightView : MonoBehaviour
                 isInDistanceRage.Value = true;
 
                 Observable.Timer(TimeSpan.Zero)
-                                .Do(_ => cinematicView.setCamera(true, 2))
+                                .Do(_ => cinematicView.instance.setCamera(true, 2))
                                 .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
                                 .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
                                 .Do(_ => FightModel.currentPlayer.transform.position = GetMostFarPosFromBear())
@@ -508,12 +516,13 @@ public class fightView : MonoBehaviour
                                 .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
                                 .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
                                 .Delay(TimeSpan.FromSeconds(cinematicTime))
-                                .Do(_ => cinematicView.setCamera(false, 0))
-                                .Do(_ => FightModel.playerCameraBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut)
+                                .Do(_ => cinematicView.instance.setCamera(false, 0))
                                 .Delay(TimeSpan.FromSeconds(3))
                                 .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
                                 .Delay(TimeSpan.FromSeconds(1))
                                 .Do(_ => observeFightStatus())
+                                .Delay(TimeSpan.FromSeconds(30))
+                                .Do(_=> setFightMode(1))
                           .Subscribe()
                           .AddTo(this);
                 break;
@@ -526,7 +535,7 @@ public class fightView : MonoBehaviour
                 isInDistanceRage.Value = false;
 
                 Observable.Timer(TimeSpan.Zero)
-                                .Do(_ => cinematicView.setCamera(true, 1))
+                                .Do(_ => cinematicView.instance.setCamera(true, 1))
                                  .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
                                 .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
                                 .Do(_ => FightModel.currentPlayer.transform.position = GetMostFarPosFromBear())
@@ -534,8 +543,7 @@ public class fightView : MonoBehaviour
                                 .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
                                 .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
                                 .Delay(TimeSpan.FromSeconds(cinematicTime-1))
-                                .Do(_ => cinematicView.setCamera(false, 0))
-                                .Do(_ => FightModel.playerCameraBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut)
+                                .Do(_ => cinematicView.instance.setCamera(false, 0))
                                 .Delay(TimeSpan.FromSeconds(3))
                                 .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
                                 .Delay(TimeSpan.FromSeconds(1f))

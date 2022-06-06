@@ -16,9 +16,15 @@ public class RockThrowView : MonoBehaviour
     public float pickUpDistance;
     Transform localRock;
     public bool rockPicked =false;
+    public GameObject pickRockCanvas;
+    public GameObject ThrowRockText;
+    public GameObject PickwRockText;
+
     // Start is called before the first frame update
     void Start()
     {
+        ThrowRockText.gameObject.SetActive(false);
+        PickwRockText.gameObject.SetActive(true);
         rocks = GameObject.FindGameObjectsWithTag("ThrowRocks");
     }
     private void OnEnable()
@@ -47,22 +53,26 @@ public class RockThrowView : MonoBehaviour
                         if (isClose())
                         {
                             closesestRock = closestRock(rocks);
+                            pickRockCanvas.transform.position = closesestRock.position+ new Vector3(0,0.8f,0);
+                            pickRockCanvas.SetActive(true);
+                        }
+                        else
+                        {
+                            pickRockCanvas.SetActive(false);
                         }
                     }
                     else
                     {
                         rocks = new GameObject[] { };
-                    }
+                        pickRockCanvas.SetActive(false);
 
-                    
+                    }
                 }
             }
            
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            if (FightModel.currentFightMode != 3)
-            {
                 if (closesestRock != null)
                 {
                     if (!rockPicked)
@@ -72,16 +82,30 @@ public class RockThrowView : MonoBehaviour
                             rockPicked = true;
 
                             playerAnimator.SetBool("PickRock", true);
-                        }
-                    }
-                    else
-                    {
+                        ThrowRockText.gameObject.SetActive(true);
 
-                        playerAnimator.SetBool("PickRock", false);
+                        PickwRockText.gameObject.SetActive(false);
                     }
+                }
+                   
+                }
+        }
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (closesestRock != null)
+            {
+                if (rockPicked)
+                {
+                    playerAnimator.SetBool("PickRock", false);
+                    ThrowRockText.gameObject.SetActive(false);
+                    PickwRockText.gameObject.SetActive(true);
+                    pickRockCanvas.SetActive(false);
+
+
                 }
             }
         }
+
     }
     public void pickUp()
     {
@@ -97,6 +121,14 @@ public class RockThrowView : MonoBehaviour
         if (closesestRock != null)
         {
             StartCoroutine(throwAndSetBack(force));
+        }
+    }
+    public void throwRockWon(float force,float time)
+    {
+        FakeRock.gameObject.SetActive(false);
+        if (closesestRock != null)
+        {
+            StartCoroutine(throwAndSetBackDelay(force, time));
         }
     }
     public Transform closestRock(GameObject[] rocks)
@@ -158,6 +190,25 @@ public class RockThrowView : MonoBehaviour
         yield return new WaitForSeconds(1);
         rockPicked = false;
         yield return new WaitForSeconds(randomTime);
+        rb.isKinematic = true;
+        selectedRock.position = startPosition;
+    }
+    public IEnumerator throwAndSetBackDelay(float force,float wait)
+    {
+        Transform selectedRock = closesestRock;
+        Vector3 startPosition = closesestRock.position;
+        float randomTime = Random.Range(3, 5);
+        Rigidbody rb = selectedRock.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        selectedRock.position = FakeRock.position;
+        Vector3 direction = Bear.position - player.position;
+        FakeRock.gameObject.SetActive(false);
+        selectedRock.gameObject.SetActive(true);
+        rb.AddForce(force * direction);
+        closesestRock = null;
+        yield return new WaitForSeconds(wait);
+        rockPicked = false;
+        yield return new WaitForSeconds(1);
         rb.isKinematic = true;
         selectedRock.position = startPosition;
     }
