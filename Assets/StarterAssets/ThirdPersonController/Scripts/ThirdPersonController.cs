@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -90,7 +91,7 @@ namespace StarterAssets
 		private const float _threshold = 0.01f;
 
 		private bool _hasAnimator;
-
+		bool cursorUnlocked = false;
 
 		PlayerSFXController pSFXC;
 		private void Awake()
@@ -123,6 +124,15 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+			if (!cursorUnlocked && Keyboard.current[Key.Escape].wasPressedThisFrame)
+			{
+				cursorUnlocked = true;
+				GetComponent<StarterAssetsInputs>().SetCursorLock(false);
+			}
+			if (cursorUnlocked && Mouse.current.leftButton.wasPressedThisFrame)
+			{
+				StartCoroutine(LockCursorAfter(1));
+			}
 		}
 
 		private void LateUpdate()
@@ -325,6 +335,14 @@ namespace StarterAssets
 			
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
+		}
+
+		IEnumerator LockCursorAfter(float x)
+		{
+			yield return new WaitForSeconds(x);
+			cursorUnlocked = false;
+			GetComponent<StarterAssetsInputs>().SetCursorLock(true);
+
 		}
 	}
 }

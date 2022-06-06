@@ -9,7 +9,8 @@ public class SFXController : MonoBehaviour
     [SerializeField]
     AudioClip pathAmbient, caveAmbient;
     AudioSource audioSource;
-
+    public bool sfxMuted =false;
+    public bool musicMuted =false;
     private void Awake()
     {
         if (instance == null)
@@ -21,6 +22,16 @@ public class SFXController : MonoBehaviour
             Destroy(this.gameObject);
 
         DontDestroyOnLoad(this);
+        if (PlayerPrefs.HasKey("SFX"))
+        {
+            if (PlayerPrefs.GetString("SFX") == "off")
+                sfxMuted = true;
+        }
+        if (PlayerPrefs.HasKey("Music"))
+        {
+            if (PlayerPrefs.GetString("Music") == "off")
+                musicMuted = true;
+        }
     }
     
     private void OnEnable()
@@ -35,7 +46,7 @@ public class SFXController : MonoBehaviour
 
     void SetSFX(Scene scene, LoadSceneMode mode)
     {
-        switch(scene.name)
+        switch (scene.name)
         {
             case "Menu":
                 Debug.Log("0");
@@ -45,14 +56,19 @@ public class SFXController : MonoBehaviour
             case "PathScene":
                 Debug.Log("1");
                 audioSource.clip = pathAmbient;
-                audioSource.Play();
+                if (!musicMuted)
+                    audioSource.Play();
                 break;
 
             case "BearScene":
                 Debug.Log("2");
                 audioSource.clip = caveAmbient;
-                audioSource.Play();
+                if (!musicMuted)
+                    audioSource.Play();
                 break;
         }
     }
+
+
+   
 }
