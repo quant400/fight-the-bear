@@ -16,7 +16,7 @@ public class PathPowerup : MonoBehaviour
         totalGems = gems.Length;
         for(int i=0;i<numOfPowerups;i++)
         {
-            GameObject loc =gems[GetNum()];
+            GameObject loc =gems[1];
 
             Instantiate(powerup, loc.transform.position, Quaternion.identity);
             loc.SetActive(false);
