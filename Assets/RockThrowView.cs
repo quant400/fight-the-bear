@@ -183,9 +183,10 @@ public class RockThrowView : MonoBehaviour
         rb.isKinematic = false;
         selectedRock.position = FakeRock.position;
         Vector3 direction = Bear.position - player.position;
+        Vector3 aimDirection =(direction.normalized+player.forward.normalized).normalized;
         FakeRock.gameObject.SetActive(false);
         selectedRock.gameObject.SetActive(true);
-        rb.AddForce(force * direction);
+        rb.AddForce(force * 20 * aimDirection);
         closesestRock = null;
         yield return new WaitForSeconds(1);
         rockPicked = false;
@@ -202,9 +203,10 @@ public class RockThrowView : MonoBehaviour
         rb.isKinematic = false;
         selectedRock.position = FakeRock.position;
         Vector3 direction = Bear.position - player.position;
+        Vector3 aimDirection = (direction.normalized + player.forward.normalized).normalized;
         FakeRock.gameObject.SetActive(false);
         selectedRock.gameObject.SetActive(true);
-        rb.AddForce(force * direction);
+        rb.AddForce(force* 20 * aimDirection);
         closesestRock = null;
         yield return new WaitForSeconds(wait);
         rockPicked = false;

@@ -4,6 +4,7 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using System;
+using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Cinemachine;
@@ -358,7 +359,6 @@ public class fightView : MonoBehaviour
                 door = GameObject.FindObjectOfType<SlidingDoor>();
             }
             door.OpenDoor();
-            hittedRocks.gameObject.SetActive(false);
             FighterView.instance.initilized = false;
 
         }
@@ -366,6 +366,14 @@ public class fightView : MonoBehaviour
         {
             FighterView.instance.initilized = false;
         }
+    }
+    void hideRocks()
+    {
+        hittedRocks.transform.DOMove(new Vector3(hittedRocks.transform.position.x, -15, hittedRocks.transform.position.z), 4f).OnComplete(() =>
+        {
+            door.OpenDoor();
+            hittedRocks.gameObject.SetActive(false);
+        });
     }
     void desShield(float v)
     {
@@ -581,7 +589,6 @@ public class fightView : MonoBehaviour
     {
         FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearCinematicMode;
         FightModel.currentFightStatus.Value = FightModel.fightStatus.OnEnterCave;
-
         currentBearShieldHealth.Value = FightModel.bearShielHealth;
         currentBearHealthDistance.Value = FightModel.bearDistanceHealth;
         canChangeStatus = true;

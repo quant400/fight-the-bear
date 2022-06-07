@@ -49,6 +49,8 @@ public class bearView : MonoBehaviour
     public ReactiveProperty<bool> playerHitted = new ReactiveProperty<bool>();
     public float timeToHitAgain=2;
     public GameObject cinematicCamera;
+    public DamageDisplay DD;
+
     public void StartFight()
     {
         timeLeft = 15;
@@ -188,6 +190,7 @@ public class bearView : MonoBehaviour
                         Debug.Log("bear Hitted");
                         following = false;
                         hitted = true;
+                        DD.DisplayDamage(damageFromMode(FightModel.currentFightMode));
                         Observable.Timer(TimeSpan.Zero)
                            .Do(_ => anim.SetFloat("hitBlend", Mathf.RoundToInt(UnityEngine.Random.Range(0, 3))))
                            .Do(_ => anim.SetTrigger("Hit"))
