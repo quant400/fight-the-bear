@@ -12,7 +12,7 @@ public class LeaderBoardEntry : MonoBehaviour
     public void Set(string Rank,string Fighter,string ID,string Score)
     {
         rank.text = Rank;
-        fighter.text = Fighter;
+        fighter.text = Fighter.ToUpper();
         nftID.text = ID;
         score.text = Score;
 

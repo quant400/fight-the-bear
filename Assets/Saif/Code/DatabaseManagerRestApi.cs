@@ -14,6 +14,7 @@ public class DatabaseManagerRestApi : MonoBehaviour
     public static DatabaseManagerRestApi _instance;
     ReactiveProperty<int> sessionCounterReactive = new ReactiveProperty<int>();
     int localID;
+    public int scoreUpdateTried;
     private void Awake()
     {
         _instance = this;
@@ -22,6 +23,7 @@ public class DatabaseManagerRestApi : MonoBehaviour
     private void Update() {
         // if(Input.GetKeyDown(KeyCode.Space))
         //     setScore("00256454","THE RED FIGHTER",200);
+        
     }
 
     //Most of the calls in the api are async calls, which makes code clean and tidy, and powerful! 
@@ -69,7 +71,8 @@ public class DatabaseManagerRestApi : MonoBehaviour
   
     public void startSessionFromRestApi(int _assetID)
     {
-        StartCoroutine(startSessionApi("https://api.cryptofightclub.io/game/sdk/chicken/start-session", _assetID));
+        scoreUpdateTried = 0;
+        StartCoroutine(startSessionApi("https://api.cryptofightclub.io/game/sdk/bear/start-session", _assetID));
     }
 
     public void getDataFromRestApi(int assetId)
@@ -119,8 +122,9 @@ public class DatabaseManagerRestApi : MonoBehaviour
         postedData.score = scoreAdded;
         string idJsonData = JsonUtility.ToJson(postedData);
 
-        using (UnityWebRequest request = UnityWebRequest.Put("https://api.cryptofightclub.io/game/sdk/chicken/end-session", idJsonData))
+        using (UnityWebRequest request = UnityWebRequest.Put("https://api.cryptofightclub.io/game/sdk/bear/end-session", idJsonData))
         {
+            request.timeout = 5;
             byte[] bodyRaw = Encoding.UTF8.GetBytes(idJsonData);
             request.method = "POST";
             request.SetRequestHeader("Accept", "application/json");
@@ -131,13 +135,19 @@ public class DatabaseManagerRestApi : MonoBehaviour
 
                 Debug.Log("posted Score in function");
                 Debug.Log(idJsonData);
-
+                //Enable try again button once server responds with new score update.
+                gameplayView.instance.gameObject.GetComponent<uiView>().SetTryAgain(true);
                 getDataFromRestApi(postedData.id);
 
 
             }
             else
             {
+                if (gameplayView.instance.GetSessions() <= 10 && scoreUpdateTried < 10)
+                {
+                    scoreUpdateTried++;
+                    gameplayView.instance.transform.GetComponentInChildren<gameEndView>().Invoke("setScoreAtStart", 6);
+                }
                 Debug.Log("error in server");
             }
 
@@ -155,7 +165,7 @@ public class DatabaseManagerRestApi : MonoBehaviour
         localID = assetId;
         string idJsonData = JsonUtility.ToJson(idData);
         Debug.Log(idData);
-        using (UnityWebRequest request = UnityWebRequest.Put("https://api.cryptofightclub.io/game/sdk/chicken/score", idJsonData))
+        using (UnityWebRequest request = UnityWebRequest.Put("https://api.cryptofightclub.io/game/sdk/bear/score", idJsonData))
         {
             byte[] bodyRaw = Encoding.UTF8.GetBytes(idJsonData);
             request.method = "POST";

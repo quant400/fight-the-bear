@@ -64,7 +64,7 @@ public struct chickenGameModel
 
     public static sceneLoadData mainSceneLoadname = new sceneLoadData(sceneLoadType.menu, "Menu");
     public static sceneLoadData singlePlayerScene1 = new sceneLoadData(sceneLoadType.path, "PathScene");
-    public static sceneLoadData singlePlayerScene2 = new sceneLoadData(sceneLoadType.path, "BearScene");
+    public static sceneLoadData singlePlayerScene2 = new sceneLoadData(sceneLoadType.bear, "BearScene");
    
 
 

@@ -19,7 +19,7 @@ public class CaveCutscene : MonoBehaviour
        "Watch out! micro tragedy!\n\n China wants to ban bitcoin again",
         "Oh no Ethereum 2.0\n\n is delayed \n\n 'till next year again",
         "Be careful\n\n funds are not safu",
-        "Contract hacked.\n\n Funds drained",
+        "Your stablecoin depegged, \n\n it's a death spiral...",
         "OMG\n\n another rug pull",
         "That meme coin is pumping.\n\n You should have bought",
         "Aaaaaaaaaaaaaaand\n\n its gone..."

@@ -11,6 +11,7 @@ public class PlayerPowerUpHandler : MonoBehaviour
     }
     IEnumerator Powerup(powerUpVarient varient , float powerUpDuration, float PowerupSpeedMultiplier)
     {
+        
         switch (varient)
         {
             case powerUpVarient.attack:
@@ -32,6 +33,7 @@ public class PlayerPowerUpHandler : MonoBehaviour
                 TPC.SprintSpeed = TPC.MoveSpeed * 1.5f;
                 break;
         }
+       
 
 
     }

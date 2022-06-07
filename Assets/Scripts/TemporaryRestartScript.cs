@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class TemporaryRestartScript : MonoBehaviour
 {
-    public static TemporaryRestartScript instance;
+   public static TemporaryRestartScript instance;
+    [SerializeField]
+    GameObject playerUI;
     //move to some other script later
     void Awake()
     {
@@ -19,12 +22,22 @@ public class TemporaryRestartScript : MonoBehaviour
 
     public void Reset()
     {
+        playerUI.GetComponent<UIController>().ResetGame();
+       
         Destroy(GameObject.FindGameObjectWithTag("Player"));
-        SceneManager.LoadScene(1);
-        FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
-        FightModel.currentPlayerLevel = 0;
-        FightModel.gameTime.Value = 120;
-        FightModel.gameScore.Value = 0;
-        Time.timeScale = 1;
+        //SceneManager.LoadScene(1);
     }
+
+
+    public void TryOutHomrBtn()
+    {
+        if (gameplayView.instance.isTryout)
+        {
+           
+            chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnLogin;
+            SceneManager.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
+
+        }
+    }
+ 
 }

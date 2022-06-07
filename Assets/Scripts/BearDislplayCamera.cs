@@ -12,10 +12,15 @@ public class BearDislplayCamera : MonoBehaviour
     CinemachineTrackedDolly cam;
 
     GameObject player;
+    BearStageSfx bSFX;
     private void Start()
     {
         cam = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTrackedDolly>();
         player = GameObject.FindGameObjectWithTag("Player");
+        bSFX = GetComponentInParent<BearStageSfx>();
+        bSFX.Invoke("PlayRoar", 2f);
+        Invoke("Roar", 2f);
+        
     }
 
     private void Update()
@@ -34,5 +39,11 @@ public class BearDislplayCamera : MonoBehaviour
             gameObject.GetComponentInParent<BearController>().StartFight();
             this.enabled = false;
         }
+    }
+
+
+    void Roar()
+    {
+        GetComponentInParent<Animator>().SetTrigger("Roar");
     }
 }

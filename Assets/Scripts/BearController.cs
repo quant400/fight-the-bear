@@ -25,30 +25,59 @@ public class BearController : MonoBehaviour
     public bool actionDone;
     bool playerSeen=false;
     private bool stunned = false;
-    float sliderVal=0;
+    float sliderVal=1;
     float timer;
     float timeLeft;
     public bool canFollow=true;
  
 
     DamageDisplay bDD;
+
+    BearStageSfx bSFX;
+    
+   
     public void StartFight()
     {
         playerSeen = true;
         timeLeft = 15;
         bearAttack = 10 * (playerFC.GetBearNumber()+1);
         bearHealth = 100 + 25 * (playerFC.GetBearNumber());
+        SetAttackRange(playerFC.GetBearNumber());
         playerFC.StartFight(gameObject);
         
         
     }
+
+    private void SetAttackRange(int v)
+    {
+        switch (v)
+        {
+            case (0):
+                attackRange = 2.9f;
+                break;
+            case (1):
+                attackRange = 3.2f;
+                break;
+            case (2):
+                attackRange = 3.7f;
+                break;
+            case (3):
+                attackRange = 4.2f;
+                break;
+            default:
+                attackRange = 4.2f;
+                break;
+        }
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
         anim = GetComponent<Animator>();
+        anim.SetFloat("Start", Random.Range(0, 4));
         playerFC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
         bDD = GetComponentInChildren<DamageDisplay>();
-        
+        bSFX = GetComponent<BearStageSfx>();
     }
 
     private void Update()
@@ -63,7 +92,7 @@ public class BearController : MonoBehaviour
                     tempAttackTime = Random.Range(3, maxAttackInterval + 1);
                     canAttackIn = 0;
                     transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
-                    if (Vector3.Distance(transform.position, playerFC.transform.position) <= 2f) 
+                    if (Vector3.Distance(transform.position, playerFC.transform.position) <= attackRange) 
                         transform.Translate(Vector3.back*0.5f);
                     StartAttack(0);
                 }
@@ -111,9 +140,10 @@ public class BearController : MonoBehaviour
     {
         if (currentState == States.Idel)
         {
+            bSFX.Playhit();
             if (stunned)
             {
-                anim.SetBool("Stunned", false);
+                /*anim.SetBool("Stunned", false);
                 stunned = false;
                 sliderVal = Mathf.Abs(playerFC.GetCurrentSliderVal() - 0.5f);
                 if (sliderVal >= 0.15 && sliderVal <= 0.35)
@@ -125,13 +155,16 @@ public class BearController : MonoBehaviour
                     sliderVal = 10;
                 }
                 else
-                    sliderVal = 0;
+                    sliderVal = 0;*/
+
+                anim.SetBool("Stunned", false);
+                sliderVal = 2;
             }
             currentState = States.Hit;
-            bearHealth -= (int)(dammage+sliderVal);
-            playerFC.GivePoints((dammage + sliderVal));
-            bDD.DisplayDamage((dammage + sliderVal));
-            sliderVal = 0;
+            bearHealth -= (int)(dammage*sliderVal);
+            playerFC.GivePoints((dammage * sliderVal));
+            bDD.DisplayDamage((dammage * sliderVal));
+            sliderVal = 1   ;
             if (bearHealth <= 0)
             {
                 currentState = States.Dead;
@@ -192,8 +225,10 @@ public class BearController : MonoBehaviour
 
     public void Die()
     {
+        currentState = States.Dead;
         GetComponent<BoxCollider>().enabled = false;
         GameObject.FindGameObjectWithTag("Door").GetComponent<SlidingDoor>().OpenDoor();
+        
         playerFC.ExitFight();
     }
 

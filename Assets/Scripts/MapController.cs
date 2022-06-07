@@ -52,7 +52,7 @@ public class MapController : MonoBehaviour
     }
     void SpawnStartingt()
     {
-        planesToSpawnBeforeBear = Random.Range(2, maxPlanesBeforeBear+1);
+        planesToSpawnBeforeBear = Random.Range(1, maxPlanesBeforeBear+1);
         int t = UnityEngine.Random.Range(0, PlanePrefabs.Length);
         previoustrrain = Instantiate(PlanePrefabs[t], playerLoc.position+Vector3.forward*45, Quaternion.identity);
         previoustrrain.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
@@ -73,7 +73,7 @@ public class MapController : MonoBehaviour
             previoustrrain.transform.GetChild(1).gameObject.SetActive(true);
             previoustrrain.transform.GetChild(0).gameObject.SetActive(true);
             previoustrrain.transform.GetChild(0).GetComponent<CaveCutscene>().last = true;
-            GetComponent<PathPowerup>().SpawnPowerups();
+            //GetComponent<PathPowerup>().SpawnPowerups();
            
         }
 

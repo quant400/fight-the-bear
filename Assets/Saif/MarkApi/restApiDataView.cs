@@ -49,11 +49,11 @@ public class restApiDataView : MonoBehaviour
     }
     public void getLeaderboardFronRestApi()
     {
-        StartCoroutine(getLeaderboardFromApi("https://api.cryptofightclub.io/game/sdk/chicken/leaderboard/alltime", "all"));
+        StartCoroutine(getLeaderboardFromApi("https://api.cryptofightclub.io/game/sdk/bear/leaderboard/alltime ", "all"));
     }
     public void getDailyLeaderboardFronRestApi()
     {
-        StartCoroutine(getLeaderboardFromApi("https://api.cryptofightclub.io/game/sdk/chicken/leaderboard/daily","daily"));
+        StartCoroutine(getLeaderboardFromApi("https://api.cryptofightclub.io/game/sdk/bear/leaderboard/daily", "daily"));
     }
     public IEnumerator getLeaderboardFromApi(string url,string type)
     {

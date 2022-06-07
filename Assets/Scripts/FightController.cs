@@ -21,7 +21,7 @@ public class FightController : MonoBehaviour
     private Quaternion originalRot;
     States currentState;
     AttackingStates currentAttackingState;
-    public static int bearNumber = 0;
+    public int bearNumber = 0;
     [SerializeField]
 
     float atk, def, tek;
@@ -72,7 +72,6 @@ public class FightController : MonoBehaviour
 
     DamageDisplay DD;
 
-    
     private void Awake()
     {
         //bearNumber = LoaderScript.instance.bearNumber;
@@ -110,25 +109,18 @@ public class FightController : MonoBehaviour
         currentState = States.Idel;
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 9;
         inFight = false;
-        if (!died && !timeEnded)
+       /* if (!died && !timeEnded)
         {
             score += startingTime;
             startingTime += TimeAddedPerBear;
             
-        }
+        }*/
         UIController.instance.UpdateTimerVal(startingTime);
         //timerDisplay.text = ("Time Left : ").ToUpper() + startingTime.ToString("00");
 
     }
 
-    /* void ActivateInputs()
-     {
-         fightCanvas.SetActive(true);
-         gaugeInputs.SetActive(false);
-         sequenceInputs.SetActive(false);
-
-     }*/
-
+  
     void EnableSpecialAttack()
     {
         specialAttack = true;
@@ -138,7 +130,7 @@ public class FightController : MonoBehaviour
         GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        CC.transform.position = bear.transform.GetChild(5).position;
+        CC.transform.position = bear.transform.GetChild(5).position + -bear.transform.forward*bearNumber;
         CC.transform.LookAt(new Vector3(bear.transform.position.x, CC.transform.position.y, bear.transform.position.z));
         playerAnim.SetBool("Fight", true);
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 11;
@@ -180,12 +172,12 @@ public class FightController : MonoBehaviour
                 playerAnim.SetFloat("PunchVal", p);
                 playerAnim.SetTrigger("Punch");
             }
-            else
+            /*else
             {
                 playerAnim.SetBool("Block", false);
                 currentState = States.Idel;
                 Punch();
-            }
+            }*/
         }
     }
 
@@ -206,12 +198,12 @@ public class FightController : MonoBehaviour
                 playerAnim.SetFloat("KickVal", p);
                 playerAnim.SetTrigger("Kick");
             }
-            else
+           /* else
             {
                 playerAnim.SetBool("Block", false);
                 currentState = States.Idel;
                 Kick();
-            }
+            }*/
         }
     }
 
@@ -229,10 +221,25 @@ public class FightController : MonoBehaviour
         //StartCoroutine(ResetAnim());
     }
 
+    void StopBlock()
+    {
+        currentState = States.Idel;
+        playerAnim.SetBool("Block", false);
+        playerAnim.SetBool("Fight", false);
+        EnableMovement();
+       
+    }
     public void TakeDammage(float ammount)
     {
+        if(playerAnim.GetBool("Jump"))
+        {
+            playerAnim.SetBool("Jump", false);
+            playerAnim.SetBool("Grounded", true);
+            
+        }
         if (currentState != States.Hit && !shield)
         {
+            pSFXC.Playhit();
             playerAnim.SetBool("Fight", true);
             if (currentState != States.Blocking)
             {
@@ -247,9 +254,11 @@ public class FightController : MonoBehaviour
                 {
                     DisableMovement();
                     died = true;
+                    Time.timeScale = 0.5f;
                     currentState = States.Dead;
                     //playerAnim.applyRootMotion = true;
                     playerAnim.SetBool("Dead", true);
+                    Invoke("RestoreTime", 2f);
                     //ExitFight();
                 }
                 else
@@ -276,13 +285,15 @@ public class FightController : MonoBehaviour
                     DisableMovement();
                     died = true;
                     currentState = States.Dead;
+                    Time.timeScale = 0.5f;
                     playerAnim.SetBool("Block", false);
                     playerAnim.SetBool("Dead", true);
+                    Invoke("RestoreTime", 2f);
                     //Die();
                 }
                 else
                 {
-                    EnableSpecialAttack();
+                    //EnableSpecialAttack();
                     bearC.Stunned();
                     playerAnim.SetTrigger("Hit");
                 }
@@ -364,76 +375,30 @@ public class FightController : MonoBehaviour
         takingIputs = true;
     }
 
-    /*public void ActivateText(string info)
-    {
-        CutSceneText.text = info;
-        CutSceneText.gameObject.SetActive(true);
-        cutSceneImage.SetActive(true);
-    } 
-    public void DeactivateText()
-    {
-        CutSceneText.gameObject.SetActive(false);
-        cutSceneImage.SetActive(false);
-    }*/
+   
 
     public void GivePoints(float val)
     {
         score += val;
-
+       
     }
-    private void OnTriggerEnter(Collider other)
+     public float GetScore()
     {
-        /* if(other.CompareTag("Bear") && other.GetComponentInChildren<BearController>()!=null && other.GetComponentInChildren<BearController>().GetState()!=States.Dead && !inFight)
-         {
-             bear = other.transform.GetChild(0).gameObject;
-             other.enabled = false;
-             StartFight();
-         }
-         if (other.CompareTag("NextTrigger"))
-         {
-             other.enabled = false;
-             MapController.MC.SpawnNext();
-         }*/
+        return score;
     }
-
+ 
 
     public void ResetGame()
     {
-        /* bearNumber = 0;
-
-         playerAnim.SetBool("Dead", false);
-         playerHelth = 100;
-         currentState = States.Idel;
-         transform.position = new Vector3(0, 0, -45);
-         transform.LookAt(Vector3.forward);
-         specialAttack = false;
-         startingTime = 45;
-         timerDisplay.text = "Time Left : " + startingTime.ToString("00");
-         score = 0;
-         UpdateValues();
-         ExitFight();
-         EnableMovement();
-         died = false;
-         timeEnded =false;
-         gameOverPanel.SetActive(false);
-         Cursor.lockState = CursorLockMode.Locked;
-         Cursor.visible = false;
-         SceneManager.LoadScene(1);
-        */
+      
 
         TemporaryRestartScript.instance.Reset();
     }
-   /* public void Exit()
-    {
-        SceneManager.LoadScene(0);
-        Destroy(gameObject);
-    }*/
+  
     public void MoveToNext()
     {
         currentState = States.Idel;
-        //CC.enabled = false;
-        //transform.position = new Vector3(0, 0, -45);
-        //CC.enabled = true;
+        
         SceneManager.LoadScene(1);
         MapController.MC.ResetMap();
     }
@@ -549,7 +514,7 @@ public class FightController : MonoBehaviour
 
                 if (specialAttack)
                 {
-                    if (Input.GetKeyDown(currentKey))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         currentValue = UIController.instance.GetSliderValue();
                         PlaySingleActions();
@@ -577,19 +542,12 @@ public class FightController : MonoBehaviour
                     playerAnim.SetBool("Fight", true);
                     Block();
                 }
-            }
-            if (!stoptimer)
-            {
-                startingTime -= Time.deltaTime;
-                UIController.instance.UpdateTimerVal(startingTime);
-                //timerDisplay.text = ("Time Left : ").ToUpper() + startingTime.ToString("00");
-                if (startingTime <= 0)
+                if (Input.GetMouseButtonUp(1))
                 {
-                    StopTimer();
-                    timeEnded = true;
-                    Die();
+                    StopBlock();
                 }
             }
+           
         }
 
        
@@ -649,19 +607,17 @@ public class FightController : MonoBehaviour
         
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        score += startingTime;
+        //score += startingTime;
+        gameplayView.instance.SetLocalScore(score);
         if (died)
-            UIController.instance.DisplayGameOver("You Died!", score);
-            //gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "You Died.";
+            UIController.instance.DisplayGameOver("WASTED!", score);
         else
         {
             UIController.instance.DisplayGameOver("You ran out of time.", score);
-            //gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "You ran out of time.";
+           
         }
-        /*gameOverPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = ((int)(score2+score)).ToString();
-        gameOverPanel.transform.GetChild(4).GetComponent<TMP_Text>().text = ((int)(score3 + score)).ToString();
-        gameOverPanel.SetActive(true);*/
-
+        
+        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnGameEnded;
     }
     private string ConvertToString(string[] tempDisp)
     {
@@ -673,7 +629,10 @@ public class FightController : MonoBehaviour
         return result;
     }
 
-
+    void RestoreTime()
+    {
+        Time.timeScale = 1f;
+    }
    
   
 }

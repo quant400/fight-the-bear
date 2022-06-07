@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f9abbfb06facb148a3e2034c95269e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPlanesBeforeBear: 3
+  maxPlanesBeforeBear: 2
   PlanePrefabs:
   - {fileID: 186954928670036470, guid: 3cbb58db0d1c0c44dbc0a100701f9813, type: 3}
   - {fileID: 4994572633048418307, guid: da851232b5e3f9645a1106d8c16c3236, type: 3}
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerup: {fileID: 1000013815401846, guid: 048c67b521781cd4b98225527bdce384, type: 3}
-  numOfPowerups: 2
+  numOfPowerups: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,13 +376,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1468459730}
   - component: {fileID: 1468459729}
+  - component: {fileID: 1468459732}
   m_Layer: 0
   m_Name: PathSfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1468459729
 AudioSource:
   m_ObjectHideFlags: 0
@@ -394,7 +395,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 34cacc9f75e16cc4b8bdb077aee6224c, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
@@ -493,3 +494,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1468459732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468459728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fbc0c279088894e9c9871d816f5b10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathAmbient: {fileID: 8300000, guid: 34cacc9f75e16cc4b8bdb077aee6224c, type: 3}
+  caveAmbient: {fileID: 8300000, guid: fe17702541a0c8d4cb12653dc867875e, type: 3}
+  sfxMuted: 0
+  musicMuted: 0

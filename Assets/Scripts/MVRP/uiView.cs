@@ -17,7 +17,7 @@ public class uiView : MonoBehaviour
     [SerializeField] GameObject startCanvas;
 
 
-    public Button loginBtn, PlayMode, Play, LeaderBoard, BackToCharacterSelection,Skip,backFromLeaderboard;
+    public Button loginBtn, PlayMode, Play, LeaderBoard, BackToCharacterSelection, Skip, tryout, backFromLeaderboard, tryagain;
     [SerializeField] webLoginView webloginView;
     // Start is called before the first frame update
     private void Awake()
@@ -44,7 +44,7 @@ public class uiView : MonoBehaviour
     public void ObserveBtns()
     {
         loginBtn.OnClickAsObservable()
-            .Do(_=> webloginView.OnLogin(loginBtn, Skip))
+            .Do(_=> webloginView.OnLogin(loginBtn, Skip,tryout))
             .Where(_ => PlaySounds.instance != null)
             .Do(_ => PlaySounds.instance.Play())
             .Subscribe()
@@ -62,7 +62,12 @@ public class uiView : MonoBehaviour
           .Subscribe()
           .AddTo(this);
         BackToCharacterSelection.OnClickAsObservable()
-          .Do(_ => chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToCharacterSelection)
+          .Do(_ => {
+              if (gameplayView.instance.isTryout)
+                  chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnLogin;
+              else
+                  chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToCharacterSelection;
+          })
           .Where(_ => PlaySounds.instance != null)
           .Do(_ => PlaySounds.instance.Play())
           .Subscribe()
@@ -154,5 +159,13 @@ public class uiView : MonoBehaviour
                 break;
 
         }
+    }
+
+
+    public void SetTryAgain(bool state)
+    {
+        if (gameplayView.instance.GetSessions() < 10)
+            tryagain.gameObject.SetActive(state);
+
     }
 }

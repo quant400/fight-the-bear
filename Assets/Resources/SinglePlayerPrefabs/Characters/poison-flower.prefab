@@ -485,7 +485,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693237664419290017}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.05
@@ -1160,7 +1160,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7283965091043305651}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.06
@@ -1237,7 +1237,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7504501735445760003}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.05
@@ -1656,6 +1656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHelth: 100
   playerDammage: 10
+  bearNumber: 0
   atk: 0
   def: 0
   tek: 0
@@ -1721,7 +1722,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   punch: {fileID: 8300000, guid: f3aa482e2ff60b943b8c5cb3642328d8, type: 3}
   swoosh: {fileID: 8300000, guid: f5c19fe957d023a429a1e58493a21c3e, type: 3}
-  hit: {fileID: 0}
+  hit:
+  - {fileID: 8300000, guid: 4a780b96c37ac3448a79e19ff2160273, type: 3}
+  - {fileID: 8300000, guid: d537be70ba1cb7246b546f44149bb653, type: 3}
+  - {fileID: 8300000, guid: a3195d2322efa51458d120f1b09c6569, type: 3}
+  - {fileID: 8300000, guid: fba0e17ef9606a9429fb05898a12d238, type: 3}
   walk:
   - {fileID: 8300000, guid: ef6bb9642e308d8489467bf476a9c9f8, type: 3}
   - {fileID: 8300000, guid: 761f5c160b0c94b498c393c173fa03e6, type: 3}
@@ -2542,7 +2547,7 @@ Camera:
   m_GameObject: {fileID: 8186398476451852390}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -2901,7 +2906,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9076826117694469907}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.06

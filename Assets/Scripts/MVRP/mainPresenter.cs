@@ -24,7 +24,7 @@ using UnityEngine.SceneManagement;
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if ((scene.name == chickenGameModel.singlePlayerScene1.sceneName)||(scene.name == chickenGameModel.singlePlayerScene2.sceneName)) 
+        if ((scene.name == chickenGameModel.singlePlayerScene1.sceneName) && !gameplayView.instance.started) 
         {
             Observable.Timer(TimeSpan.Zero)
                         .DelayFrame(2)
@@ -87,8 +87,11 @@ using UnityEngine.SceneManagement;
                     break;
                 case chickenGameModel.GameSteps.OnCharacterSelection:
                     uiView.goToMenu("characterSelection");
-                    characterSelectionView.MoveRight();
-                    characterSelectionView.MoveLeft();
+                    if (!gameplayView.instance.isTryout)
+                    {
+                        characterSelectionView.MoveRight();
+                        characterSelectionView.MoveLeft();
+                    }
 
                     //webView.checkUSerLoggedAtStart(); /// condisder when start load again .....  !!!! 
                     break;
@@ -114,7 +117,8 @@ using UnityEngine.SceneManagement;
                     break;
                 case chickenGameModel.GameSteps.OnGameEnded:
                     uiView.goToMenu("results");
-                    gameEndView.setScoreAtStart();
+                    if (!gameplayView.instance.isTryout)
+                        gameEndView.setScoreAtStart();
                     gameView.EndGame();
                     break;
                 case chickenGameModel.GameSteps.OnBackToCharacterSelection:

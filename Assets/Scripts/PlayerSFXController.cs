@@ -14,7 +14,7 @@ public class PlayerSFXController : MonoBehaviour
     [SerializeField]
     AudioClip swoosh;
     [SerializeField]
-    AudioClip hit;
+    AudioClip [] hit;
 
     [SerializeField]
     AudioClip[] walk;
@@ -31,34 +31,52 @@ public class PlayerSFXController : MonoBehaviour
 
     public void PlayPunch()
     {
-        playerAudio.clip = punch;
-        playerAudio.Play();
+        if (!SFXController.instance.sfxMuted)
+        {
+            playerAudio.clip = punch;
+            playerAudio.Play();
+        }
     }
     public void PlaySwoosh()
     {
-        playerAudio.clip = swoosh;
-        playerAudio.Play();
+        if (!SFXController.instance.sfxMuted)
+        {
+            playerAudio.clip = swoosh;
+            playerAudio.Play();
+        }
     }
+    public void Playhit()
+    {
+        if (!SFXController.instance.sfxMuted)
+        {
+            playerAudio.clip = hit[Random.Range(0, hit.Length)];
+            playerAudio.Play();
+        }
+    }
+
+   
 
     public void PlayStep()
     {
-        if (!tPC.Grounded)
+        if (!SFXController.instance.sfxMuted)
         {
-            return;
-        }
-        else
-        {
-            /*if (!gameplayView.instance.GetSFXMuted())
-            {*/
-            int n = Random.Range(1, walk.Length);
-            playerAudio.clip = walk[n];
-            playerAudio.PlayOneShot(playerAudio.clip);
+            if (!tPC.Grounded)
+            {
+                return;
+            }
+            else
+            {
+                /*if (!gameplayView.instance.GetSFXMuted())
+                {*/
+                int n = Random.Range(1, walk.Length);
+                playerAudio.clip = walk[n];
+                playerAudio.PlayOneShot(playerAudio.clip);
 
-            walk[n] = walk[0];
-            walk[0] = playerAudio.clip;
-            // }
+                walk[n] = walk[0];
+                walk[0] = playerAudio.clip;
+                // }
+            }
         }
-
     }
 
     public void ProgressStepCycle(float speed, float x, float y)

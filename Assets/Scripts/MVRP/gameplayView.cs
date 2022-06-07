@@ -36,6 +36,10 @@ public class gameplayView : MonoBehaviour
     public GameObject gameOverObject;
 
     bool sfxMuted = false;
+
+    public bool isTryout = false;
+    float score;
+    public bool started = false;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -63,12 +67,14 @@ public class gameplayView : MonoBehaviour
 
     public void StartGame()
     {
+        started = true;
         //SinglePlayerScoreBoardScript.instance.StartGame(GetTimeForGame());
         player = GameObject.FindGameObjectWithTag("Player");
         //player.GetComponent<ThirdPersonController>().SetStarted(true);
         GetScores();
         Debug.Log(chosenNFT.id);
-        DatabaseManagerRestApi._instance.startSessionFromRestApi(chosenNFT.id);
+        if (!instance.isTryout)
+            DatabaseManagerRestApi._instance.startSessionFromRestApi(chosenNFT.id);
         chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnGameRunning;
 
     }
@@ -162,6 +168,17 @@ public class gameplayView : MonoBehaviour
     {
         EndGame();
         SinglePlayerScoreBoardScript.instance.DisplayScore();
+    }
+
+
+
+    public void SetLocalScore(float val)
+    {
+        score = val;
+    }
+    public float GetLocalScore()
+    {
+        return score;
     }
 }
 
