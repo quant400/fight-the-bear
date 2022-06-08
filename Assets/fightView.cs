@@ -529,7 +529,7 @@ public class fightView : MonoBehaviour
                                 .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
                                 .Delay(TimeSpan.FromSeconds(1))
                                 .Do(_ => observeFightStatus())
-                                .Delay(TimeSpan.FromSeconds(30))
+                                .Delay(TimeSpan.FromSeconds(15))
                                 .Do(_=> setFightMode(1))
                           .Subscribe()
                           .AddTo(this);
@@ -556,6 +556,8 @@ public class fightView : MonoBehaviour
                                 .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
                                 .Delay(TimeSpan.FromSeconds(1f))
                                 .Do(_ => observeFightStatus())
+                                .Delay(TimeSpan.FromSeconds(20))
+                                .Do(_ => setFightMode(1))
                           .Subscribe()
                           .AddTo(this);
                 break;
@@ -601,7 +603,6 @@ public class fightView : MonoBehaviour
         bear.GetComponent<Animator>().Play("Idle", 0);
         UIController.instance.fightCanvas.SetActive(true);
         FightModel.currentPlayer.GetComponent<RockThrowView>().findRocks();
-        door.gameObject.SetActive(false);
         gate.SetActive(false);
     }
 }

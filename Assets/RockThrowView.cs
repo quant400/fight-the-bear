@@ -82,7 +82,7 @@ public class RockThrowView : MonoBehaviour
                             rockPicked = true;
 
                             playerAnimator.SetBool("PickRock", true);
-                        ThrowRockText.gameObject.SetActive(true);
+                      //  ThrowRockText.gameObject.SetActive(true);
 
                         PickwRockText.gameObject.SetActive(false);
                     }
@@ -97,7 +97,7 @@ public class RockThrowView : MonoBehaviour
                 if (rockPicked)
                 {
                     playerAnimator.SetBool("PickRock", false);
-                    ThrowRockText.gameObject.SetActive(false);
+                   // ThrowRockText.gameObject.SetActive(false);
                     PickwRockText.gameObject.SetActive(true);
                     pickRockCanvas.SetActive(false);
 

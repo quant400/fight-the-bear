@@ -5,7 +5,7 @@ using DG.Tweening;
 using System;
 using UniRx;
 using UniRx.Triggers;
-
+using UnityEngine.AI;
 public class bearView : MonoBehaviour
 {
     public static bearView instance;
@@ -50,6 +50,7 @@ public class bearView : MonoBehaviour
     public float timeToHitAgain=2;
     public GameObject cinematicCamera;
     public DamageDisplay DD;
+    public NavMeshAgent bearAgent;
 
     public void StartFight()
     {
@@ -62,6 +63,7 @@ public class bearView : MonoBehaviour
         FightModel.currentBear = gameObject;
 
         FightModel.CinematicCamera = cinematicCamera;
+        bearAgent = GetComponent<NavMeshAgent>();
 
     }
     // Start is called before the first frame update
@@ -124,6 +126,7 @@ public class bearView : MonoBehaviour
                     break;
                 case FightModel.bearFightModes.BearShortAttacking:
                     following = false;
+                    bearAgent.isStopped = true;
                     anim.SetBool("Following", false);
                     transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
                     if (!hitted)
@@ -150,6 +153,7 @@ public class bearView : MonoBehaviour
                     
                     break;
                 case FightModel.bearFightModes.BearDistanceAttacking:
+                    bearAgent.isStopped = true;
                     cameraShake.setShake(0);
                     following = false;
                     anim.SetBool("Following", false);
@@ -230,6 +234,9 @@ public class bearView : MonoBehaviour
                             .AddTo(this);
                     }
                     break;
+                case FightModel.bearFightModes.BearCinematicMode:
+                    anim.Play("IdleStart");
+                    break;
 
 
             }
@@ -281,11 +288,18 @@ public class bearView : MonoBehaviour
     {
         if (isRageFollow.Value)
         {
-            if (Mathf.Abs(Vector3.Distance(transform.position, destinationRage)) > 1)
+            if (Mathf.Abs(Vector3.Distance(transform.position, destinationRage)) >2)
             {
+                bearAgent.isStopped = false;
                 bearRageDes.Value = Mathf.Abs(Vector3.Distance(transform.position, destinationRage));
-                transform.LookAt(new Vector3(destinationRage.x, transform.position.y, destinationRage.z));
-                transform.Translate(Vector3.forward * bearSpeed * jumpSpeedRage * Time.deltaTime);
+                transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
+                bearAgent.speed = 10f;
+                bearAgent.SetDestination(FightModel.currentPlayer.transform.position);
+            }
+            else
+            {
+                bearAgent.isStopped=true ;
+
             }
             Ray ray = new Ray(transform.position, transform.forward);
             RaycastHit hit;
@@ -510,8 +524,10 @@ public class bearView : MonoBehaviour
     }
     private void Follow()
     {
+        bearAgent.isStopped = false;
         transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
-        transform.Translate(Vector3.forward * bearSpeed * Time.deltaTime);
+        bearAgent.speed = 5;
+        bearAgent.SetDestination(FightModel.currentPlayer.transform.position);
     }
 
     public void checkIfPlayerCloseToHit(float distance,Transform bearHead)
