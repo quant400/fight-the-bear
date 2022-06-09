@@ -31,7 +31,10 @@ public class FighterView : MonoBehaviour
     public GameObject playerCamera;
     public CinemachineBrain playerCameraBrain;
     public DamageDisplay DD;
-    public GameObject fakeCamera;
+    public CinemachineVirtualCamera playerVirtualCamera;
+    public Transform playerBackCamera;
+    public Transform lookAt;
+    public GameObject cinematicCamera;
 
     [SerializeField]
     bool canChangeStatus;
@@ -39,8 +42,10 @@ public class FighterView : MonoBehaviour
     {
         FightModel.currentPlayer = gameObject;
         FightModel.playerCamera = playerCamera;
+        FightModel.CinematicCamera = cinematicCamera;
         FightModel.playerCameraBrain = playerCameraBrain;
-        FightModel.CinematicBackFakeCamera = fakeCamera;
+        FightModel.playerVirtualCamera = playerVirtualCamera;
+        FightModel.offsetFromPlayer = FightModel.CinematicCamera.transform.position - lookAt.position;
         if (instance != null)
             Destroy(this);
         else

@@ -30,7 +30,7 @@ public class fightView : MonoBehaviour
     public SlidingDoor door;
     public GameObject hittedRocks;
     public GameObject gate;
-    ReactiveProperty<float> currentBearShieldHealth = new ReactiveProperty<float>();
+    ReactiveProperty<int> currentBearShieldHealth = new ReactiveProperty<int>();
     ReactiveProperty<float> currentBearHealthDistance = new ReactiveProperty<float>();
 
 
@@ -50,7 +50,7 @@ public class fightView : MonoBehaviour
     ReactiveProperty<bool> gameStarted = new ReactiveProperty<bool>();
     public Transform spawnPointsParent;
     List<Transform> spawnPoints=new List<Transform>();
-
+    public Material[] shieldMaterials;
 
     private void Awake()
     {
@@ -74,12 +74,15 @@ public class fightView : MonoBehaviour
         currentBearHealthDistance.Value = FightModel.bearDistanceHealth;
         canChangeStatus = true;
         Observable.Timer(TimeSpan.Zero)
-                                .Do(_ => cinematicView.instance.setCamera(true, 0))
+                                  //.Do(_ => cinematicView.instance.setCamera(true, 0))
                                   .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
                                  .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
-                                .Delay(TimeSpan.FromSeconds(cinematicTime))
-                                 .Do(_ => cinematicView.instance.setCamera(false, 0))
-                                 .Do(_=> FightModel.currentPlayer.transform.position= GetMostFarPosFromBear())
+                                 .Do(_ => FightModel.currentPlayer.transform.position = new Vector3(0, 0, -15))
+                                 .Do(_ => FightModel.currentPlayer.transform.eulerAngles = new Vector3(0, 0, 0))
+                                 // .Delay(TimeSpan.FromSeconds(cinematicTime))
+                                 //  .Do(_ => cinematicView.instance.setCamera(false, 0))
+                                 // .Do(_ => ResetCamera())
+
                                  .Delay(TimeSpan.FromSeconds(1))
                                  .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
                                  .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
@@ -101,6 +104,14 @@ public class fightView : MonoBehaviour
         }
   
 
+    }
+    void ResetCamera()
+    {
+        FightModel.currentPlayer.transform.LookAt(FightModel.currentBear.transform);
+        FightModel.playerVirtualCamera.enabled = false;
+        FighterView.instance.lookAt.LookAt(FightModel.currentBear.transform);
+        FightModel.playerVirtualCamera.transform.SetPositionAndRotation(FighterView.instance.playerBackCamera.position, FighterView.instance.playerBackCamera.rotation);
+        FightModel.playerVirtualCamera.enabled = true;
     }
     void observeTimerAndRage()
     {
@@ -240,6 +251,8 @@ public class fightView : MonoBehaviour
         bearShield.OnTriggerEnterAsObservable()
             .Where(_ => _.CompareTag("ThrowRocks"))
             .Do(_ => currentBearShieldHealth.Value--)
+            .Do(_=>bearShield.GetComponent<MeshRenderer>().material=shieldMaterials[currentBearShieldHealth.Value])
+            .Do(_=> _.gameObject.SetActive(false))
             .Subscribe()
             .AddTo(bearShield);
         bear.OnTriggerEnterAsObservable()
@@ -248,6 +261,7 @@ public class fightView : MonoBehaviour
                     .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearTakeDamage)
                     .Where(_=> FightModel.currentFightStatus.Value == FightModel.fightStatus.OnRangeDistanceFight)
                     .Do(_ => currentBearHealthDistance.Value--)
+                    .Do(_ => _.gameObject.SetActive(false))
                     .Subscribe()
                     .AddTo(bear);
         currentBearHealthDistance
@@ -375,15 +389,13 @@ public class fightView : MonoBehaviour
             hittedRocks.gameObject.SetActive(false);
         });
     }
-    void desShield(float v)
+    void desShield(int v)
     {
         if (v < 1)
         {
             if (bearShield != null)
             {
                 bearShield.SetActive(false);
-
-
             }
         }
     }
@@ -516,17 +528,18 @@ public class fightView : MonoBehaviour
                 isInDistanceRage.Value = true;
 
                 Observable.Timer(TimeSpan.Zero)
-                                .Do(_ => cinematicView.instance.setCamera(true, 2))
-                                .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
-                                .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
-                                .Do(_ => FightModel.currentPlayer.transform.position = GetMostFarPosFromBear())
-                                .Delay(TimeSpan.FromSeconds(1))
-                                .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
-                                .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
-                                .Delay(TimeSpan.FromSeconds(cinematicTime))
-                                .Do(_ => cinematicView.instance.setCamera(false, 0))
-                                .Delay(TimeSpan.FromSeconds(3))
-                                .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
+                                //.Do(_ => cinematicView.instance.setCamera(true, 2))
+                                //.Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
+                                //.Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
+                                //.Do(_ => FightModel.currentPlayer.transform.position = GetMostFarPosFromBear())
+                                //.Delay(TimeSpan.FromSeconds(1))
+                                //.Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
+                                //.Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
+                                //.Delay(TimeSpan.FromSeconds(cinematicTime))
+                                //.Do(_ => cinematicView.instance.setCamera(false, 0))
+                                //.Do(_ => ResetCamera())
+                                //.Delay(TimeSpan.FromSeconds(3))
+                                //.Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
                                 .Delay(TimeSpan.FromSeconds(1))
                                 .Do(_ => observeFightStatus())
                                 .Delay(TimeSpan.FromSeconds(15))
@@ -543,17 +556,18 @@ public class fightView : MonoBehaviour
                 isInDistanceRage.Value = false;
 
                 Observable.Timer(TimeSpan.Zero)
-                                .Do(_ => cinematicView.instance.setCamera(true, 1))
-                                 .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
-                                .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
-                                .Do(_ => FightModel.currentPlayer.transform.position = GetMostFarPosFromBear())
-                                .Delay(TimeSpan.FromSeconds(1))
-                                .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
-                                .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
-                                .Delay(TimeSpan.FromSeconds(cinematicTime-1))
-                                .Do(_ => cinematicView.instance.setCamera(false, 0))
-                                .Delay(TimeSpan.FromSeconds(3))
-                                .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
+                                //.Do(_ => cinematicView.instance.setCamera(true, 1))
+                                // .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
+                                //.Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = false)
+                                //.Do(_ => FightModel.currentPlayer.transform.position = GetMostFarPosFromBear())
+                                //.Delay(TimeSpan.FromSeconds(1))
+                                //.Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
+                                //.Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
+                                //.Delay(TimeSpan.FromSeconds(cinematicTime-1))
+                                //.Do(_ => cinematicView.instance.setCamera(false, 0))
+                                //.Do(_ => ResetCamera())
+                                //.Delay(TimeSpan.FromSeconds(3))
+                                //.Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
                                 .Delay(TimeSpan.FromSeconds(1f))
                                 .Do(_ => observeFightStatus())
                                 .Delay(TimeSpan.FromSeconds(20))
@@ -579,12 +593,12 @@ public class fightView : MonoBehaviour
     void setGameLevel(int level)
     {
         FightModel.bearStartHealth = 125 + (10 * level);
-        FightModel.bearCloseHitValue = 6+level;
-        FightModel.bearDistanceHitValue = 10+(level*2);
+        FightModel.bearCloseHitValue = 3+level;
+        FightModel.bearDistanceHitValue = 3+(level*2);
         if (level >1)
         {
-            FightModel.playerCloseHitValue = (6 / level) + 2;
-            FightModel.playerDistanceHitValue = (8 / level) + 2;
+            FightModel.playerCloseHitValue = 8 +level ;
+            FightModel.playerDistanceHitValue = 10 + level  ;
         }
     }
     public void startGame()

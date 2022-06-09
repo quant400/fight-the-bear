@@ -40,16 +40,15 @@ public class cinematicView : MonoBehaviour
         {
             yield return new WaitForSeconds(time);
             FightModel.playerCamera.SetActive(!CinMode);
+            FightModel.CinematicCamera.transform.position = FighterView.instance.lookAt.position + FightModel.offsetFromPlayer;
+            FightModel.CinematicCamera.transform.LookAt(FightModel.currentBear.transform);
             FightModel.CinematicCamera.SetActive(CinMode);
-            FightModel.CinematicCamera.GetComponent<Animator>().Play(cinematicMode.ToString());
         }
         else
         {
-            FightModel.CinematicCamera.GetComponent<Animator>().Play(cinematicMode.ToString());
+            FightModel.CinematicCamera.transform.position = FighterView.instance.lookAt.position + FightModel.offsetFromPlayer;
+            FightModel.CinematicCamera.transform.LookAt(FightModel.currentBear.transform);
             FightModel.CinematicCamera.SetActive(CinMode);
-            FightModel.CinematicBackFakeCamera.SetActive(true);
-            yield return new WaitForSeconds(time);
-            FightModel.CinematicBackFakeCamera.SetActive(false);
             FightModel.playerCamera.SetActive(!CinMode);
         }
 
