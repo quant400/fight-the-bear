@@ -74,7 +74,7 @@ public class FightModel
     public static float bearDistanceHealth = 3;
 
     public static float playerStartHealth=100;
-    public static float bearStartHealth = 125;
+    public static float bearStartHealth = 100;
 
     public static ReactiveProperty<float> currentPlayerHealth=new ReactiveProperty<float>();
     public static ReactiveProperty<float> currentBearHealth = new ReactiveProperty<float>();

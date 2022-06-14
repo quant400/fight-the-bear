@@ -214,4 +214,6 @@ public class RockThrowView : MonoBehaviour
         rb.isKinematic = true;
         selectedRock.position = startPosition;
     }
+    
+
 }

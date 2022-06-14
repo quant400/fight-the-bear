@@ -51,7 +51,7 @@ public class fightView : MonoBehaviour
     public Transform spawnPointsParent;
     List<Transform> spawnPoints=new List<Transform>();
     public Material[] shieldMaterials;
-
+    bool levelAdded;
     private void Awake()
     {
         currentLevel = FightModel.currentPlayerLevel;
@@ -65,6 +65,7 @@ public class fightView : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        bear = FightModel.currentBear;
         gameStarted.Value= true;
         FightModel.rageModeValue.Value = 0;
         FighterView.instance.intilize();
@@ -281,13 +282,13 @@ public class fightView : MonoBehaviour
             .Subscribe()
             .AddTo(this);
         this.UpdateAsObservable()
-            .Where(_=> FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon&& FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost)
+            .Where(_=> FightModel.currentFightStatus.Value != FightModel.fightStatus.OnStartCenimatic && FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon&& FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost)
             .Do(_=> setBearPosFromRage())
             .Subscribe()
             .AddTo(this);
         isInDistanceRage
             .Where(_=>_==false)
-            .Where(_ => FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon && FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost)
+            .Where(_ => FightModel.currentFightStatus.Value != FightModel.fightStatus.OnStartCenimatic && FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost)
             .Where(_ => FightModel.currentFightMode == 1)
             .Do(_ => bear.GetComponent<Animator>().Play("Idle", 0))
             .Do(_ => bear.GetComponent<Animator>().SetBool("IsIdle", true))
@@ -463,8 +464,11 @@ public class fightView : MonoBehaviour
                     gameStarted.Value = false;
                     FightModel.gameScore.Value += 20;
                     FightModel.gameTime.Value += 25;
-
-                    FightModel.currentPlayerLevel += 1;
+                    if (!levelAdded)
+                    {
+                        FightModel.currentPlayerLevel += 1;
+                        levelAdded = true;
+                    }
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDead;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 7f;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 10.5f;
@@ -592,9 +596,9 @@ public class fightView : MonoBehaviour
     }
     void setGameLevel(int level)
     {
-        FightModel.bearStartHealth = 125 + (10 * level);
-        FightModel.bearCloseHitValue = 3+level;
-        FightModel.bearDistanceHitValue = 3+(level*2);
+        FightModel.bearStartHealth = 100 + (25 * level);
+        FightModel.bearCloseHitValue = 5+(level*5);
+        FightModel.bearDistanceHitValue = 3+(level*8);
         if (level >1)
         {
             FightModel.playerCloseHitValue = 8 +level ;

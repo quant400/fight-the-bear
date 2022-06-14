@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
-public class BearSpawner : MonoBehaviour
+
+public class BearSpawnView : MonoBehaviour
 {
     [SerializeField]
     GameObject[] bears;
-    FightController fc;
-    float chanceForRare;
     private void Awake()
     {
+        Debug.Log(FightModel.currentPlayerLevel);
         int br = FightModel.currentPlayerLevel;
         switch (br)
         {
             case 0:
-                Instantiate(bears[0], transform).transform.localScale=Vector3.one*1.25f;
+                Instantiate(bears[0], transform).transform.localScale = Vector3.one * 1.25f;
                 break;
             case 1:
                 Instantiate(bears[1], transform).transform.localScale = Vector3.one * 1.5f; ;
@@ -43,7 +44,7 @@ public class BearSpawner : MonoBehaviour
                 break;
 
         }
-            
-        
+
+
     }
 }
