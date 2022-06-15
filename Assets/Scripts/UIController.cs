@@ -33,7 +33,8 @@ public class UIController : MonoBehaviour
     [SerializeField]
     GameObject gameOverPanel;
 
-
+    [SerializeField]
+    GameObject settingsPanel;
 
     private void Awake()
     {
@@ -137,5 +138,16 @@ public class UIController : MonoBehaviour
         scenesView.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
         chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToMenu;
 
+    }
+
+    public void OpenSettings()
+    {
+        Time.timeScale = 0f;
+        settingsPanel.SetActive(true);
+    }
+    public void CloseSettings()
+    {
+        settingsPanel.SetActive(false);
+        Time.timeScale = 1f;
     }
 }
