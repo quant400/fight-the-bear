@@ -102,7 +102,10 @@ public class MapController : MonoBehaviour
         return 2;
     }
 
-
+    public Transform GetPlayer()
+    {
+        return playerLoc;
+    }
 
     string NameToSlugConvert(string name)
     {
