@@ -338,7 +338,10 @@ public class characterSelectionView : MonoBehaviour
         ButtonToDisable.SetActive(false);
     }
 
-
+    public void BackButton()
+    {
+        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.Onlogged;
+    }
 
     string NameToSlugConvert(string name)
     {

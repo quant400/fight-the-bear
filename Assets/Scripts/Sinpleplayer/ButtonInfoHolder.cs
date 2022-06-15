@@ -26,7 +26,7 @@ public class ButtonInfoHolder : MonoBehaviour
     {
         //bgIndex = Random.Range(0, bg.Length);
         background = gameObject.GetComponent<Image>();
-        charPic = transform.GetChild(0).GetComponent<Image>();
+        charPic = transform.GetChild(0).GetChild(0).GetComponent<Image>();
         CSV = transform.GetComponentInParent<characterSelectionView>();
         ResetSlot();
     }
