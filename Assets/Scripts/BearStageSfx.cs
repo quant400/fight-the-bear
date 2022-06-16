@@ -17,21 +17,21 @@ public class BearStageSfx : MonoBehaviour
     public void PlayRoar()
     {
         sfx.clip = roar;
-        if (!SFXController.instance.sfxMuted)
+        if (!SFXView.instance.sfxMuted)
             sfx.Play();
     }
 
     public void Playattack()
     {
         sfx.clip = attack;
-        if (!SFXController.instance.sfxMuted)
+        if (!SFXView.instance.sfxMuted)
             sfx.Play();
     }
 
     public void Playhit()
     {
         sfx.clip = hit[Random.Range(0,hit.Length)];
-        if (!SFXController.instance.sfxMuted)
+        if (!SFXView.instance.sfxMuted)
             sfx.Play();
     }
 }

@@ -22,7 +22,7 @@ public class TemporaryRestartScript : MonoBehaviour
 
     public void Reset()
     {
-        playerUI.GetComponent<UIController>().ResetGame();
+        playerUI.GetComponent<GameUIView>().ResetGame();
        
         Destroy(GameObject.FindGameObjectWithTag("Player"));
         //SceneManager.LoadScene(1);
@@ -34,8 +34,8 @@ public class TemporaryRestartScript : MonoBehaviour
         if (gameplayView.instance.isTryout)
         {
            
-            chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnLogin;
-            SceneManager.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
+            bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnLogin;
+            SceneManager.LoadScene(bearGameModel.mainSceneLoadname.sceneName);
 
         }
     }

@@ -48,7 +48,7 @@ public class characterSelectionView : MonoBehaviour
       
         gameplayView.instance.dailysessionReactive
             .Do(_ => setPlayButtonDependtoSessions(_))
-            .Do(_=>chickenGameModel.currentNFTSession=_)
+            .Do(_=>bearGameModel.currentNFTSession=_)
             .Subscribe()
             .AddTo(this);
     }
@@ -82,7 +82,7 @@ public class characterSelectionView : MonoBehaviour
          .Do(_ => FinalSelectSinglePlayer())
          .Where(_ => PlaySounds.instance != null)
          .Do(_ => PlaySounds.instance.Play())
-         .Do(_ => chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelected)
+         .Do(_ => bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelected)
          .Subscribe()
          .AddTo(this);
     }
@@ -262,7 +262,7 @@ public class characterSelectionView : MonoBehaviour
 
     private void SetUpCharacters()
     {
-        if (chickenGameModel.charactersSetted == false)
+        if (bearGameModel.charactersSetted == false)
         {
 
            
@@ -295,7 +295,7 @@ public class characterSelectionView : MonoBehaviour
         {
             gameplayView.instance.chosenNFT = new NFTInfo { name = "a-rod", id = 175 };
             selected = true;
-            chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelected;
+            bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelected;
         }
     }
    
@@ -330,7 +330,7 @@ public class characterSelectionView : MonoBehaviour
                 characterNFTMap[i+startingindex] = myNFT[i+startingindex];
             }
         }
-        chickenGameModel.charactersSetted = true;
+        bearGameModel.charactersSetted = true;
     }
     private void Done()
     {
@@ -340,7 +340,7 @@ public class characterSelectionView : MonoBehaviour
 
     public void BackButton()
     {
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.Onlogged;
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.Onlogged;
     }
 
     string NameToSlugConvert(string name)

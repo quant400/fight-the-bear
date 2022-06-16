@@ -47,7 +47,7 @@ public class CaveCutscene : MonoBehaviour
                 this.enabled = false;
                 started = false;
                 FC.EnableMovement();
-                UIController.instance.DeactivateText();
+                GameUIView.instance.DeactivateText();
             }
         }
     }
@@ -55,24 +55,30 @@ public class CaveCutscene : MonoBehaviour
     {
         if (other.CompareTag("Player") && last)
         {
+            Debug.Log(1);
+            bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCloseToCave;
             player = other.gameObject;
-            var FC = player.GetComponent<FightController>();
-            FC.DisableMovement();
-            Invoke("DisplayText", 1f);
-            mCam.m_Priority = 20;
-            started = true;
-            transform.GetComponent<BoxCollider>().enabled = false;
         }
+    }
+
+    public void StartScene()
+    {
+        Debug.Log(3);
+        FC.DisableMovement();
+        Invoke("DisplayText", 1f);
+        mCam.m_Priority = 20;
+        started = true;
+        transform.GetComponent<BoxCollider>().enabled = false;
     }
 
     void DisplayText()
     {
         if (FC.GetBearNumber() <= 7)
-            UIController.instance.ActivateText(lines[FC.GetBearNumber()].ToUpper());
+            GameUIView.instance.ActivateText(lines[FC.GetBearNumber()].ToUpper());
         else
         {
             int ind = Random.Range(0, 8);
-            UIController.instance.ActivateText(lines[ind].ToUpper());
+            GameUIView.instance.ActivateText(lines[ind].ToUpper());
         }
     }
 }

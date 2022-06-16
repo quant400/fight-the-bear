@@ -93,7 +93,7 @@ public class FightController : MonoBehaviour
         bear = b;
         bearNumber++;
         inFight = true;
-        UIController.instance.ActivateInputs();
+        GameUIView.instance.ActivateInputs();
         bearC = bear.GetComponent<BearController>();
         stoptimer = false;
         //bearC.StartFight();
@@ -101,7 +101,7 @@ public class FightController : MonoBehaviour
     }
     public void ExitFight()
     {
-        UIController.instance.DeactivateFightCanvas();
+        GameUIView.instance.DeactivateFightCanvas();
         //fightCanvas.SetActive(false);
         //playerAnim.applyRootMotion = false;
         playerAnim.SetBool("Block", false);
@@ -115,7 +115,7 @@ public class FightController : MonoBehaviour
             startingTime += TimeAddedPerBear;
             
         }*/
-        UIController.instance.UpdateTimerVal(startingTime);
+        GameUIView.instance.UpdateTimerVal(startingTime);
         //timerDisplay.text = ("Time Left : ").ToUpper() + startingTime.ToString("00");
 
     }
@@ -148,7 +148,7 @@ public class FightController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         bear.transform.GetChild(4).GetComponent<CinemachineVirtualCamera>().Priority = 9;
-        UIController.instance.DisableGauge();
+        GameUIView.instance.DisableGauge();
         //gaugeInputs.SetActive(false);
         currentState = States.Idel;
         playerAnim.SetBool("Fight", false);
@@ -323,7 +323,7 @@ public class FightController : MonoBehaviour
          scoreDisplay.text = ("Score : ").ToUpper() + score;*/
         float ph = playerHelth / 100f;
         float bh = bearC.GetBearHelth() / (100f + 25f * (float)(bearNumber - 1));
-        UIController.instance.UpdateValues(ph, bh, score);
+        GameUIView.instance.UpdateValues(ph, bh, score);
     }
 
     public void ResetAnim()
@@ -400,7 +400,7 @@ public class FightController : MonoBehaviour
         currentState = States.Idel;
         
         SceneManager.LoadScene(1);
-        MapController.MC.ResetMap();
+        MapView.instance.ResetMap();
     }
 
     #region SetandGetFunction 
@@ -487,7 +487,7 @@ public class FightController : MonoBehaviour
     {
         currentSequence = GenerateSequence(sequenceLength);
         DisplayCurrentInput();
-        UIController.instance.EnableGauge();
+        GameUIView.instance.EnableGauge();
         //gaugeInputs.SetActive(true);
     }
 
@@ -497,7 +497,7 @@ public class FightController : MonoBehaviour
         if(specialAttack)
         {
             currentKey = GenerateSequence(1)[0];
-            UIController.instance.SetSliderInput(currentKey.ToString());
+            GameUIView.instance.SetSliderInput(currentKey.ToString());
             /*slider.SetInput(currentKey.ToString());
             slider.StartSlider();*/
         }
@@ -516,7 +516,7 @@ public class FightController : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        currentValue = UIController.instance.GetSliderValue();
+                        currentValue = GameUIView.instance.GetSliderValue();
                         PlaySingleActions();
 
                     }
@@ -609,15 +609,15 @@ public class FightController : MonoBehaviour
         Cursor.visible = true;
         //score += startingTime;
         gameplayView.instance.SetLocalScore(score);
-        if (died)
-            UIController.instance.DisplayGameOver("WASTED!", score);
+        /*if (died)
+            GameUIView.instance.DisplayGameOver("WASTED!", score);
         else
         {
-            UIController.instance.DisplayGameOver("You ran out of time.", score);
+            GameUIView.instance.DisplayGameOver("You ran out of time.", score);
            
-        }
+        }*/
         
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnGameEnded;
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGameEnded;
     }
     private string ConvertToString(string[] tempDisp)
     {

@@ -22,7 +22,7 @@ public class uiView : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        scenesView.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
+        scenesView.LoadScene(bearGameModel.mainSceneLoadname.sceneName);
     }
     void Start()
     {
@@ -30,9 +30,9 @@ public class uiView : MonoBehaviour
     }
     public void observeLogin()
     {
-        chickenGameModel.userIsLogged
+        bearGameModel.userIsLogged
           .Where(_ => _)
-          .Do(_ => chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.Onlogged)
+          .Do(_ => bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.Onlogged)
           .Subscribe()
           .AddTo(this);
     }
@@ -64,9 +64,11 @@ public class uiView : MonoBehaviour
         BackToCharacterSelection.OnClickAsObservable()
           .Do(_ => {
               if (gameplayView.instance.isTryout)
-                  chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnLogin;
+              {
+                  bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnLogin;
+              }
               else
-                  chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToCharacterSelection;
+                  bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGoToMain;
           })
           .Where(_ => PlaySounds.instance != null)
           .Do(_ => PlaySounds.instance.Play())
@@ -95,13 +97,13 @@ public class uiView : MonoBehaviour
     {
         leaderBoeardCanvas.GetComponent<LeaderBoardControllerRestApi>().ToggleLeaderBoard(true);
 
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnLeaderBoard;
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnLeaderBoard;
     }
     public void PlayMainButton()
     {
 
        
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelection;
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelection;
 
     }
     public void goToMenu(string menuName)

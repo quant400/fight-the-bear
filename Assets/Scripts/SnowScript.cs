@@ -11,7 +11,7 @@ public class SnowScript : MonoBehaviour
     }
     void GetPlayer()
     {
-        player = MapController.MC.GetPlayer();
+        player = MapView.instance.GetPlayer();
     }
 
     // Update is called once per frame

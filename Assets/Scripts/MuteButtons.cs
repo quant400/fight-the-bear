@@ -15,7 +15,7 @@ public class MuteButtons : MonoBehaviour
     private void Start()
     {
         //SFX = transform.GetChild(0).GetComponent<AudioSource>();
-        music = SFXController.instance.GetComponent<AudioSource>();
+        music = SFXView.instance.GetComponent<AudioSource>();
         defaultMusicVol = music.volume;
         Debug.Log(defaultMusicVol);
         //defaultSFXVol = SFX.volume;
@@ -45,7 +45,7 @@ public class MuteButtons : MonoBehaviour
             sfxButton.color = new Color(1f, 1f, 1f, 1f);
             sfxButton.GetComponentInChildren<Image>().color = new Color(1f, 1f, 1f, 1f);
             PlayerPrefs.SetString("SFX", "on");
-            SFXController.instance.sfxMuted = false;
+            SFXView.instance.sfxMuted = false;
         }
         else
         {
@@ -53,7 +53,7 @@ public class MuteButtons : MonoBehaviour
             sfxButton.GetComponentInChildren<Image>().color = new Color(1f, 1f, 1f, 0.5f);
             //SFX.volume = 0;
             PlayerPrefs.SetString("SFX", "off");
-            SFXController.instance.sfxMuted = true;
+            SFXView.instance.sfxMuted = true;
         }
 
     }

@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class UIController : MonoBehaviour
+public class GameUIView : MonoBehaviour
 {
-    public static UIController instance;
+    public static GameUIView instance;
 
     [SerializeField]
     GameObject fightCanvas;
@@ -103,18 +103,6 @@ public class UIController : MonoBehaviour
         return slider.StopSlider();
     }
 
-    
-    // move to game over view later
-    public void DisplayGameOver(string message, float score)
-    {
-        gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = message.ToUpper();
-
-        gameOverPanel.transform.GetChild(3).GetComponent<TMP_Text>().text ="SCORE: " +((int)(score)).ToString();
-       
-        //gameOverPanel.SetActive(true);
-    }
-
-
 
     public void SetAggression(float val)
     {
@@ -128,17 +116,12 @@ public class UIController : MonoBehaviour
         gameOverPanel.SetActive(false);
         scoreDisplay.text = ("Score : ").ToUpper()+"0";
         timerDisplay.text = ("Time Left : ").ToUpper() + "45";
-        //TemporaryRestartScript.instance.Reset();
-        //chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelected;
+        Debug.Log(1);
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
+        Debug.Log(2);
     }
 
-    public void Exit()
-    {
-        //SceneManager.LoadScene(0);
-        scenesView.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToMenu;
-
-    }
+   
 
     public void OpenSettings()
     {

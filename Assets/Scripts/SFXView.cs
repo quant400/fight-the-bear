@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SFXController : MonoBehaviour
+public class SFXView : MonoBehaviour
 {
-    public static SFXController instance;
+    public static SFXView instance;
     [SerializeField]
     AudioClip pathAmbient, caveAmbient;
     AudioSource audioSource;
@@ -49,19 +49,16 @@ public class SFXController : MonoBehaviour
         switch (scene.name)
         {
             case "Menu":
-                Debug.Log("0");
                 audioSource.Pause();
                 break;
 
             case "PathScene":
-                Debug.Log("1");
                 audioSource.clip = pathAmbient;
                 if (!musicMuted)
                     audioSource.Play();
                 break;
 
             case "BearScene":
-                Debug.Log("2");
                 audioSource.clip = caveAmbient;
                 if (!musicMuted)
                     audioSource.Play();

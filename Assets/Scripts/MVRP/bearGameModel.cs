@@ -8,7 +8,7 @@ using UniRx.Triggers;
 using UniRx.Toolkit;
 [Serializable]
 
-public struct chickenGameModel
+public struct bearGameModel
 {
     [Serializable]
     public enum GameSteps
@@ -32,7 +32,12 @@ public struct chickenGameModel
         OnBackToMenu,
         OnBackToCharacterSelection,
         OnExit,
-        onSceneLoaded,
+        OnSceneLoaded,
+        OnEnterCave,
+        OnPathLoad,
+        OnGoToMain,
+        OnPathLoaded,
+        OnCloseToCave,
     }
     public enum sceneLoadType
     {

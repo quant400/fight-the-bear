@@ -69,7 +69,7 @@ public class GameOverScript : MonoBehaviour
             .Subscribe()
             .AddTo(this);
         back.OnClickAsObservable()
-           .Do(_ => chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnPlayMenu)
+           .Do(_ => bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnPlayMenu)
            .Where(_ => PlaySounds.instance != null)
            .Do(_ => PlaySounds.instance.Play())
            .Subscribe()
@@ -151,7 +151,7 @@ public class GameOverScript : MonoBehaviour
     }
     private void Update()
     {
-        if (chickenGameModel.gameCurrentStep.Value == chickenGameModel.GameSteps.OnGameEnded)
+        if (bearGameModel.gameCurrentStep.Value == bearGameModel.GameSteps.OnGameEnded)
         {
             scorereactive.Value = SingleplayerGameControler.instance.dailyScore;
             sessions.Value = SingleplayerGameControler.instance.sessions;
@@ -172,8 +172,8 @@ public class GameOverScript : MonoBehaviour
     }
     public void goToMain()
     {
-        scenesView.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToMenu;
+        scenesView.LoadScene(bearGameModel.mainSceneLoadname.sceneName);
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnBackToMenu;
     }
 
     string NameToSlugConvert(string name)
