@@ -152,7 +152,16 @@ using UnityEngine.SceneManagement;
                 case bearGameModel.GameSteps.OnGoToMain:
                     gameplayView.instance.started = false;
                     GameUIView.instance.ResetGame();
-                    bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnBackToCharacterSelection;
+                    if(gameplayView.instance.isTryout)
+                    {
+                        gameplayView.instance.isTryout = false;
+                        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnLogin;
+                    }
+                    else
+                    {
+                        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnBackToCharacterSelection;
+                    }
+                    
                     break;
 
                 case bearGameModel.GameSteps.OnCloseToCave:

@@ -117,6 +117,7 @@ public class GameUIView : MonoBehaviour
         scoreDisplay.text = ("Score : ").ToUpper()+"0";
         timerDisplay.text = ("Time Left : ").ToUpper() + "45";
         Destroy(MapView.instance.GetPlayer());
+        Time.timeScale = 1f;
     }
 
    

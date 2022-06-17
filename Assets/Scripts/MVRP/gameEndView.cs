@@ -147,7 +147,7 @@ public class gameEndView : MonoBehaviour
         bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnTryAgain;
     }
     public void goToMain()
-    {
+    { 
         bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGoToMain;
 
     }

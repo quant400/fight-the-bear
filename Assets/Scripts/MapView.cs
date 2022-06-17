@@ -37,6 +37,7 @@ public class MapView : MonoBehaviour
     {
         if (playerLoc == null)
         {
+            Debug.Log(1);
             //chosenNFTName = NameToSlugConvert(gameplayView.instance.chosenNFT.name);
             string n = gameplayView.instance.chosenNFT.name;
             GameObject resource = Resources.Load(Path.Combine("SinglePlayerPrefabs/Characters", NameToSlugConvert(n))) as GameObject;
@@ -47,6 +48,7 @@ public class MapView : MonoBehaviour
         else
         {
             //playerLoc = GameObject.FindGameObjectWithTag("Player").transform;
+            Debug.Log(2);
             playerLoc.gameObject.SetActive(true);
         }
         bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGameRunning;
@@ -54,6 +56,7 @@ public class MapView : MonoBehaviour
     }
     public void SpawnStarting()
     {
+        Debug.Log(0);
         if(currentCave!=null)
         {
             Destroy(currentCave);
