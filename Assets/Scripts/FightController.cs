@@ -388,12 +388,7 @@ public class FightController : MonoBehaviour
     }
  
 
-    public void ResetGame()
-    {
-      
-
-        TemporaryRestartScript.instance.Reset();
-    }
+   
   
     public void MoveToNext()
     {

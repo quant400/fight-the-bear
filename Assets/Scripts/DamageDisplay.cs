@@ -15,7 +15,7 @@ public class DamageDisplay : MonoBehaviour
     {
         originalPos = transform.localPosition;
         text = GetComponentInChildren<TMP_Text>();
-        cam = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0);
+        cam = MapView.instance.GetPlayer().transform.GetChild(0);
         image = transform.GetChild(0).gameObject;
     }
 

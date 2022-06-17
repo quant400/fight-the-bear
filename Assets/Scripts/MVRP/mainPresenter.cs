@@ -140,6 +140,7 @@ using UnityEngine.SceneManagement;
                 
                 case bearGameModel.GameSteps.OnPathLoaded:
                     MapView.instance.SpawnPlayer();
+                    SFXView.instance.SetSFX("Path");
                     break;
 
                 case bearGameModel.GameSteps.OnTryAgain:
@@ -152,11 +153,16 @@ using UnityEngine.SceneManagement;
                     gameplayView.instance.started = false;
                     GameUIView.instance.ResetGame();
                     bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnBackToCharacterSelection;
-                   
                     break;
 
                 case bearGameModel.GameSteps.OnCloseToCave:
                     MapView.instance.StartCutsene();
+                    break;
+
+                case bearGameModel.GameSteps.OnEnterCave:
+                    //Change here
+                    MapView.instance.GoIntoCave();
+                    SFXView.instance.SetSFX("Bear");
                     break;
 
             }

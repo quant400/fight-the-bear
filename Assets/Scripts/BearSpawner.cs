@@ -8,9 +8,9 @@ public class BearSpawner : MonoBehaviour
     GameObject[] bears;
     FightController fc;
     float chanceForRare;
-    private void Awake()
+    private void Start()
     {
-        fc = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
+        fc = MapView.instance.GetPlayer().GetComponent<FightController>();
         int br = fc.GetBearNumber();
         switch (br)
         {

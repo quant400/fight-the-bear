@@ -28,7 +28,7 @@ public class CaveCutscene : MonoBehaviour
     private void Start()
     {
         cam = mCam.GetCinemachineComponent<CinemachineTrackedDolly>();
-        FC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
+        FC = MapView.instance.GetPlayer().GetComponent<FightController>();
     }
 
     private void Update()
@@ -55,7 +55,6 @@ public class CaveCutscene : MonoBehaviour
     {
         if (other.CompareTag("Player") && last)
         {
-            Debug.Log(1);
             bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCloseToCave;
             player = other.gameObject;
         }
@@ -63,7 +62,6 @@ public class CaveCutscene : MonoBehaviour
 
     public void StartScene()
     {
-        Debug.Log(3);
         FC.DisableMovement();
         Invoke("DisplayText", 1f);
         mCam.m_Priority = 20;

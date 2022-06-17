@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UniRx;
 
 public class ButtonInfoHolder : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class ButtonInfoHolder : MonoBehaviour
     characterSelectionView CSV;
     [SerializeField]
     ButtonInfoHolder currentSelected;
+    Button button;
     private void Awake()
     {
         //bgIndex = Random.Range(0, bg.Length);
@@ -30,8 +32,22 @@ public class ButtonInfoHolder : MonoBehaviour
         CSV = transform.GetComponentInParent<characterSelectionView>();
         ResetSlot();
     }
+    private void Start()
+    {
+        button = GetComponent<Button>();
+        observeBtns();
+    }
 
-    public void SetCurrent(Sprite img, int index)
+    void observeBtns()
+    {
+        button.OnClickAsObservable()
+            .Do(_ => OnClick())
+            .Where(_ => PlaySounds.instance != null)
+            .Do(_ => PlaySounds.instance.Play())
+            .Subscribe()
+            .AddTo(this);
+    }
+        public void SetCurrent(Sprite img, int index)
     {
         //background.sprite = bg[index];
         //charPic.sprite = img;

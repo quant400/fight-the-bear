@@ -17,7 +17,7 @@ public class uiView : MonoBehaviour
     [SerializeField] GameObject startCanvas;
 
 
-    public Button loginBtn, PlayMode, Play, LeaderBoard, BackToCharacterSelection, Skip, tryout, backFromLeaderboard, tryagain;
+    public Button loginBtn, PlayMode, Play, LeaderBoard, BackToCharacterSelection, Skip, tryout, backFromLeaderboard, tryagain, settings, closeSettings;
     [SerializeField] webLoginView webloginView;
     // Start is called before the first frame update
     private void Awake()
@@ -44,7 +44,7 @@ public class uiView : MonoBehaviour
     public void ObserveBtns()
     {
         loginBtn.OnClickAsObservable()
-            .Do(_=> webloginView.OnLogin(loginBtn, Skip,tryout))
+            .Do(_ => webloginView.OnLogin(loginBtn, Skip, tryout))
             .Where(_ => PlaySounds.instance != null)
             .Do(_ => PlaySounds.instance.Play())
             .Subscribe()
@@ -62,10 +62,12 @@ public class uiView : MonoBehaviour
           .Subscribe()
           .AddTo(this);
         BackToCharacterSelection.OnClickAsObservable()
-          .Do(_ => {
+          .Do(_ =>
+          {
               if (gameplayView.instance.isTryout)
               {
                   bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnLogin;
+                  gameplayView.instance.isTryout = false;
               }
               else
                   bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGoToMain;
@@ -87,6 +89,26 @@ public class uiView : MonoBehaviour
         .Subscribe()
         .AddTo(this);
 
+        tryout.OnClickAsObservable()
+        .Do(_ => webloginView.OnTryout())
+        .Where(_ => PlaySounds.instance != null)
+        .Do(_ => PlaySounds.instance.Play())
+        .Subscribe()
+        .AddTo(this);
+
+        settings.OnClickAsObservable()
+        .Do(_ => GameUIView.instance.OpenSettings())
+        .Where(_ => PlaySounds.instance != null)
+        .Do(_ => PlaySounds.instance.Play())
+        .Subscribe()
+        .AddTo(this);
+
+        closeSettings.OnClickAsObservable()
+        .Do(_ => GameUIView.instance.CloseSettings())
+        .Where(_ => PlaySounds.instance != null)
+        .Do(_ => PlaySounds.instance.Play())
+        .Subscribe()
+        .AddTo(this);
     }
     public void closeLeaderBoard()
     {

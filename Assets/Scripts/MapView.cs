@@ -17,7 +17,8 @@ public class MapView : MonoBehaviour
     Transform playerLoc;
     Transform pathholder;
     CaveCutscene caveCutScene;
-
+    [SerializeField]
+    GameObject CavePrefab,currentCave;
     private void Awake()
     {
         if (instance != null)
@@ -34,9 +35,8 @@ public class MapView : MonoBehaviour
     }
     public void SpawnPlayer()
     {
-        if (GameObject.FindGameObjectWithTag("Player") == null)
+        if (playerLoc == null)
         {
-            Debug.Log("ok");
             //chosenNFTName = NameToSlugConvert(gameplayView.instance.chosenNFT.name);
             string n = gameplayView.instance.chosenNFT.name;
             GameObject resource = Resources.Load(Path.Combine("SinglePlayerPrefabs/Characters", NameToSlugConvert(n))) as GameObject;
@@ -46,13 +46,21 @@ public class MapView : MonoBehaviour
         }
         else
         {
-            playerLoc = GameObject.FindGameObjectWithTag("Player").transform;
+            //playerLoc = GameObject.FindGameObjectWithTag("Player").transform;
+            playerLoc.gameObject.SetActive(true);
         }
         bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGameRunning;
         //SpawnStartingt();
     }
     public void SpawnStarting()
     {
+        if(currentCave!=null)
+        {
+            Destroy(currentCave);
+            currentCave = null;
+            playerLoc.gameObject.SetActive(false);
+            playerLoc.transform.position = new Vector3(0, 0, -45);
+        }
         pathholder = new GameObject("PathHolder").transform;
         planesToSpawnBeforeBear = Random.Range(1, maxPlanesBeforeBear+1);
         int t = UnityEngine.Random.Range(0, PlanePrefabs.Length);
@@ -60,6 +68,7 @@ public class MapView : MonoBehaviour
         previoustrrain.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
         previoustrrain.transform.parent = pathholder;
         SpawnNext();
+        
     }
 
     public void SpawnNext()
@@ -79,6 +88,7 @@ public class MapView : MonoBehaviour
             caveCutScene = previoustrrain.transform.GetChild(0).GetComponent<CaveCutscene>();
             caveCutScene.last = true;
             previoustrrain.transform.parent = pathholder;
+            current = 1;
             bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnPathLoaded;
            
         }
@@ -96,6 +106,19 @@ public class MapView : MonoBehaviour
     {
         caveCutScene.StartScene();
     }
+
+    public void GoIntoCave()
+    {
+        playerLoc.gameObject.SetActive(false);
+        if (pathholder.gameObject != null)
+            Destroy(pathholder.gameObject);
+        currentCave = Instantiate(CavePrefab);
+        playerLoc.position = new Vector3(0, 0, -20f);
+        playerLoc.gameObject.SetActive(true);
+
+    }
+
+
     public bool IsLast()
     {
         return false;
@@ -116,9 +139,9 @@ public class MapView : MonoBehaviour
         return 2;
     }
 
-    public Transform GetPlayer()
+    public GameObject GetPlayer()
     {
-        return playerLoc;
+        return playerLoc.gameObject;
     }
 
     string NameToSlugConvert(string name)

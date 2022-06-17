@@ -15,7 +15,7 @@ public class HitEffect : MonoBehaviour
     {
         int effect = Random.Range(0, hitEffects.Length);
         img.sprite = hitEffects[effect];
-        cam = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0);
+        cam = MapView.instance.GetPlayer().transform.GetChild(0);
         Vector3 scale = transform.localScale;
         transform.localScale = Vector3.zero;
         transform.DOScale(scale, 0.5f);

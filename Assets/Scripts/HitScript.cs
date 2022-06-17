@@ -20,7 +20,7 @@ public class HitScript : MonoBehaviour
         }
         else if(gameObject.CompareTag("Bear"))
         {
-            myFC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
+            myFC = MapView.instance.GetPlayer().GetComponent<FightController>();
             myBC= GetComponentInParent<BearController>();
           
         }

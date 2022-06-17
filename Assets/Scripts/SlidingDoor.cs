@@ -21,7 +21,7 @@ public class SlidingDoor : MonoBehaviour
 
     void Open()
     {
-        FightController fc = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
+        FightController fc = MapView.instance.GetPlayer().GetComponent<FightController>();
         fc.DisableMovement();
         PlaySfx();
         transform.DOMove(new Vector3(transform.position.x, -15, transform.position.z), 4f).OnComplete(() =>
