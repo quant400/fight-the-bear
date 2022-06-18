@@ -150,7 +150,14 @@ public class UIController : MonoBehaviour
         FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        TemporaryRestartScript.instance.Reset();
+        FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 7f;
+        FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 10.5f;
+        FighterView.instance.playerAnimator.SetBool("Dead", false);
+        FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerCinematicMode;
+        Destroy(FightModel.currentPlayer);
+        FightModel.currentFightStatus.Value = FightModel.fightStatus.OnPath;
+        Time.timeScale = 1;
+
     }
 
     public void Exit()

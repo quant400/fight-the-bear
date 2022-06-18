@@ -22,10 +22,8 @@ public class TemporaryRestartScript : MonoBehaviour
 
     public void Reset()
     {
-        playerUI.GetComponent<UIController>().ResetGame();
-       
-        Destroy(GameObject.FindGameObjectWithTag("Player"));
-        //SceneManager.LoadScene(1);
+ 
+     
     }
 
 

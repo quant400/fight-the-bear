@@ -51,6 +51,7 @@ public class bearView : MonoBehaviour
     public NavMeshAgent bearAgent;
     public Transform castedRock;
     Vector3 distinationToHit;
+    public GameObject bearHitEffect;
     public void StartFight()
     {
         timeLeft = 15;
@@ -159,11 +160,19 @@ public class bearView : MonoBehaviour
 
                     break;
                 case FightModel.bearFightModes.BearKnokedShortly:
+            
+                      
+                        DD.DisplayDamage(damageFromMode(FightModel.currentFightMode)+5);
+                  
+                    
                     cameraShake.setShake(0);
                     anim.SetBool("IsStunned", true);
                     Observable.Timer(TimeSpan.Zero)
                                              .Delay(TimeSpan.FromSeconds(1.5f))
                                              .Do(_ => cameraShake.setShake(0))
+                                              .Where(_ => FightModel.currentBearHealth.Value > 0)
+                           .Do(_ => FightModel.currentBearHealth.Value -= damageFromMode(FightModel.currentFightMode) + 5)
+
                                              .Subscribe()
                                             .AddTo(this);
                     break;
@@ -193,8 +202,9 @@ public class bearView : MonoBehaviour
                         {
                             FightModel.rageModeValue.Value = 1;
                         }
-                        FightModel.gameScore.Value += 2;
+                        FightModel.gameScore.Value += damageFromMode(FightModel.currentFightMode);
                         Debug.Log("bear Hitted");
+                        GameObject bearHitted = Instantiate(bearHitEffect,new Vector3(transform.position.x,2.5f,transform.position.z),Quaternion.identity); 
                         following = false;
                         hitted = true;
                         DD.DisplayDamage(damageFromMode(FightModel.currentFightMode));
@@ -203,6 +213,41 @@ public class bearView : MonoBehaviour
                            .Do(_ => anim.SetTrigger("Hit"))
                            .Where(_ => FightModel.currentBearHealth.Value > 0)
                            .Do(_ => FightModel.currentBearHealth.Value -= damageFromMode(FightModel.currentFightMode))
+                           .Do(_ => FightModel.currentBearStatus.Value = desState)
+                           .Subscribe()
+                           .AddTo(this);
+                    }
+
+
+
+
+                    break;
+                case FightModel.bearFightModes.BearTakeShieldDamage:
+                    cameraShake.setShake(0);
+                    if ((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
+                    {
+                        if (FightModel.currentBearHealth.Value > 10)
+                        {
+                            if (FightModel.rageModeValue.Value < 1)
+                            {
+                                FightModel.rageModeValue.Value += damageFromMode(FightModel.currentFightMode) / 30;
+                            }
+                            else
+                            {
+                                FightModel.rageModeValue.Value = 1;
+                            }
+                        }
+                      
+                        FightModel.gameScore.Value += damageFromMode(FightModel.currentFightMode) * 0.5f;
+                        Debug.Log("bear Hitted");
+                        following = false;
+                        hitted = true;
+                        DD.DisplayDamage(damageFromMode(FightModel.currentFightMode)*0.5f);
+                        Observable.Timer(TimeSpan.Zero)
+                           .Do(_ => anim.SetFloat("hitBlend", Mathf.RoundToInt(UnityEngine.Random.Range(0, 3))))
+                           .Do(_ => anim.SetTrigger("Hit"))
+                           .Where(_ => FightModel.currentBearHealth.Value > 0)
+                           .Do(_ => FightModel.currentBearHealth.Value -= damageFromMode(FightModel.currentFightMode)*0.5f)
                            .Do(_ => FightModel.currentBearStatus.Value = desState)
                            .Subscribe()
                            .AddTo(this);
@@ -558,12 +603,20 @@ public class bearView : MonoBehaviour
             if (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearDead
                            && Vector3.Distance(playerFC.transform.position, bearHead.position) <= distance)
             {
-                if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerBlockShortAttack)
+                if (FightModel.canTakeDamage)
                 {
-                    playerHitted.Value = true;
-                    FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerTakeDamage;
+                    if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerBlockShortAttack)
+                    {
+                        playerHitted.Value = true;
+                        FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerTakeDamage;
 
+                    }
+                    else
+                    {
+                        FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerTakeSmallDamage;
+                    }
                 }
+                
             }
         }
 

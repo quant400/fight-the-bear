@@ -82,6 +82,14 @@ public class FighterView : MonoBehaviour
         
 
     }
+    void initilizeFighter()
+    {
+        Time.timeScale = 1;
+        FightModel.currentPlayer.GetComponent<ThirdPersonController>().MoveSpeed = 7f;
+        FightModel.currentPlayer.GetComponent<ThirdPersonController>().SprintSpeed = 10.5f;
+        playerAnimator.SetBool("Dead", false);
+        FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerCinematicMode;
+    }
     void observePlayerCombo()
     {
         canHitAgainCombo
@@ -171,7 +179,7 @@ public class FighterView : MonoBehaviour
                 case FightModel.PlayerFightModes.playerTakeDamage:
                     comboValue.Value = 0;
 
-                    if ((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
+                    if ((FightModel.canTakeDamage) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
                     {
                         Debug.Log("player Hitted");
                         playerAnimator.SetTrigger("Hit");
@@ -190,7 +198,28 @@ public class FighterView : MonoBehaviour
                     }
                        
                     break;
+                case FightModel.PlayerFightModes.playerTakeSmallDamage:
+                    comboValue.Value = 0;
 
+                    if ((FightModel.canTakeDamage) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
+                    {
+                        Debug.Log("player Hitted");
+                        playerAnimator.SetTrigger("Hit");
+                        DD.DisplayDamage(damageFromMode(FightModel.currentFightMode)*0.2f);
+                        Observable.Timer(TimeSpan.Zero)
+                               .DelayFrame(1)
+                               .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
+                               .Where(_ => FightModel.currentPlayerHealth.Value > 0)
+                               .Do(_ => FightModel.currentPlayerHealth.Value -= damageFromMode(FightModel.currentFightMode)*0.2f)
+                               .Do(_ => hittedPannel.SetActive(true))
+                               .Delay(TimeSpan.FromMilliseconds(400))
+                               .Do(_ => hittedPannel.SetActive(false))
+                               .Subscribe()
+
+                            .AddTo(this);
+                    }
+
+                    break;
                 case FightModel.PlayerFightModes.playerCombo:
                     playerController.MoveSpeed = 0.5f;
                     playerController.SprintSpeed = 1f;
@@ -319,6 +348,7 @@ public class FighterView : MonoBehaviour
     public void intilize()
     {
         playerAnimator = GetComponent<Animator>();
+        initilizeFighter();
         playerController = GetComponent<ThirdPersonController>();
         observeFighterStatus();
         currentBearShieldHealth.Value = FightModel.bearShielHealth;

@@ -10,12 +10,12 @@ public class HitEffect : MonoBehaviour
     Sprite[] hitEffects;
     [SerializeField]
     Image img;
-    Transform cam;
+    Camera cam;
     private void Awake()
     {
         int effect = Random.Range(0, hitEffects.Length);
         img.sprite = hitEffects[effect];
-        cam = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0);
+        cam = Camera.main;
         Vector3 scale = transform.localScale;
         transform.localScale = Vector3.zero;
         transform.DOScale(scale, 0.5f);
@@ -28,7 +28,8 @@ public class HitEffect : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.LookAt(cam);
+        if (cam != null) ;
+        transform.LookAt(cam.transform);
 
     }
 }

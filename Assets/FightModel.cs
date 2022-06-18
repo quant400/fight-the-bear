@@ -7,6 +7,7 @@ public class FightModel
 {
     public enum fightStatus
     {
+        OnPath,
         OnEnterCave,
         OnStartCenimatic,
         OnStartFight,
@@ -30,6 +31,7 @@ public class FightModel
         BearShortAttacking,
         BearShortAttackDone,
         BearTakeDamage,
+        BearTakeShieldDamage,
         BearDistanceAttacking,
         BearTakeBigDamage,
         BearRageMode,
@@ -46,6 +48,7 @@ public class FightModel
         playerBlockShortAttack,
         playerShortAttacking,
         playerTakeDamage,
+        playerTakeSmallDamage,
         playerDistanceAttacking,
         playerTakeBigDamage,
         playerRunAwayMode,
@@ -78,9 +81,9 @@ public class FightModel
 
     public static ReactiveProperty<float> currentPlayerHealth=new ReactiveProperty<float>();
     public static ReactiveProperty<float> currentBearHealth = new ReactiveProperty<float>();
-    public static float playerCloseHitValue=8;
+    public static float playerCloseHitValue=10;
     public static float playerDistanceHitValue=10;
-    public static float bearCloseHitValue = 3;
+    public static float bearCloseHitValue = 5;
     public static float bearDistanceHitValue = 5;
     public static float shortAttackRangeValue = 6;
 
@@ -106,5 +109,6 @@ public class FightModel
     public static CinemachineVirtualCamera playerVirtualCamera;
     public static CinemachineBrain playerCameraBrain;
     public static int lastRand;
+    public static bool canTakeDamage;
 
 }
