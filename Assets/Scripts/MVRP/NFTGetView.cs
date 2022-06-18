@@ -68,20 +68,20 @@ public class NFTGetView : MonoBehaviour
     void Display()
     {
         string data = "{\"Items\":" + temp.downloadHandler.text + "}";
-        chickenGameModel.currentNFTString = data;
+        bearGameModel.currentNFTString = data;
 
         NFTInfo[] NFTData = JsonHelper.FromJson<NFTInfo>(data);
-        chickenGameModel.currentNFTArray = NFTData;
+        bearGameModel.currentNFTArray = NFTData;
         if (NFTData.Length == 0)
         {
             noNFTCanvas.SetActive(true);
-            chickenGameModel.userIsLogged.Value = false;
+            bearGameModel.userIsLogged.Value = false;
         }
         else
         {
             noNFTCanvas.SetActive(false);
             characterSelectView.SetData(NFTData);
-            chickenGameModel.userIsLogged.Value = true;
+            bearGameModel.userIsLogged.Value = true;
         }
 
 
@@ -91,13 +91,13 @@ public class NFTGetView : MonoBehaviour
         if (gameplayView.nftDataArray.Length == 0)
         {
             noNFTCanvas.SetActive(true);
-            chickenGameModel.userIsLogged.Value = false;
+            bearGameModel.userIsLogged.Value = false;
         }
         else
         {
             noNFTCanvas.SetActive(false);
-            characterSelectView.SetData(chickenGameModel.currentNFTArray);
-            chickenGameModel.userIsLogged.Value = true;
+            characterSelectView.SetData(bearGameModel.currentNFTArray);
+            bearGameModel.userIsLogged.Value = true;
         }
     }
 

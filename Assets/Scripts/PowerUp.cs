@@ -36,7 +36,7 @@ public class PowerUp : MonoBehaviour
 
     public void PlayPowewrUp()
     {
-        if (!SFXController.instance.sfxMuted)
+        if (!SFXView.instance.sfxMuted)
         {
             aud.Play();
         }

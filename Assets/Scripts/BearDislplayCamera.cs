@@ -16,7 +16,7 @@ public class BearDislplayCamera : MonoBehaviour
     private void Start()
     {
         cam = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTrackedDolly>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = MapView.instance.GetPlayer();
         bSFX = GetComponentInParent<BearStageSfx>();
         bSFX.Invoke("PlayRoar", 2f);
         Invoke("Roar", 2f);

@@ -75,7 +75,7 @@ public class BearController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         anim.SetFloat("Start", Random.Range(0, 4));
-        playerFC = GameObject.FindGameObjectWithTag("Player").GetComponent<FightController>();
+        playerFC = MapView.instance.GetPlayer().GetComponent<FightController>();
         bDD = GetComponentInChildren<DamageDisplay>();
         bSFX = GetComponent<BearStageSfx>();
     }
@@ -108,7 +108,7 @@ public class BearController : MonoBehaviour
             {
 
                 canAttackIn += Time.deltaTime;
-                UIController.instance.SetAggression(canAttackIn / tempAttackTime);
+                GameUIView.instance.SetAggression(canAttackIn / tempAttackTime);
 
             }
             timer += Time.deltaTime;

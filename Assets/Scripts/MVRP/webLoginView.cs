@@ -36,19 +36,19 @@ public class webLoginView : MonoBehaviour
     GameObject tryoutButton;
     public void checkUSerLoggedAtStart()
     {
-        if (chickenGameModel.userIsLogged.Value)
+        if (bearGameModel.userIsLogged.Value)
         {
             nftGetter.savedLoggedDisplay();
         }
         else
         {
-            chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnLogin;
+            bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnLogin;
 
         }
     }
     public void OnLogin(Button loginBtn, Button skipBtn, Button tryoutBtn)
     {
-        if (chickenGameModel.userIsLogged.Value)
+        if (bearGameModel.userIsLogged.Value)
         {
             loginBtn.GetComponent<Button>().interactable = false;
             skipBtn.GetComponent<Button>().interactable = false;
@@ -98,6 +98,7 @@ public class webLoginView : MonoBehaviour
             t.gameObject.SetActive(false);
         }
         transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(6).gameObject.SetActive(true);
         transform.GetChild(7).gameObject.SetActive(true);
         nftGetter.Skip();
     }

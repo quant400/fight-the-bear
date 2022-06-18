@@ -17,12 +17,12 @@ public class uiView : MonoBehaviour
     [SerializeField] GameObject startCanvas;
 
 
-    public Button loginBtn, PlayMode, Play, LeaderBoard, BackToCharacterSelection, Skip, tryout, backFromLeaderboard, tryagain;
+    public Button loginBtn, PlayMode, Play, LeaderBoard, BackToCharacterSelection, Skip, tryout, backFromLeaderboard, tryagain, settings, closeSettings;
     [SerializeField] webLoginView webloginView;
     // Start is called before the first frame update
     private void Awake()
     {
-        scenesView.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
+        scenesView.LoadScene(bearGameModel.mainSceneLoadname.sceneName);
     }
     void Start()
     {
@@ -30,9 +30,9 @@ public class uiView : MonoBehaviour
     }
     public void observeLogin()
     {
-        chickenGameModel.userIsLogged
+        bearGameModel.userIsLogged
           .Where(_ => _)
-          .Do(_ => chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.Onlogged)
+          .Do(_ => bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.Onlogged)
           .Subscribe()
           .AddTo(this);
     }
@@ -44,7 +44,7 @@ public class uiView : MonoBehaviour
     public void ObserveBtns()
     {
         loginBtn.OnClickAsObservable()
-            .Do(_=> webloginView.OnLogin(loginBtn, Skip,tryout))
+            .Do(_ => webloginView.OnLogin(loginBtn, Skip, tryout))
             .Where(_ => PlaySounds.instance != null)
             .Do(_ => PlaySounds.instance.Play())
             .Subscribe()
@@ -62,12 +62,7 @@ public class uiView : MonoBehaviour
           .Subscribe()
           .AddTo(this);
         BackToCharacterSelection.OnClickAsObservable()
-          .Do(_ => {
-              if (gameplayView.instance.isTryout)
-                  chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnLogin;
-              else
-                  chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnBackToCharacterSelection;
-          })
+          .Do(_ =>bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGoToMain)
           .Where(_ => PlaySounds.instance != null)
           .Do(_ => PlaySounds.instance.Play())
           .Subscribe()
@@ -85,6 +80,26 @@ public class uiView : MonoBehaviour
         .Subscribe()
         .AddTo(this);
 
+        tryout.OnClickAsObservable()
+        .Do(_ => webloginView.OnTryout())
+        .Where(_ => PlaySounds.instance != null)
+        .Do(_ => PlaySounds.instance.Play())
+        .Subscribe()
+        .AddTo(this);
+
+        settings.OnClickAsObservable()
+        .Do(_ => GameUIView.instance.OpenSettings())
+        .Where(_ => PlaySounds.instance != null)
+        .Do(_ => PlaySounds.instance.Play())
+        .Subscribe()
+        .AddTo(this);
+
+        closeSettings.OnClickAsObservable()
+        .Do(_ => GameUIView.instance.CloseSettings())
+        .Where(_ => PlaySounds.instance != null)
+        .Do(_ => PlaySounds.instance.Play())
+        .Subscribe()
+        .AddTo(this);
     }
     public void closeLeaderBoard()
     {
@@ -95,13 +110,13 @@ public class uiView : MonoBehaviour
     {
         leaderBoeardCanvas.GetComponent<LeaderBoardControllerRestApi>().ToggleLeaderBoard(true);
 
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnLeaderBoard;
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnLeaderBoard;
     }
     public void PlayMainButton()
     {
 
        
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelection;
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelection;
 
     }
     public void goToMenu(string menuName)

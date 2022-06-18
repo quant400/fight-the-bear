@@ -31,7 +31,7 @@ public class PlayerSFXController : MonoBehaviour
 
     public void PlayPunch()
     {
-        if (!SFXController.instance.sfxMuted)
+        if (!SFXView.instance.sfxMuted)
         {
             playerAudio.clip = punch;
             playerAudio.Play();
@@ -39,7 +39,7 @@ public class PlayerSFXController : MonoBehaviour
     }
     public void PlaySwoosh()
     {
-        if (!SFXController.instance.sfxMuted)
+        if (!SFXView.instance.sfxMuted)
         {
             playerAudio.clip = swoosh;
             playerAudio.Play();
@@ -47,7 +47,7 @@ public class PlayerSFXController : MonoBehaviour
     }
     public void Playhit()
     {
-        if (!SFXController.instance.sfxMuted)
+        if (!SFXView.instance.sfxMuted)
         {
             playerAudio.clip = hit[Random.Range(0, hit.Length)];
             playerAudio.Play();
@@ -58,7 +58,7 @@ public class PlayerSFXController : MonoBehaviour
 
     public void PlayStep()
     {
-        if (!SFXController.instance.sfxMuted)
+        if (!SFXView.instance.sfxMuted)
         {
             if (!tPC.Grounded)
             {

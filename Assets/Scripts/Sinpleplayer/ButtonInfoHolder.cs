@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UniRx;
 
 public class ButtonInfoHolder : MonoBehaviour
 {
@@ -22,16 +23,31 @@ public class ButtonInfoHolder : MonoBehaviour
     characterSelectionView CSV;
     [SerializeField]
     ButtonInfoHolder currentSelected;
+    Button button;
     private void Awake()
     {
         //bgIndex = Random.Range(0, bg.Length);
         background = gameObject.GetComponent<Image>();
-        charPic = transform.GetChild(0).GetComponent<Image>();
+        charPic = transform.GetChild(0).GetChild(0).GetComponent<Image>();
         CSV = transform.GetComponentInParent<characterSelectionView>();
         ResetSlot();
     }
+    private void Start()
+    {
+        button = GetComponent<Button>();
+        observeBtns();
+    }
 
-    public void SetCurrent(Sprite img, int index)
+    void observeBtns()
+    {
+        button.OnClickAsObservable()
+            .Do(_ => OnClick())
+            .Where(_ => PlaySounds.instance != null)
+            .Do(_ => PlaySounds.instance.Play())
+            .Subscribe()
+            .AddTo(this);
+    }
+        public void SetCurrent(Sprite img, int index)
     {
         //background.sprite = bg[index];
         //charPic.sprite = img;
@@ -93,8 +109,8 @@ public class ButtonInfoHolder : MonoBehaviour
 
     void UpdateSessionInfo()
     {
-        if (chickenGameModel.currentNFTSession<10)
+        if (bearGameModel.currentNFTSession<10)
             CSV.EnablePlay();
-        info.text = "PLAYED " + "<color=#00CEDB>" + chickenGameModel.currentNFTSession +"</color>" + " OUT OF <color=#00CEDB> 10 </color> DAILY GAMES";
+        info.text = "PLAYED " + "<color=#00CEDB>" + bearGameModel.currentNFTSession +"</color>" + " OUT OF <color=#00CEDB> 10 </color> DAILY GAMES";
     }
 }

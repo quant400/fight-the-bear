@@ -10,13 +10,13 @@ using UnityEngine.SceneManagement;
 
     public class mainPresenter : MonoBehaviour
     {
-        [SerializeField] gameplayView gameView;
-        [SerializeField] webLoginView webView;
-        [SerializeField] characterSelectionView characterSelectionView;
-        [SerializeField] uiView uiView;
-        [SerializeField] gameEndView gameEndView;
-        [SerializeField] DatabaseManagerRestApi dataView;
-
+    [SerializeField] gameplayView gameView;
+    [SerializeField] webLoginView webView;
+    [SerializeField] characterSelectionView characterSelectionView;
+    [SerializeField] uiView uiView;
+    [SerializeField] gameEndView gameEndView;
+    [SerializeField] DatabaseManagerRestApi dataView;
+    [SerializeField] GameUIView gameUIView;
 
     private void Awake()
     {
@@ -24,12 +24,11 @@ using UnityEngine.SceneManagement;
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if ((scene.name == chickenGameModel.singlePlayerScene1.sceneName) && !gameplayView.instance.started) 
+        if ((scene.name == bearGameModel.singlePlayerScene1.sceneName) && !gameplayView.instance.started) 
         {
             Observable.Timer(TimeSpan.Zero)
                         .DelayFrame(2)
-                        .Do(_ => UIController.instance.fightCanvas.SetActive(false))
-                        .Do(_ => chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnStartGame)
+                        .Do(_ => bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnStartGame)
                         .Subscribe()
                         .AddTo(this);
         }
@@ -50,19 +49,19 @@ using UnityEngine.SceneManagement;
 
     void ObservePanelsStatus()
     {
-            chickenGameModel.gameCurrentStep
+            bearGameModel.gameCurrentStep
                    .Subscribe(procedeGame)
                    .AddTo(this);
 
-            void procedeGame(chickenGameModel.GameSteps status)
+            void procedeGame(bearGameModel.GameSteps status)
             {
                 switch (status)
                 {
-                    case chickenGameModel.GameSteps.OnLogin:
+                    case bearGameModel.GameSteps.OnLogin:
                        
-                        if (chickenGameModel.userIsLogged.Value)
+                        if (bearGameModel.userIsLogged.Value)
                         {
-                        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelection;
+                        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelection;
 
                         }
 
@@ -72,20 +71,20 @@ using UnityEngine.SceneManagement;
                         uiView.observeLogin();
                         }
                     break;
-                case chickenGameModel.GameSteps.Onlogged:
+                case bearGameModel.GameSteps.Onlogged:
 
                     uiView.goToMenu("main");
                     break;
-                case chickenGameModel.GameSteps.OnPlayMenu:
+                case bearGameModel.GameSteps.OnPlayMenu:
 
                     uiView.goToMenu("main");
 
                     break;
-                case chickenGameModel.GameSteps.OnLeaderBoard:
+                case bearGameModel.GameSteps.OnLeaderBoard:
 
                     uiView.goToMenu("leaderboeard");
                     break;
-                case chickenGameModel.GameSteps.OnCharacterSelection:
+                case bearGameModel.GameSteps.OnCharacterSelection:
                     uiView.goToMenu("characterSelection");
                     if (!gameplayView.instance.isTryout)
                     {
@@ -95,47 +94,85 @@ using UnityEngine.SceneManagement;
 
                     //webView.checkUSerLoggedAtStart(); /// condisder when start load again .....  !!!! 
                     break;
-                case chickenGameModel.GameSteps.OnCharacterSelected:
+                case bearGameModel.GameSteps.OnCharacterSelected:
                     uiView.goToMenu("characterSelected");
                     gameEndView.resetDisplay();
                     scenesView.loadSinglePlayerScene(1);
-                    UIController.instance.fightCanvas.SetActive(false);
 
                     break;
-                case chickenGameModel.GameSteps.OnStartGame:
+                case bearGameModel.GameSteps.OnStartGame:
                     Observable.Timer(TimeSpan.Zero)
                         .DelayFrame(2)
                         .Do(_ => gameView.StartGame())
                         .Subscribe()
                         .AddTo(this);
-
-                    chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnGameRunning;
+                    bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnPathLoad;
+                    //bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGameRunning;
 
                     break;
-                case chickenGameModel.GameSteps.OnGameRunning:
+                case bearGameModel.GameSteps.OnGameRunning:
                     Debug.Log("game Is running");
                     break;
-                case chickenGameModel.GameSteps.OnGameEnded:
+                case bearGameModel.GameSteps.OnGameEnded:
                     uiView.goToMenu("results");
                     if (!gameplayView.instance.isTryout)
                         gameEndView.setScoreAtStart();
                     gameView.EndGame();
                     break;
-                case chickenGameModel.GameSteps.OnBackToCharacterSelection:
+                case bearGameModel.GameSteps.OnBackToCharacterSelection:
                     gameEndView.initializeValues();
                     gameEndView.resetDisplay();
                     dataView.initilizeValues();
-                    scenesView.LoadScene(chickenGameModel.mainSceneLoadname.sceneName);
+                    scenesView.LoadScene(bearGameModel.mainSceneLoadname.sceneName);
                     Observable.Timer(TimeSpan.Zero)
                        .DelayFrame(2)
-                       .Do(_ => chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelection)
+                       .Do(_ => bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelection)
                        .Subscribe()
                        .AddTo(this);
                     break;
-                case chickenGameModel.GameSteps.onSceneLoaded:
+                case bearGameModel.GameSteps.OnSceneLoaded:
                     Debug.Log("sceneLoaded");
                     break;
 
+                case bearGameModel.GameSteps.OnPathLoad:
+                   MapView.instance.SpawnStarting();
+                    break;
+                
+                case bearGameModel.GameSteps.OnPathLoaded:
+                    MapView.instance.SpawnPlayer();
+                    SFXView.instance.SetSFX("Path");
+                    break;
+
+                case bearGameModel.GameSteps.OnTryAgain:
+                    gameplayView.instance.started = false;
+                    bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelected;
+                    GameUIView.instance.ResetGame();
+                    break;
+
+                case bearGameModel.GameSteps.OnGoToMain:
+                    gameplayView.instance.started = false;
+                    GameUIView.instance.ResetGame();
+                    if(gameplayView.instance.isTryout)
+                    {
+                        gameplayView.instance.isTryout = false;
+                        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnLogin;
+                    }
+                    else
+                    {
+                        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnBackToCharacterSelection;
+                    }
+                    
+                    break;
+
+                case bearGameModel.GameSteps.OnCloseToCave:
+                    MapView.instance.StartCutsene();
+                    break;
+
+                case bearGameModel.GameSteps.OnEnterCave:
+                    //Change here
+                    MapView.instance.GoIntoCave();
+                    SFXView.instance.SetSFX("Bear");
+                    break;
 
             }
 

@@ -7,9 +7,9 @@ public class onSceneLoad : MonoBehaviour
     
     void Start()
     {
-        chickenGameModel.lastSavedStep = chickenGameModel.gameCurrentStep.Value;
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.onSceneLoaded;
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.lastSavedStep;
+        bearGameModel.lastSavedStep = bearGameModel.gameCurrentStep.Value;
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnSceneLoaded;
+        bearGameModel.gameCurrentStep.Value = bearGameModel.lastSavedStep;
 
     }
 }

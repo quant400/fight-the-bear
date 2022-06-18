@@ -75,7 +75,7 @@ public class gameplayView : MonoBehaviour
         Debug.Log(chosenNFT.id);
         if (!instance.isTryout)
             DatabaseManagerRestApi._instance.startSessionFromRestApi(chosenNFT.id);
-        chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnGameRunning;
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGameRunning;
 
     }
     public void EndGame()
@@ -90,15 +90,6 @@ public class gameplayView : MonoBehaviour
         return timeForOneGame;
     }
 
-
-    /*public int GetChickenCount()
-    {
-        return initialChickenCount;
-    }
-    public float GetSpawnInterval()
-    {
-        return spawnIntervals;
-    }*/
 
     public bool GetSFXMuted()
     {

@@ -21,7 +21,7 @@ public class characterSelectionView : MonoBehaviour
     [SerializeField]
     float sideCharZdisp;
     [SerializeField]
-    Button rightButton, leftButton , select;
+    Button rightButton, leftButton , select ,backButton;
     NFTInfo[] myNFT;
     [SerializeField]
     RuntimeAnimatorController controller;
@@ -47,8 +47,8 @@ public class characterSelectionView : MonoBehaviour
     {
       
         gameplayView.instance.dailysessionReactive
-            .Do(_ => setPlayButtonDependtoSessions(0))
-            .Do(_=>chickenGameModel.currentNFTSession=0)
+            .Do(_ => setPlayButtonDependtoSessions(_))
+            .Do(_=>bearGameModel.currentNFTSession=_)
             .Subscribe()
             .AddTo(this);
     }
@@ -82,47 +82,22 @@ public class characterSelectionView : MonoBehaviour
          .Do(_ => FinalSelectSinglePlayer())
          .Where(_ => PlaySounds.instance != null)
          .Do(_ => PlaySounds.instance.Play())
-         .Do(_ => chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelected)
+         .Do(_ => bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelected)
          .Subscribe()
          .AddTo(this);
+
+        backButton.OnClickAsObservable()
+        .Do(_ => BackButton())
+        .Where(_ => PlaySounds.instance != null)
+        .Do(_ => PlaySounds.instance.Play())
+        .Subscribe()
+        .AddTo(this);
     }
    
 
     public void MoveRight()
     {
-         /*rightButton.interactable = false;
-         leftButton.interactable = false;
-         if (currentCharacter < characters.Length - 1)
-         {
-             if (selected)
-             {
-                 characters[currentCharacter].GetComponent<Animator>().SetBool("Selected", false);
-                 selected = false;
-             }
-             characters[currentCharacter].transform.localPosition += new Vector3(0, 0, sideCharZdisp);
-             currentCharacter++;
-             characters[currentCharacter].transform.DOLocalMove(characters[currentCharacter].transform.localPosition + new Vector3(0, 0, -sideCharZdisp), 0.5f);
-             cam.transform.DOMoveX(characters[currentCharacter].transform.position.x, 0.5f).OnStepComplete(() =>
-             {
-
-                 rightButton.interactable = true;
-                 leftButton.interactable = true;
-             });
-         }
-         else
-         {
-             characters[currentCharacter].transform.localPosition += new Vector3(0, 0, sideCharZdisp);
-             currentCharacter = 0;
-             characters[currentCharacter].transform.DOLocalMove(characters[currentCharacter].transform.localPosition + new Vector3(0, 0, -sideCharZdisp), 0.5f);
-             cam.transform.DOMoveX(characters[currentCharacter].transform.position.x, 0.5f).OnStepComplete(() =>
-             {
-
-                 rightButton.interactable = true;
-                 leftButton.interactable = true;
-             });
-         }
-         gameplayView.instance.chosenNFT = characterNFTMap[currentCharacter];
-         gameplayView.instance.GetScores();*/
+        
 
         currentStartIndex += 4;
         if (skipping) 
@@ -151,39 +126,7 @@ public class characterSelectionView : MonoBehaviour
     }
 
     public void MoveLeft()
-    {/*
-        if (currentCharacter > 0)
-        {
-            if (selected)
-            {
-                characters[currentCharacter].GetComponent<Animator>().SetBool("Selected", false);
-                selected = false;
-            }
-            characters[currentCharacter].transform.localPosition += new Vector3(0, 0, sideCharZdisp);
-            currentCharacter--;
-            characters[currentCharacter].transform.DOLocalMove(characters[currentCharacter].transform.localPosition + new Vector3(0, 0, -sideCharZdisp), 0.5f);
-
-            cam.transform.DOMoveX(characters[currentCharacter].transform.position.x, 0.5f).OnStepComplete(() =>
-            {
-                rightButton.interactable = true;
-                leftButton.interactable = true;
-            });
-        }
-        else
-        {
-            characters[currentCharacter].transform.localPosition += new Vector3(0, 0, sideCharZdisp);
-            currentCharacter = characters.Length - 1;
-            characters[currentCharacter].transform.DOLocalMove(characters[currentCharacter].transform.localPosition + new Vector3(0, 0, -sideCharZdisp), 0.5f);
-            cam.transform.DOMoveX(characters[currentCharacter].transform.position.x, 0.5f).OnStepComplete(() =>
-            {
-
-                rightButton.interactable = true;
-                leftButton.interactable = true;
-            });
-        }
-        gameplayView.instance.chosenNFT = characterNFTMap[currentCharacter];
-        gameplayView.instance.GetScores();
-        */
+    {
 
         currentStartIndex -= 4;
         if (skipping)
@@ -262,7 +205,7 @@ public class characterSelectionView : MonoBehaviour
 
     private void SetUpCharacters()
     {
-        if (chickenGameModel.charactersSetted == false)
+        if (bearGameModel.charactersSetted == false)
         {
 
            
@@ -295,7 +238,7 @@ public class characterSelectionView : MonoBehaviour
         {
             gameplayView.instance.chosenNFT = new NFTInfo { name = "a-rod", id = 175 };
             selected = true;
-            chickenGameModel.gameCurrentStep.Value = chickenGameModel.GameSteps.OnCharacterSelected;
+            bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelected;
         }
     }
    
@@ -330,7 +273,7 @@ public class characterSelectionView : MonoBehaviour
                 characterNFTMap[i+startingindex] = myNFT[i+startingindex];
             }
         }
-        chickenGameModel.charactersSetted = true;
+        bearGameModel.charactersSetted = true;
     }
     private void Done()
     {
@@ -338,7 +281,10 @@ public class characterSelectionView : MonoBehaviour
         ButtonToDisable.SetActive(false);
     }
 
-
+    public void BackButton()
+    {
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.Onlogged;
+    }
 
     string NameToSlugConvert(string name)
     {
