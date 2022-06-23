@@ -24,6 +24,8 @@ public class FighterView : MonoBehaviour
     public ReactiveProperty<bool> canHitAgainCombo = new ReactiveProperty<bool>();
     public ReactiveProperty<int> comboValue = new ReactiveProperty<int>();
     ReactiveProperty<bool> isComboIdle = new ReactiveProperty<bool>();
+    ReactiveProperty<bool> IsDead = new ReactiveProperty<bool>();
+
     public GameObject detectionCollider;
     public GameObject hittedPannel;
     public ReactiveProperty<bool> bearHitted = new ReactiveProperty<bool>();
@@ -68,19 +70,29 @@ public class FighterView : MonoBehaviour
         }
         if (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon)
         {
-        
-                if (playerAnimator.GetInteger("comboCounter") != 0)
-                {
-                    comboValue.Value = 0;
-                    currentState = 0;
-                    playerAnimator.SetInteger("comboCounter", 0);
-                    playerAnimator.SetBool("Fight", false);
 
-                }
-            
+            if (playerAnimator.GetInteger("comboCounter") != 0)
+            {
+                comboValue.Value = 0;
+                currentState = 0;
+                playerAnimator.SetInteger("comboCounter", 0);
+                playerAnimator.SetBool("Fight", false);
+
+            }
+
         }
         
 
+
+    }
+    void observePlayerDead()
+    {
+        this.UpdateAsObservable()
+            .Where(_ => !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Death"))
+            .Do(_ => playerAnimator.Play("Death"))
+            .Do(_ => playerAnimator.SetBool("IsDead",true))
+            .Subscribe()
+            .AddTo(fightView.instance);
     }
     void initilizeFighter()
     {
@@ -140,18 +152,25 @@ public class FighterView : MonoBehaviour
     }
     void onHitBear()
     {
-        if(!bearHitted.Value)
-        if (Vector3.Distance(transform.position, FightModel.currentBear.transform.position) < FightModel.shortAttackRangeValue)
+        if (!bearHitted.Value)
         {
-             if ( (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearTakeDamage &&
-                        (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearDistanceAttacking) &&
-                        (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearRageMode)))
+            if (Vector3.Distance(transform.position, FightModel.currentBear.transform.position) < FightModel.shortAttackRangeValue)
             {
-                bearHitted.Value = true;
-                FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearTakeDamage;
-
+                if ((FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearTakeDamage &&
+                           (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearDistanceAttacking) &&
+                           (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearRageMode)))
+                {
+                    bearHitted.Value = true;
+                    FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearTakeDamage;
+                }
+                else if (FightModel.currentBearStatus.Value == FightModel.bearFightModes.BearKnokedShortly)
+                {
+                    bearHitted.Value = true;
+                    FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearTakeDamage;
+                }
             }
         }
+       
     }
     void observeFighterStatus()
     {
@@ -226,6 +245,8 @@ public class FighterView : MonoBehaviour
                     break;
                 case FightModel.PlayerFightModes.playerDead:
                     playerAnimator.SetBool("Dead", true);
+                    IsDead.Value = true;
+                    observePlayerDead();
                     break;
                 case FightModel.PlayerFightModes.playerBlockShortAttack:
                     playerController.MoveSpeed = 0.5f;
@@ -264,6 +285,19 @@ public class FighterView : MonoBehaviour
         
 
 
+    }
+    public void MovmenteState(bool state)
+    {
+        if (state)
+        {
+            FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 7f;
+            FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 10.5f;
+        }
+        else
+        {
+            FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 0f;
+            FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 0f;
+        } 
     }
     void setComboInAnimator()
     {

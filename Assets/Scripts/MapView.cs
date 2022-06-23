@@ -51,7 +51,7 @@ public class MapView : MonoBehaviour
             Debug.Log(2);
             playerLoc.gameObject.SetActive(true);
         }
-        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGameRunning;
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnFindingCave;
         //SpawnStartingt();
     }
     public void SpawnStarting()
@@ -115,8 +115,8 @@ public class MapView : MonoBehaviour
         playerLoc.gameObject.SetActive(false);
         if (pathholder.gameObject != null)
             Destroy(pathholder.gameObject);
-        currentCave = Instantiate(CavePrefab);
-        playerLoc.position = new Vector3(0, 0, -20f);
+        SceneManager.LoadScene(bearGameModel.singlePlayerScene3.sceneName, LoadSceneMode.Additive);
+        playerLoc.position = new Vector3(0, 0, -10f);
         playerLoc.gameObject.SetActive(true);
 
     }
@@ -144,7 +144,14 @@ public class MapView : MonoBehaviour
 
     public GameObject GetPlayer()
     {
-        return playerLoc.gameObject;
+        if (FightModel.currentPlayer != null) 
+        {
+            return FightModel.currentPlayer;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     string NameToSlugConvert(string name)

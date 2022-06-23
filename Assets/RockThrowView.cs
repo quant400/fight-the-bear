@@ -73,6 +73,8 @@ public class RockThrowView : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
+            if (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon)
+            {
                 if (closesestRock != null)
                 {
                     if (!rockPicked)
@@ -82,13 +84,15 @@ public class RockThrowView : MonoBehaviour
                             rockPicked = true;
 
                             playerAnimator.SetBool("PickRock", true);
-                      //  ThrowRockText.gameObject.SetActive(true);
+                            //  ThrowRockText.gameObject.SetActive(true);
 
-                        PickwRockText.gameObject.SetActive(false);
+                            PickwRockText.gameObject.SetActive(false);
+                        }
                     }
+
                 }
-                   
-                }
+            }
+                
         }
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -213,7 +217,8 @@ public class RockThrowView : MonoBehaviour
         yield return new WaitForSeconds(1);
         rb.isKinematic = true;
         selectedRock.position = startPosition;
+        playerAnimator.SetBool("PickRock", false);
     }
-    
+
 
 }

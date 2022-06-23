@@ -4,7 +4,7 @@
       <meta charset="utf-8"/>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
       <title>fight-the-bear</title>
-      <link rel="shortcut icon" href="TemplateData/favicon.ico"/>
+      <link rel="shortcut icon" href="TemplateData/faviconB.ico"/>
       <link rel="stylesheet" href="TemplateData/style.css"/>
       <meta name="viewport" content="width=device-width,initial-scale=1"/>
       <script src="network.js"></script>
@@ -14,14 +14,16 @@
    <body>
       <noscript>You need to enable JavaScript to run this app.</noscript>
       <div id="root"></div>
-      <div id="unity-container" class="unity-desktop">
-         <canvas id="unity-canvas" width="1920" height="1080"></canvas>
-         <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
-            <div id="unity-progress-bar-empty">
-               <div id="unity-progress-bar-full"></div>
-            </div>
+      <div id="unity-container" class="unity-desktop" style="background-color:#0c0c23">
+      	 <div id="unity-loading-bar">
+      	      <img src="logoBear.png" >
+              <div id="unity-logo"></div>
+              <div id="unity-progress-bar-empty">
+                 <div id="unity-progress-bar-full"></div>
+              </div>
+              <div class="text-block-2" style = "color:#FFFFFF; font-size:larger">Loading, please wait...</div>
          </div>
+         <canvas id="unity-canvas" width="1920" height="1080"></canvas>
          <div id="unity-footer">
             <div id="unity-webgl-logo"></div>
             <div id="unity-fullscreen-button"></div>
@@ -60,12 +62,14 @@
              canvas.style.width = "100vw";
              canvas.style.height = "100vh";
          }
-         loadingBar.style.display = "block";
+         loadingBar.style.display = "flex";
          
          var script = document.createElement("script");
          script.src = loaderUrl;
          script.onload = () => {
-           createUnityInstance(document.querySelector("#unity-canvas"), {
+          createUnityInstance(canvas, config, (progress) => {
+             progressBarFull.style.width = 100 * progress + "%";
+           },{
         dataUrl: "Build/WebGL Builds.data.gz",
         frameworkUrl: "Build/WebGL Builds.framework.js.gz",
         codeUrl: "Build/WebGL Builds.wasm.gz",
@@ -76,6 +80,7 @@
       })
       .then((instance) =>
       {
+        loadingBar.style.display = "none"
         unityInstance = instance;
       })
       .catch((message) => { console.warn(message); });

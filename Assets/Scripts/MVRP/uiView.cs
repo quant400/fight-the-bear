@@ -21,8 +21,8 @@ public class uiView : MonoBehaviour
     [SerializeField] webLoginView webloginView;
     // Start is called before the first frame update
     private void Awake()
-    {
-        scenesView.LoadScene(bearGameModel.mainSceneLoadname.sceneName);
+    { 
+        
     }
     void Start()
     {

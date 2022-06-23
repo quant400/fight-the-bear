@@ -8,8 +8,10 @@ public class BearSpawnView : MonoBehaviour
 {
     [SerializeField]
     GameObject[] bears;
+    public GameObject bearObserveObject;
     private void Awake()
     {
+        FightModel.bearObserveObj = bearObserveObject;
         Debug.Log(FightModel.currentPlayerLevel);
         int br = FightModel.currentPlayerLevel;
         switch (br)
@@ -42,7 +44,6 @@ public class BearSpawnView : MonoBehaviour
                 int randomNum = Random.Range(0, 4);
                 Instantiate(bears[randomNum], transform).transform.localScale = Vector3.one * 1.25f; ;
                 break;
-
         }
 
 

@@ -23,6 +23,15 @@ public struct bearGameModel
         OnSwipeCharacterSelection,
         OnClickStart,
         OnStartGame,
+        OnInsilizeValues,
+        OnPathLoad,
+        OnPathLoaded,
+        OnSpawnPlayer,
+        OnFindingCave,
+        OnCloseToCave,
+        OnEnterCave,
+        OnCaveCinematic,
+        OnFight,
         OnGameRunning,
         OnGameEnded,
         OnShowResults,
@@ -33,11 +42,8 @@ public struct bearGameModel
         OnBackToCharacterSelection,
         OnExit,
         OnSceneLoaded,
-        OnEnterCave,
-        OnPathLoad,
+        OnGoToNextLevel,
         OnGoToMain,
-        OnPathLoaded,
-        OnCloseToCave,
     }
     public enum sceneLoadType
     {
@@ -70,7 +76,7 @@ public struct bearGameModel
     public static sceneLoadData mainSceneLoadname = new sceneLoadData(sceneLoadType.menu, "Menu");
     public static sceneLoadData singlePlayerScene1 = new sceneLoadData(sceneLoadType.path, "PathScene");
     public static sceneLoadData singlePlayerScene2 = new sceneLoadData(sceneLoadType.bear, "BearScene");
-   
+    public static sceneLoadData singlePlayerScene3 = new sceneLoadData(sceneLoadType.bear, "BearScene1");
 
 
 

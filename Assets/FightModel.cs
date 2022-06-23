@@ -83,9 +83,9 @@ public class FightModel
     public static ReactiveProperty<float> currentBearHealth = new ReactiveProperty<float>();
     public static float playerCloseHitValue=10;
     public static float playerDistanceHitValue=10;
-    public static float bearCloseHitValue = 5;
-    public static float bearDistanceHitValue = 5;
-    public static float shortAttackRangeValue = 6;
+    public static float bearCloseHitValue = 2;
+    public static float bearDistanceHitValue = 3;
+    public static float shortAttackRangeValue = 5;
 
     public static int DistanceFightDuration;
     public static int RunFightDuration;
@@ -105,6 +105,8 @@ public class FightModel
     public static GameObject playerCamera;
     public static GameObject CinematicCamera;
     public static GameObject CinematicBackFakeCamera;
+    public static GameObject bearObserveObj;
+    public static GameObject fightObserveObj;
     public static Vector3 offsetFromPlayer;
     public static CinemachineVirtualCamera playerVirtualCamera;
     public static CinemachineBrain playerCameraBrain;

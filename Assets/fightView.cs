@@ -30,6 +30,7 @@ public class fightView : MonoBehaviour
     public SlidingDoor door;
     public GameObject hittedRocks;
     public GameObject gate;
+    public GameObject fightObsObj;
     ReactiveProperty<int> currentBearShieldHealth = new ReactiveProperty<int>();
     ReactiveProperty<float> currentBearHealthDistance = new ReactiveProperty<float>();
 
@@ -52,8 +53,10 @@ public class fightView : MonoBehaviour
     List<Transform> spawnPoints=new List<Transform>();
     public Material[] shieldMaterials;
     bool levelAdded;
+    bool stillOnMode;
     private void Awake()
     {
+        FightModel.fightObserveObj= fightObsObj;
         currentLevel = FightModel.currentPlayerLevel;
         setGameLevel(currentLevel);
         if (instance != null)
@@ -67,7 +70,6 @@ public class fightView : MonoBehaviour
     {
         FightModel.canTakeDamage = false;
         bear = FightModel.currentBear;
-        gameStarted.Value= true;
         FightModel.rageModeValue.Value = 0;
         FighterView.instance.intilize();
         FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearCinematicMode;
@@ -85,7 +87,7 @@ public class fightView : MonoBehaviour
                                  //  .Do(_ => cinematicView.instance.setCamera(false, 0))
                                  // .Do(_ => ResetCamera())
                                  .Do(_=> setMoving(false))
-                                 .Delay(TimeSpan.FromSeconds(1))
+                                 .Delay(TimeSpan.FromSeconds(4))
                                  .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
                                  .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
                                  .Do(_ => FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle)
@@ -93,7 +95,7 @@ public class fightView : MonoBehaviour
                                 .Do(_ => observeTimerAndRage())
                                 .Delay(TimeSpan.FromMilliseconds(1000))
                                 .Do(_=>FightModel.canTakeDamage=true)
-                                .Do(_ => setMoving(true))
+                                .Do(_ => setMoving(FightModel.fightObserveObj))
 
                           .Subscribe()
                           .AddTo(this);
@@ -133,14 +135,15 @@ public class fightView : MonoBehaviour
                         .Do(_ => timerOn.Value = true)
 
             .Subscribe()
-                    .AddTo(this);
+                    .AddTo(FightModel.fightObserveObj);
         FightModel.rageModeValue
-            .Where(_=> gameStarted.Value)
+          .Where(_=> gameStarted.Value)
+          .Where(_=>!stillOnMode)
           .Do(_ => bearAnger.fillAmount = _)
           .Where(_ => _ == 0 || _ == 1)
                       .Do(_ => setGameModeFromHealth(_))
                       .Subscribe()
-         .AddTo(this);
+         .AddTo(FightModel.fightObserveObj);
 
     }
     void setGameModeFromHealth(float bearRage)
@@ -228,7 +231,7 @@ public class fightView : MonoBehaviour
                                           .Delay(TimeSpan.FromSeconds(timeToWait))
                                           .Do(_ => activateAfterDelay())
                                           .Subscribe()
-                                          .AddTo(this);
+                                          .AddTo(FightModel.fightObserveObj);
         }
        
     }
@@ -274,7 +277,7 @@ public class fightView : MonoBehaviour
                     .Delay(TimeSpan.FromMilliseconds(2000))
                     .Do(_ => _.gameObject.GetComponent<MeshRenderer>().enabled = true)
                     .Subscribe()
-                    .AddTo(bear);
+                    .AddTo(FightModel.bearObserveObj);
         currentBearHealthDistance
             .Where(_ => _ < 1)
             .Do(_ => FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight)
@@ -286,16 +289,16 @@ public class fightView : MonoBehaviour
             .Do(_ => bear.GetComponent<Animator>().SetBool("IsStunned", false))
             .Do(_ => FightModel.rageModeValue.Value = 0)
             .Subscribe()
-            .AddTo(this);
+            .AddTo(FightModel.fightObserveObj);
         currentBearShieldHealth
             .Do(_=> desShield(_))
             .Subscribe()
-            .AddTo(this);
+            .AddTo(FightModel.fightObserveObj);
         this.UpdateAsObservable()
             .Where(_=> FightModel.currentFightStatus.Value != FightModel.fightStatus.OnStartCenimatic && FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon&& FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost)
             .Do(_=> setBearPosFromRage())
             .Subscribe()
-            .AddTo(this);
+            .AddTo(FightModel.fightObserveObj);
         isInDistanceRage
             .Where(_=>_==false)
             .Where(_ => FightModel.currentFightStatus.Value != FightModel.fightStatus.OnStartCenimatic && FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost)
@@ -303,7 +306,7 @@ public class fightView : MonoBehaviour
             .Do(_ => bear.GetComponent<Animator>().Play("Idle", 0))
             .Do(_ => bear.GetComponent<Animator>().SetBool("IsIdle", true))
             .Subscribe()
-            .AddTo(this);
+            .AddTo(FightModel.fightObserveObj);
 
     }
     void setBearPosFromRage()
@@ -351,7 +354,7 @@ public class fightView : MonoBehaviour
             .Delay(TimeSpan.FromMilliseconds(3000))
             .Do(_=>Time.timeScale=0)
             .Subscribe()
-            .AddTo(this);
+            .AddTo(FightModel.fightObserveObj);
         FightModel.currentBearHealth
             .Do(_ => bearHealth.fillAmount = _ / FightModel.bearStartHealth)
             .Where(_=>_<=0)
@@ -361,12 +364,12 @@ public class fightView : MonoBehaviour
             .Delay(TimeSpan.FromMilliseconds(4000))
             .Do(_=> endGame(true))
             .Subscribe()
-            .AddTo(this);
+            .AddTo(FightModel.fightObserveObj);
         FightModel.fightStatusValue
            .Where(_ => canChangeStatus)
            .Do(_ => FightModel.currentFightStatus.Value = FightModel.fightStatus.OnChangeState)
            .Subscribe()
-           .AddTo(this);
+           .AddTo(FightModel.fightObserveObj);
    
       
 
@@ -379,9 +382,10 @@ public class fightView : MonoBehaviour
             gate.SetActive(true);
             gate.OnTriggerEnterAsObservable()
                 .Where(_ => _.CompareTag("Player"))
-                .Do(_ => SceneManager.LoadScene(1))
+                .Do(_ => bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGoToNextLevel)
+                .Do(_ => SceneManager.UnloadSceneAsync(bearGameModel.singlePlayerScene3.sceneName))
                 .Subscribe()
-                .AddTo(this);
+                .AddTo(FightModel.fightObserveObj);
             if (door == null)
             {
                 door = GameObject.FindObjectOfType<SlidingDoor>();
@@ -442,7 +446,7 @@ public class fightView : MonoBehaviour
 
         FightModel.currentFightStatus
              .Subscribe(procedeFight)
-               .AddTo(this);
+               .AddTo(FightModel.fightObserveObj);
 
         void procedeFight(FightModel.fightStatus status)
         {
@@ -495,12 +499,12 @@ public class fightView : MonoBehaviour
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDead;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 7f;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 10.5f;
-                    FightModel.currentPlayer.GetComponent<RockThrowView>().throwRockWon(0.2f,0.5f);
+                    FightModel.currentPlayer.GetComponent<RockThrowView>().throwRockWon(1000f,0.5f);
                     Observable.Timer(TimeSpan.Zero)  
                                          .Delay(TimeSpan.FromSeconds(2f))
                                          .Do(_ => Destroy(FightModel.currentBear.GetComponent<fightView>()))
                                          .Subscribe()
-                                         .AddTo(this);
+                                         .AddTo(FightModel.fightObserveObj);
                     break;
                 case FightModel.fightStatus.OnFightLost:
                     gameStarted.Value = false;
@@ -509,7 +513,7 @@ public class fightView : MonoBehaviour
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 0f;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 0f;
-                    UIController.instance.gameOverPanel.SetActive(true);
+                    GameUIView.instance.gameOverPanel.SetActive(true);
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
                     FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = false;
@@ -527,7 +531,7 @@ public class fightView : MonoBehaviour
                                           .Delay(TimeSpan.FromSeconds(10f))
                                           .Do(_ => canChangeStatus = true)
                                           .Subscribe()
-                                          .AddTo(this);
+                                          .AddTo(FightModel.fightObserveObj);
                     break;
 
 
@@ -540,6 +544,7 @@ public class fightView : MonoBehaviour
     {
         if (!state)
         {
+            FighterView.instance.playerAnimator.Play("Idle");
             FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 0f;
             FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 0f;
         }
@@ -560,16 +565,22 @@ public class fightView : MonoBehaviour
                     FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
                 isInDistanceRage.Value = false;
+                if (gameStarted.Value)
+                {
+                    bearView.instance.setAnimtor(1);
+                }
 
 
                 break;
             case 2:
+                stillOnMode = true;
                 FightModel.currentFightMode = 2;
                 FightModel.currentFightStatus.Value = FightModel.fightStatus.OnRangeDistanceFight;
                 FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDistanceAttacking;
                 FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle;
                 FighterView.instance.comboValue.Value = 0;
                 isInDistanceRage.Value = true;
+                bearView.instance.setAnimtor(2);
 
                 Observable.Timer(TimeSpan.Zero)
                                 //.Do(_ => cinematicView.instance.setCamera(true, 2))
@@ -587,18 +598,19 @@ public class fightView : MonoBehaviour
                                 .Delay(TimeSpan.FromSeconds(1))
                                 .Do(_ => observeFightStatus())
                                 .Delay(TimeSpan.FromSeconds(15))
+                                .Do(_=> stillOnMode = false)
+                                .Where(_ => FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon && FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost)
                                 .Do(_=> setFightMode(1))
                           .Subscribe()
-                          .AddTo(this);
+                          .AddTo(FightModel.fightObserveObj);
                 break;
             case 3:
-               
-                    FightModel.currentFightMode = 3;
-
+                stillOnMode = true;
+                FightModel.currentFightMode = 3;
                 FightModel.currentFightStatus.Value = FightModel.fightStatus.OnCloseDistanceFight;
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
                 isInDistanceRage.Value = false;
-
+                bearView.instance.setAnimtor(3);
                 Observable.Timer(TimeSpan.Zero)
                                 //.Do(_ => cinematicView.instance.setCamera(true, 1))
                                 // .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
@@ -615,9 +627,12 @@ public class fightView : MonoBehaviour
                                 .Delay(TimeSpan.FromSeconds(1f))
                                 .Do(_ => observeFightStatus())
                                 .Delay(TimeSpan.FromSeconds(20))
+                                .Do(_ => stillOnMode = false)
+                                .Where(_ => FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon && FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost)
                                 .Do(_ => setFightMode(1))
+                                .Do(_ => bearView.instance.anim.SetBool("ForceIdle", true))
                           .Subscribe()
-                          .AddTo(this);
+                          .AddTo(FightModel.fightObserveObj);
                 break;
         }
         for (int j = 0; j < modesStatus.modes.Length; j++)
@@ -649,12 +664,12 @@ public class fightView : MonoBehaviour
         canChangeStatus = true;
         ThowringSpheres.SetActive(true);
         hittedRocks.SetActive(true);
-        bearHealth = UIController.instance.bearHealth;
-        playerHelthDisplay = UIController.instance.playerHelthDisplay;
-        bearAnger = UIController.instance.bearAgression;
+        bearHealth = GameUIView.instance.bearHealth;
+        playerHelthDisplay = GameUIView.instance.playerHelthDisplay;
+        bearAnger = GameUIView.instance.bearAgression;
         bear = FightModel.currentBear;
         bear.GetComponent<Animator>().Play("Idle", 0);
-        UIController.instance.fightCanvas.SetActive(true);
+        GameUIView.instance.fightCanvas.SetActive(true);
         FightModel.currentPlayer.GetComponent<RockThrowView>().findRocks();
         gate.SetActive(false);
     }

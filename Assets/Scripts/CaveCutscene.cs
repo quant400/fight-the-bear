@@ -12,7 +12,6 @@ public class CaveCutscene : MonoBehaviour
     [SerializeField]
     CinemachineVirtualCamera mCam;
     CinemachineTrackedDolly cam;
-    FightController FC;
     GameObject player;
     private bool started;
     public bool last=false;
@@ -28,7 +27,6 @@ public class CaveCutscene : MonoBehaviour
     private void Start()
     {
         cam = mCam.GetCinemachineComponent<CinemachineTrackedDolly>();
-        FC = MapView.instance.GetPlayer().GetComponent<FightController>();
     }
 
     private void Update()
@@ -46,7 +44,7 @@ public class CaveCutscene : MonoBehaviour
                 mCam.Priority = 8;
                 this.enabled = false;
                 started = false;
-                FC.EnableMovement();
+                FighterView.instance.MovmenteState(true);
                 GameUIView.instance.DeactivateText();
             }
         }
@@ -62,7 +60,7 @@ public class CaveCutscene : MonoBehaviour
 
     public void StartScene()
     {
-        FC.DisableMovement();
+        FighterView.instance.MovmenteState(false);
         Invoke("DisplayText", 1f);
         mCam.m_Priority = 20;
         started = true;
@@ -71,12 +69,7 @@ public class CaveCutscene : MonoBehaviour
 
     void DisplayText()
     {
-        if (FC.GetBearNumber() <= 7)
-            GameUIView.instance.ActivateText(lines[FC.GetBearNumber()].ToUpper());
-        else
-        {
-            int ind = Random.Range(0, 8);
+            int ind = Random.Range(0, 7);
             GameUIView.instance.ActivateText(lines[ind].ToUpper());
-        }
     }
 }

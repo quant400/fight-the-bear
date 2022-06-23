@@ -4,17 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+using UniRx;
 public class GameUIView : MonoBehaviour
 {
     public static GameUIView instance;
 
     [SerializeField]
-    GameObject fightCanvas;
+    public GameObject fightCanvas;
     [SerializeField]
-    Image bearHealth, playerHelthDisplay;
+    public Image bearHealth, playerHelthDisplay;
     [SerializeField]
-    Image bearAgression;
+    public Image bearAgression;
 
     [SerializeField]
     SliderScript slider;
@@ -31,7 +31,7 @@ public class GameUIView : MonoBehaviour
     GameObject cutSceneImage;
 
     [SerializeField]
-    GameObject gameOverPanel;
+    public GameObject gameOverPanel;
 
     [SerializeField]
     GameObject settingsPanel;
@@ -44,6 +44,7 @@ public class GameUIView : MonoBehaviour
             instance = this;
 
         DontDestroyOnLoad(this);
+        observeScore();
     }
 
     public void ActivateInputs()
@@ -53,7 +54,13 @@ public class GameUIView : MonoBehaviour
         sequenceInputs.SetActive(false);
 
     }
-
+    void observeScore()
+    {
+        FightModel.gameScore
+            .Do(_ => scoreDisplay.text = ("Score : ").ToUpper() + _.ToString("00"))
+            .Subscribe()
+            .AddTo(this);
+    }
     public void DeactivateFightCanvas()
     {
         fightCanvas.SetActive(false);
@@ -116,8 +123,9 @@ public class GameUIView : MonoBehaviour
         gameOverPanel.SetActive(false);
         scoreDisplay.text = ("Score : ").ToUpper()+"0";
         timerDisplay.text = ("Time Left : ").ToUpper() + "45";
-        Destroy(MapView.instance.GetPlayer());
+        Destroy(FightModel.currentPlayer);
         Time.timeScale = 1f;
+
     }
 
    

@@ -9,7 +9,6 @@ public class DDOL : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this);
-        
     }
     private void OnEnable()
     {
@@ -24,7 +23,7 @@ public class DDOL : MonoBehaviour
     {
         //change to 1 later
        
-        if(scene.buildIndex==2)
+        if(scene.name=="BearScene1")
         {
             // transform.GetComponent<CharacterController>().enabled = false;
             //  transform.GetComponent<StarterAssets.ThirdPersonController>().enabled = false;3

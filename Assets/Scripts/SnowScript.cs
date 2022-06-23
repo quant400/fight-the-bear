@@ -11,7 +11,14 @@ public class SnowScript : MonoBehaviour
     }
     void GetPlayer()
     {
-        player = MapView.instance.GetPlayer().transform;
+        if (FightModel.currentPlayer != null) 
+        {
+            player = MapView.instance.GetPlayer().transform;
+        }
+        else
+        {
+            Invoke("GetPlayer", 2f);
+        }
     }
 
     // Update is called once per frame
