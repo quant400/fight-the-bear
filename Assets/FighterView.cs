@@ -91,6 +91,9 @@ public class FighterView : MonoBehaviour
             .Where(_ => !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Death"))
             .Do(_ => playerAnimator.Play("Death"))
             .Do(_ => playerAnimator.SetBool("IsDead",true))
+            .Where(_ => playerAnimator.GetBool("PickRock")==true)
+            .Do(_=> playerAnimator.SetBool("PickRock",false))
+            .Do(_ => playerAnimator.Play("Idle",2))
             .Subscribe()
             .AddTo(fightView.instance);
     }

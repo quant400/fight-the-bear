@@ -207,7 +207,8 @@ public class bearView : MonoBehaviour
                         }
                         FightModel.gameScore.Value += damageFromMode(FightModel.currentFightMode);
                         Debug.Log("bear Hitted");
-                        GameObject bearHitted = Instantiate(bearHitEffect,new Vector3(transform.position.x,2.5f,transform.position.z),Quaternion.identity); 
+                        Vector3 bearHittedDamagePos = new Vector3((FightModel.currentPlayer.transform.position.x + transform.position.x) / 2, 2.5f, (FightModel.currentPlayer.transform.position.z + transform.position.z) / 2);
+                        GameObject bearHitted = Instantiate(bearHitEffect, bearHittedDamagePos, Quaternion.identity); 
                         following = false;
                         hitted = true;
                         DD.DisplayDamage(damageFromMode(FightModel.currentFightMode));
@@ -607,8 +608,9 @@ public class bearView : MonoBehaviour
             if (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearDead
                            && Vector3.Distance(playerFC.transform.position, bearHead.position) <= distance)
             {
-                if (FightModel.canTakeDamage)
+                if ((FightModel.canTakeDamage)&& (!FightModel.isHoldingRock))
                 {
+
                     if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerBlockShortAttack)
                     {
                         playerHitted.Value = true;

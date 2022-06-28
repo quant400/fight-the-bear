@@ -87,6 +87,8 @@ public class RockThrowView : MonoBehaviour
                             //  ThrowRockText.gameObject.SetActive(true);
 
                             PickwRockText.gameObject.SetActive(false);
+                            FightModel.isHoldingRock = true;
+
                         }
                     }
 
@@ -104,7 +106,7 @@ public class RockThrowView : MonoBehaviour
                    // ThrowRockText.gameObject.SetActive(false);
                     PickwRockText.gameObject.SetActive(true);
                     pickRockCanvas.SetActive(false);
-
+                    FightModel.isHoldingRock = false;
 
                 }
             }
@@ -180,6 +182,7 @@ public class RockThrowView : MonoBehaviour
     }
     public IEnumerator throwAndSetBack(float force)
     {
+        FightModel.isHoldingRock = false;
         Transform selectedRock = closesestRock;
         Vector3 startPosition = closesestRock.position;
         float randomTime = Random.Range(3, 5);
@@ -197,9 +200,11 @@ public class RockThrowView : MonoBehaviour
         yield return new WaitForSeconds(randomTime);
         rb.isKinematic = true;
         selectedRock.position = startPosition;
+
     }
     public IEnumerator throwAndSetBackDelay(float force,float wait)
     {
+        FightModel.isHoldingRock = false;
         Transform selectedRock = closesestRock;
         Vector3 startPosition = closesestRock.position;
         float randomTime = Random.Range(3, 5);
@@ -218,6 +223,7 @@ public class RockThrowView : MonoBehaviour
         rb.isKinematic = true;
         selectedRock.position = startPosition;
         playerAnimator.SetBool("PickRock", false);
+
     }
 
 

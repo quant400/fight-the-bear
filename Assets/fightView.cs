@@ -262,7 +262,7 @@ public class fightView : MonoBehaviour
             .Do(_ => currentBearShieldHealth.Value--)
             .Do(_=>bearShield.GetComponent<MeshRenderer>().material=shieldMaterials[currentBearShieldHealth.Value])
             .Do(_=> _.gameObject.GetComponent<MeshRenderer>().enabled=false)
-            .Delay(TimeSpan.FromMilliseconds(2000))
+            .Delay(TimeSpan.FromMilliseconds(100))
             .Do(_ => _.gameObject.GetComponent<MeshRenderer>().enabled = true)
             .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearTakeShieldDamage)
             .Subscribe()
@@ -274,7 +274,7 @@ public class fightView : MonoBehaviour
                     .Where(_=> FightModel.currentFightStatus.Value == FightModel.fightStatus.OnRangeDistanceFight)
                     .Do(_ => currentBearHealthDistance.Value--)
                     .Do(_ => _.gameObject.GetComponent<MeshRenderer>().enabled = false)
-                    .Delay(TimeSpan.FromMilliseconds(2000))
+                    .Delay(TimeSpan.FromMilliseconds(100))
                     .Do(_ => _.gameObject.GetComponent<MeshRenderer>().enabled = true)
                     .Subscribe()
                     .AddTo(FightModel.bearObserveObj);
@@ -507,6 +507,7 @@ public class fightView : MonoBehaviour
                                          .AddTo(FightModel.fightObserveObj);
                     break;
                 case FightModel.fightStatus.OnFightLost:
+                    FightModel.currentPlayer.GetComponent<RockThrowView>().throwRockWon(1000f, 0.5f);
                     gameStarted.Value = false;
                     FightModel.currentPlayerLevel = 0;
                     FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerDead;
@@ -544,6 +545,7 @@ public class fightView : MonoBehaviour
     {
         if (!state)
         {
+            FighterView.instance.playerAnimator.SetFloat("Speed",0);
             FighterView.instance.playerAnimator.Play("Idle");
             FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 0f;
             FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 0f;
