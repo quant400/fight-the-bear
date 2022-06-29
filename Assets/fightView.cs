@@ -390,7 +390,7 @@ public class fightView : MonoBehaviour
             {
                 door = GameObject.FindObjectOfType<SlidingDoor>();
             }
-            door.OpenDoor();
+            door.Invoke("OpenDoor",1f);
             FighterView.instance.initilized = false;
 
         }
@@ -511,10 +511,11 @@ public class fightView : MonoBehaviour
                     gameStarted.Value = false;
                     FightModel.currentPlayerLevel = 0;
                     FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerDead;
-                    FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
+                    //FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle;
+                    FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearWon;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 0f;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 0f;
-                    GameUIView.instance.gameOverPanel.SetActive(true);
+                    GameUIView.instance.EnableGameOver(3f);
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
                     FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = false;

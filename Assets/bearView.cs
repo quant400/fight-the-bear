@@ -53,6 +53,7 @@ public class bearView : MonoBehaviour
     Vector3 distinationToHit;
     public GameObject bearHitEffect;
     bool isAttacking;
+    public Cinemachine.CinemachineVirtualCamera deathCam;
     public void StartFight()
     {
         timeLeft = 15;
@@ -180,6 +181,8 @@ public class bearView : MonoBehaviour
                              .AddTo(this);
                     break;
                 case FightModel.bearFightModes.BearDead:
+                    deathCam.gameObject.SetActive(true);
+                    deathCam.Priority = 11;
                     anim.SetBool("IsDead", true);
                     anim.SetBool("OnDeath", true);
                     anim.Play("Dead", 0);
@@ -288,6 +291,11 @@ public class bearView : MonoBehaviour
                 case FightModel.bearFightModes.BearCinematicMode:
                     anim.Play("IdleStart");
                     break;
+
+                case FightModel.bearFightModes.BearWon:
+                    anim.Play("IdleStart");
+                    break;
+
 
 
             }
