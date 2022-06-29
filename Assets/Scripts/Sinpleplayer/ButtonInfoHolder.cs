@@ -9,13 +9,14 @@ using UniRx;
 public class ButtonInfoHolder : MonoBehaviour
 {
     [SerializeField]
-    Sprite [] bg;
+    Sprite [] bg, selectedCharBG;
     Image background;
     Image charPic;
     int bgIndex;
     string charName;
     [SerializeField]
     Image display;
+    Image displayBG;
     [SerializeField]
     Sprite defaultImg;
     [SerializeField]
@@ -29,6 +30,7 @@ public class ButtonInfoHolder : MonoBehaviour
         //bgIndex = Random.Range(0, bg.Length);
         background = gameObject.GetComponent<Image>();
         charPic = transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        displayBG = display.transform.parent.GetComponent<Image>();
         CSV = transform.GetComponentInParent<characterSelectionView>();
         ResetSlot();
     }
@@ -64,7 +66,7 @@ public class ButtonInfoHolder : MonoBehaviour
         else
         {
             bgIndex = Random.Range(0, bg.Length);
-            background.sprite = bg[bgIndex];
+            background.sprite = bg[CSV.GetavaliableColor()];
             charPic.sprite = Resources.Load(Path.Combine("SinglePlayerPrefabs/DisplaySprites/HeadShots", name), typeof(Sprite)) as Sprite;
             charPic.color = new Color(225, 225, 225, 225);
         }
@@ -85,6 +87,7 @@ public class ButtonInfoHolder : MonoBehaviour
         {
             display.sprite = Resources.Load(Path.Combine("SinglePlayerPrefabs/DisplaySprites/Display", charName), typeof(Sprite)) as Sprite;
             display.color = new Color(225, 225, 225, 225);
+            displayBG.sprite = selectedCharBG[int.Parse(background.sprite.name)];
             CSV.DisablePlay();
             CSV.UpdateSelected(transform.GetSiblingIndex());
             UpdateInfo();
@@ -111,6 +114,6 @@ public class ButtonInfoHolder : MonoBehaviour
     {
         if (bearGameModel.currentNFTSession<10)
             CSV.EnablePlay();
-        info.text = "PLAYED " + "<color=#00CEDB>" + bearGameModel.currentNFTSession +"</color>" + " OUT OF <color=#00CEDB> 10 </color> DAILY GAMES";
+        info.text = "PLAYED " + bearGameModel.currentNFTSession + " OUT OF 10 DAILY GAMES";
     }
 }

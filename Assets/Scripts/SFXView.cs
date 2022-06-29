@@ -19,6 +19,10 @@ public class SFXView : MonoBehaviour
     Image sfxButtonImage, musicButtonImage;
 
     float defaultMusicVol;
+
+    Sprite regularImage;
+    [SerializeField]
+    Sprite disableImage;
     private void Awake()
     {
         if (instance == null)
@@ -39,6 +43,7 @@ public class SFXView : MonoBehaviour
         defaultMusicVol = audioSource.volume;
         sfxButtonImage = muteSfx.GetComponent<Image>();
         musicButtonImage = muteMusic.GetComponent<Image>();
+        regularImage = sfxButtonImage.sprite;
         if (PlayerPrefs.HasKey("SFX"))
         {
             if (PlayerPrefs.GetString("SFX") == "off")
@@ -107,15 +112,15 @@ public class SFXView : MonoBehaviour
         if (PlayerPrefs.HasKey("SFX") && PlayerPrefs.GetString("SFX") == "off")
         {
             //SFX.volume = defaultMusicVol;
-            sfxButtonImage.color = new Color(1f, 1f, 1f, 1f);
-            sfxButtonImage.GetComponentInChildren<Image>().color = new Color(1f, 1f, 1f, 1f);
+            sfxButtonImage.sprite = regularImage;//sfxButtonImage.color = new Color(1f, 1f, 1f, 1f);
+            sfxButtonImage.transform.GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f); 
             PlayerPrefs.SetString("SFX", "on");
             SFXView.instance.sfxMuted = false;
         }
         else
         {
-            sfxButtonImage.color = new Color(1f, 1f, 1f, 0.5f);
-            sfxButtonImage.GetComponentInChildren<Image>().color = new Color(1f, 1f, 1f, 0.5f);
+            sfxButtonImage.sprite = disableImage;//sfxButtonImage.color = new Color(1f, 1f, 1f, 0.5f);
+            sfxButtonImage.transform.GetChild(0).GetComponent<Image>().color = new Color(0.172549f, 0.3607843f, 0.764706f, 1f);
             //SFX.volume = 0;
             PlayerPrefs.SetString("SFX", "off");
             SFXView.instance.sfxMuted = true;
@@ -127,8 +132,8 @@ public class SFXView : MonoBehaviour
     {
         if (audioSource.volume == 0)
         {
-            musicButtonImage.color = new Color(1f, 1f, 1f, 1f);
-            musicButtonImage.GetComponentInChildren<Image>().color = new Color(1f, 1f, 1f, 1f);
+            musicButtonImage.sprite = regularImage; //musicButtonImage.color = new Color(1f, 1f, 1f, 1f);
+            musicButtonImage.transform.GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
             audioSource.volume = defaultMusicVol;
             PlayerPrefs.SetString("Music", "on");
             if (!audioSource.isPlaying)
@@ -136,8 +141,8 @@ public class SFXView : MonoBehaviour
         }
         else
         {
-            musicButtonImage.color = new Color(1, 1, 1, 0.5f);
-            musicButtonImage.GetComponentInChildren<Image>().color = new Color(1f, 1f, 1f, 0.5f);
+            musicButtonImage.sprite = disableImage;//musicButtonImage.color = new Color(1, 1, 1, 0.5f);
+            musicButtonImage.transform.GetChild(0).GetComponent<Image>().color = new Color(0.172549f, 0.3607843f, 0.764706f, 1f);
             audioSource.volume = 0;
             PlayerPrefs.SetString("Music", "off");
         }
