@@ -209,7 +209,7 @@ public class RockThrowView : MonoBehaviour
         selectedRock.position = startPosition;
 
     }
-    public IEnumerator throwAndSetBackDelay(float force,float wait)
+    public IEnumerator throwAndSetBackDelay(float force, float wait)
     {
         yield return new WaitForSeconds(0.05f);
         FightModel.isHoldingRock = false;
@@ -227,7 +227,7 @@ public class RockThrowView : MonoBehaviour
         Vector3 aimDirection = (direction.normalized + player.forward.normalized).normalized;
         FakeRock.gameObject.SetActive(false);
         selectedRock.gameObject.SetActive(true);
-        rb.AddForce(force* 20 * aimDirection);
+        rb.AddForce(force * 20 * aimDirection);
         closesestRock = null;
         yield return new WaitForSeconds(wait);
         rockPicked = false;
@@ -235,6 +235,30 @@ public class RockThrowView : MonoBehaviour
         rb.isKinematic = true;
         selectedRock.position = startPosition;
         playerAnimator.SetBool("PickRock", false);
+
+    }
+    public void throwAndSetBackDirect(float force)
+    {
+        FightModel.isHoldingRock = false;
+        Transform selectedRock = closesestRock;
+        Vector3 startPosition = closesestRock.position;
+        float randomTime = Random.Range(3, 5);
+        Rigidbody rb = selectedRock.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        selectedRock.position = FakeRock.position;
+        Vector3 direction = player.forward;
+        if (Bear != null)
+        {
+            direction = Bear.position - player.position;
+        }
+        Vector3 aimDirection = (direction.normalized + player.forward.normalized).normalized;
+        FakeRock.gameObject.SetActive(false);
+        selectedRock.gameObject.SetActive(true);
+        rb.AddForce(force * 20 * aimDirection);
+        closesestRock = null;
+        rockPicked = false;
+        rb.isKinematic = true;
+        selectedRock.position = startPosition;
 
     }
 

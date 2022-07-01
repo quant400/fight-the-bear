@@ -217,11 +217,13 @@ using UnityEngine.SceneManagement;
                 case bearGameModel.GameSteps.OnEnterCave:
                     Debug.Log(bearGameModel.gameCurrentStep.Value.ToString());
                     Observable.Timer(TimeSpan.Zero)
-                       .Where(_=>FightModel.isHoldingRock)
-                       .Do(_ => FightModel.currentPlayer.GetComponent<RockThrowView>().throwAndSetBackDelay(1000,0.2f))
+                      .DelayFrame(2)
+                      .Do(_ => EnterCaseSet())
+                      .Subscribe()
+                      .AddTo(this);
+                    Observable.Timer(TimeSpan.Zero)
+                       .Do(_ =>FightModel.currentPlayer.GetComponent<RockThrowView>().throwAndSetBackDirect(1000))
                        .Do(_ => FightModel.currentPlayer.GetComponent<RockThrowView>().FakeRock.gameObject.SetActive(false))
-                       .Delay(TimeSpan.FromSeconds(1))
-                       .Do(_ => EnterCaseSet())
                        .Subscribe()
                        .AddTo(this);
                    
@@ -238,6 +240,7 @@ using UnityEngine.SceneManagement;
         GameUIView.instance.ActivateInputs();
         SFXView.instance.SetSFX("Bear");
         unloadScene("PathScene");
+        uiView.goToMenu("characterSelected");
     }
     void unloadScene(string sceneName)
     {

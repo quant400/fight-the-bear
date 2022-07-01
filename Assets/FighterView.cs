@@ -100,7 +100,7 @@ public class FighterView : MonoBehaviour
         this.UpdateAsObservable()
            
             .Where(_ => FightModel.isHoldingRock)
-            .Do(_ => FightModel.currentPlayer.GetComponent<RockThrowView>().throwAndSetBackDelay(1000, 0.2f))
+            .Do(_ =>StartCoroutine( FightModel.currentPlayer.GetComponent<RockThrowView>().throwAndSetBackDelay(1000, 0.2f)))
             .Subscribe()
             .AddTo(fightView.instance);
     }
