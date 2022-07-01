@@ -90,10 +90,17 @@ public class FighterView : MonoBehaviour
         this.UpdateAsObservable()
             .Where(_ => !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Death"))
             .Do(_ => playerAnimator.Play("Death"))
-            .Do(_ => playerAnimator.SetBool("IsDead",true))
-            .Where(_ => playerAnimator.GetBool("PickRock")==true)
-            .Do(_=> playerAnimator.SetBool("PickRock",false))
-            .Do(_ => playerAnimator.Play("Idle",2))
+            .Do(_ => playerAnimator.SetBool("IsDead", true))
+            .Where(_ => playerAnimator.GetBool("PickRock") == true)
+            .Do(_ => playerAnimator.SetBool("PickRock", false))
+            .Do(_ => playerAnimator.Play("Idle", 2))
+
+            .Subscribe()
+            .AddTo(fightView.instance);
+        this.UpdateAsObservable()
+           
+            .Where(_ => FightModel.isHoldingRock)
+            .Do(_ => FightModel.currentPlayer.GetComponent<RockThrowView>().throwAndSetBackDelay(1000, 0.2f))
             .Subscribe()
             .AddTo(fightView.instance);
     }
@@ -265,23 +272,27 @@ public class FighterView : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight) || (FightModel.currentBearStatus.Value == FightModel.bearFightModes.BearKnokedShortly))
+                if (!FightModel.isHoldingRock)
                 {
-                    if (canHitAgainCombo.Value)
+                    if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight) || (FightModel.currentBearStatus.Value == FightModel.bearFightModes.BearKnokedShortly))
                     {
-                        if (comboValue.Value < comboTimes.Length - 1)
+                        if (canHitAgainCombo.Value)
                         {
-                            if (checkCanGoNextCombo())
+                            if (comboValue.Value < comboTimes.Length - 1)
                             {
-                                comboValue.Value++;
-                                canHitAgainCombo.Value = false;
-                                FightModel.currentCombo = (FightModel.comboNames)comboValue.Value;
-                                FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerCombo;
+                                if (checkCanGoNextCombo())
+                                {
+                                    comboValue.Value++;
+                                    canHitAgainCombo.Value = false;
+                                    FightModel.currentCombo = (FightModel.comboNames)comboValue.Value;
+                                    FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerCombo;
+                                }
                             }
+                            setComboInAnimator();
                         }
-                        setComboInAnimator();
                     }
                 }
+               
 
             }
         }
@@ -337,18 +348,21 @@ public class FighterView : MonoBehaviour
     {
         if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerDead)
         {
-            if (Input.GetMouseButtonDown(1))
+            if (!FightModel.isHoldingRock)
             {
-                if (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight)
+                if (Input.GetMouseButtonDown(1))
                 {
-                    FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerBlockShortAttack;
+                    if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight))
+                    {
+                        FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerBlockShortAttack;
+                    }
                 }
-            }
-            if (Input.GetMouseButtonUp(1))
-            {
-                if (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight)
+                if (Input.GetMouseButtonUp(1))
                 {
-                    FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle;
+                    if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight))
+                    {
+                        FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle;
+                    }
                 }
             }
         }

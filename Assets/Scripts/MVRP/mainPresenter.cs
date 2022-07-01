@@ -169,6 +169,7 @@ using UnityEngine.SceneManagement;
                             .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = true)
                             .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
                             .Do(_ => bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnFindingCave)
+                            .Do(_ => FightModel.currentPlayer.GetComponent<RockThrowView>().findRocks(false))
                             .Subscribe()
                            .AddTo(this);
 
@@ -212,16 +213,29 @@ using UnityEngine.SceneManagement;
 
                 case bearGameModel.GameSteps.OnEnterCave:
                     Debug.Log(bearGameModel.gameCurrentStep.Value.ToString());
-                    MapView.instance.GoIntoCave();
-                    GameUIView.instance.ActivateInputs();
-                    SFXView.instance.SetSFX("Bear");
-                    unloadScene("PathScene");
+                    Observable.Timer(TimeSpan.Zero)
+                       .Where(_=>FightModel.isHoldingRock)
+                       .Do(_ => FightModel.currentPlayer.GetComponent<RockThrowView>().throwAndSetBackDelay(1000,0.2f))
+                       .Do(_ => FightModel.currentPlayer.GetComponent<RockThrowView>().FakeRock.gameObject.SetActive(false))
+                       .Delay(TimeSpan.FromSeconds(1))
+                       .Do(_ => EnterCaseSet())
+                       .Subscribe()
+                       .AddTo(this);
+                   
                     break;
 
             }
 
             }
         }
+    void EnterCaseSet()
+    {
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelection;
+        MapView.instance.GoIntoCave();
+        GameUIView.instance.ActivateInputs();
+        SFXView.instance.SetSFX("Bear");
+        unloadScene("PathScene");
+    }
     void unloadScene(string sceneName)
     {
         int countLoaded1 = SceneManager.sceneCount;

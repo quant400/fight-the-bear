@@ -19,7 +19,7 @@ public class RockThrowView : MonoBehaviour
     public GameObject pickRockCanvas;
     public GameObject ThrowRockText;
     public GameObject PickwRockText;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +32,12 @@ public class RockThrowView : MonoBehaviour
         rocks = GameObject.FindGameObjectsWithTag("ThrowRocks");
 
     }
-    public void findRocks()
+    public void findRocks(bool checkBear)
     {
-        Bear = FightModel.currentBear.transform;
+        if (checkBear)
+        {
+            Bear = FightModel.currentBear.transform;
+        }
         rocks = GameObject.FindGameObjectsWithTag("ThrowRocks");
 
     }
@@ -189,7 +192,11 @@ public class RockThrowView : MonoBehaviour
         Rigidbody rb = selectedRock.GetComponent<Rigidbody>();
         rb.isKinematic = false;
         selectedRock.position = FakeRock.position;
-        Vector3 direction = Bear.position - player.position;
+        Vector3 direction = player.forward;
+        if (Bear != null)
+        {
+            direction = Bear.position - player.position;
+        }
         Vector3 aimDirection =(direction.normalized+player.forward.normalized).normalized;
         FakeRock.gameObject.SetActive(false);
         selectedRock.gameObject.SetActive(true);
@@ -204,6 +211,7 @@ public class RockThrowView : MonoBehaviour
     }
     public IEnumerator throwAndSetBackDelay(float force,float wait)
     {
+        yield return new WaitForSeconds(0.05f);
         FightModel.isHoldingRock = false;
         Transform selectedRock = closesestRock;
         Vector3 startPosition = closesestRock.position;
@@ -211,7 +219,11 @@ public class RockThrowView : MonoBehaviour
         Rigidbody rb = selectedRock.GetComponent<Rigidbody>();
         rb.isKinematic = false;
         selectedRock.position = FakeRock.position;
-        Vector3 direction = Bear.position - player.position;
+        Vector3 direction = player.forward;
+        if (Bear != null)
+        {
+            direction = Bear.position - player.position;
+        }
         Vector3 aimDirection = (direction.normalized + player.forward.normalized).normalized;
         FakeRock.gameObject.SetActive(false);
         selectedRock.gameObject.SetActive(true);

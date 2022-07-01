@@ -103,7 +103,7 @@ public class fightView : MonoBehaviour
         observePlayerAndBearHealth();
         observeBearShield();
         bear = FightModel.currentBear;
-        FightModel.currentPlayer.GetComponent<RockThrowView>().findRocks();
+        FightModel.currentPlayer.GetComponent<RockThrowView>().findRocks(true);
         int children = spawnPointsParent.childCount;
         if (children > 0)
         {
@@ -672,7 +672,7 @@ public class fightView : MonoBehaviour
         bear = FightModel.currentBear;
         bear.GetComponent<Animator>().Play("Idle", 0);
         GameUIView.instance.fightCanvas.SetActive(true);
-        FightModel.currentPlayer.GetComponent<RockThrowView>().findRocks();
+        FightModel.currentPlayer.GetComponent<RockThrowView>().findRocks(true);
         gate.SetActive(false);
     }
 }

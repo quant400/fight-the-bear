@@ -199,7 +199,7 @@ public class bearView : MonoBehaviour
                     {
                         if (FightModel.rageModeValue.Value < 1)
                         {
-                            FightModel.rageModeValue.Value += damageFromMode(FightModel.currentFightMode) / 30;
+                            FightModel.rageModeValue.Value += damageFromMode(FightModel.currentFightMode) / 15;
                         }
                         else
                         {
@@ -233,7 +233,7 @@ public class bearView : MonoBehaviour
                         {
                             if (FightModel.rageModeValue.Value < 1)
                             {
-                                FightModel.rageModeValue.Value += damageFromMode(FightModel.currentFightMode) / 30;
+                                FightModel.rageModeValue.Value += damageFromMode(FightModel.currentFightMode) / 15;
                             }
                             else
                             {
