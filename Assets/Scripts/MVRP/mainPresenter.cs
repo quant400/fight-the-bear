@@ -139,6 +139,7 @@ using UnityEngine.SceneManagement;
                     break;
 
                 case bearGameModel.GameSteps.OnPathLoad:
+                    FightModel.currentFightStatus.Value = FightModel.fightStatus.OnPath;
                     GameUIView.instance.DeactivateFightCanvas();
                     SceneManager.LoadScene(bearGameModel.singlePlayerScene1.sceneName, LoadSceneMode.Additive);
                     Debug.Log(bearGameModel.gameCurrentStep.Value.ToString());
@@ -157,6 +158,7 @@ using UnityEngine.SceneManagement;
                     if (FightModel.currentPlayer == null)
                     {
                         MapView.instance.SpawnPlayer();
+                        FighterView.instance.intilize(true);
                     }
                     else
                     {
@@ -170,6 +172,7 @@ using UnityEngine.SceneManagement;
                             .Do(_ => FightModel.currentPlayer.GetComponent<CharacterController>().enabled = true)
                             .Do(_ => bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnFindingCave)
                             .Do(_ => FightModel.currentPlayer.GetComponent<RockThrowView>().findRocks(false))
+                            .Do(_ => FighterView.instance.intilize(true))
                             .Subscribe()
                            .AddTo(this);
 

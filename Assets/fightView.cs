@@ -71,7 +71,7 @@ public class fightView : MonoBehaviour
         FightModel.canTakeDamage = false;
         bear = FightModel.currentBear;
         FightModel.rageModeValue.Value = 0;
-        FighterView.instance.intilize();
+        FighterView.instance.intilize(false);
         FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearCinematicMode;
         FightModel.currentFightStatus.Value = FightModel.fightStatus.OnEnterCave;
         currentBearShieldHealth.Value = FightModel.bearShielHealth;

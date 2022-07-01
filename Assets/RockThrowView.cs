@@ -109,7 +109,6 @@ public class RockThrowView : MonoBehaviour
                    // ThrowRockText.gameObject.SetActive(false);
                     PickwRockText.gameObject.SetActive(true);
                     pickRockCanvas.SetActive(false);
-                    FightModel.isHoldingRock = false;
 
                 }
             }
@@ -185,6 +184,7 @@ public class RockThrowView : MonoBehaviour
     }
     public IEnumerator throwAndSetBack(float force)
     {
+        yield return new WaitForSeconds(0.05f);
         FightModel.isHoldingRock = false;
         Transform selectedRock = closesestRock;
         Vector3 startPosition = closesestRock.position;
