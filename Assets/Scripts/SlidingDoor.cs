@@ -11,7 +11,10 @@ public class SlidingDoor : MonoBehaviour
 
     public void OpenDoor()
     {
+        
        transform.parent.GetChild(2).GetComponent<CinemachineVirtualCamera>().Priority = 11;
+        bearView.instance.deathCam.Priority = 0;
+        bearView.instance.deathCam.gameObject.SetActive(false);
         Invoke("Open", 2f);
        
     }

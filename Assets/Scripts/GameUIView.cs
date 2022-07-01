@@ -128,7 +128,17 @@ public class GameUIView : MonoBehaviour
 
     }
 
-   
+    public void EnableGameOver(float delay)
+    {
+        StartCoroutine(Gameover(delay));
+    }
+
+    IEnumerator Gameover(float d)
+    {
+        yield return new WaitForSeconds(d);
+        gameOverPanel.SetActive(true);
+    }
+
 
     public void OpenSettings()
     {
