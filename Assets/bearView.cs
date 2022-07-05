@@ -54,6 +54,7 @@ public class bearView : MonoBehaviour
     public GameObject bearHitEffect;
     bool isAttacking;
     public Cinemachine.CinemachineVirtualCamera deathCam;
+
     public void StartFight()
     {
         timeLeft = 15;
@@ -588,6 +589,14 @@ public class bearView : MonoBehaviour
     {
         if (isRageFollow.Value == false)
         {
+            if (FightModel.currentBearStatus.Value == FightModel.bearFightModes.BearKnokedShortly)
+            {
+                Vector3 eulerRotation = transform.rotation.eulerAngles;
+                transform.rotation = Quaternion.Euler(0, eulerRotation.y, 0);
+                if (playerFC != null && currentState != FightModel.bearFightModes.BearDead)
+                    transform.LookAt(new Vector3(distinationToHit.x, transform.position.y, distinationToHit.z));
+
+            }
             if ((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
             {
                
@@ -598,6 +607,18 @@ public class bearView : MonoBehaviour
 
             }
 
+        }
+        else
+        {
+            if ((FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
+            {
+
+                Vector3 eulerRotation = transform.rotation.eulerAngles;
+                transform.rotation = Quaternion.Euler(0, eulerRotation.y, 0);
+                if (playerFC != null && currentState != FightModel.bearFightModes.BearDead)
+                    transform.LookAt(new Vector3(distinationToHit.x, transform.position.y, distinationToHit.z));
+
+            }
         }
 
     }

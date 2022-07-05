@@ -37,6 +37,7 @@ public class FighterView : MonoBehaviour
     public Transform playerBackCamera;
     public Transform lookAt;
     public GameObject cinematicCamera;
+    public GameObject observerPath;
 
     [SerializeField]
     bool canChangeStatus;
@@ -141,10 +142,15 @@ public class FighterView : MonoBehaviour
             .Subscribe()
                         .AddTo(observer);
         bearHitted
-            .Where(_=>_==true)
+            .Where(_ => _ == true)
             .Delay(TimeSpan.FromSeconds(0.5f))
-            .Do(_=> bearHitted.Value=false)
+            .Do(_ => bearHitted.Value = false)
             .Subscribe()
+                        .AddTo(observer);
+        isComboIdle
+            .Where(_=>true)
+            .Do(_=> playerAnimator.SetInteger("comboCounter", 0))
+             .Subscribe()
                         .AddTo(observer);
     }
     void resetCombo()
@@ -404,6 +410,10 @@ public class FighterView : MonoBehaviour
     }
     public void intilize(bool onPath)
     {
+        if (observerPath != null)
+        {
+            Destroy(observerPath);
+        }
         playerAnimator = GetComponent<Animator>();
         initilizeFighter();
         playerController = GetComponent<ThirdPersonController>();
@@ -423,6 +433,7 @@ public class FighterView : MonoBehaviour
             GameObject observer = new GameObject("PathObserver");
             observePlayerHittedDistance(observer);
             observePlayerCombo(observer);
+            observerPath = observer;
         }
         initilized = true;
     }
