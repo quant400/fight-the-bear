@@ -33,7 +33,7 @@ public class BearController : MonoBehaviour
 
     DamageDisplay bDD;
 
-    BearStageSfx bSFX;
+    BearSFXController bSFX;
     
    
     public void StartFight()
@@ -77,7 +77,7 @@ public class BearController : MonoBehaviour
         anim.SetFloat("Start", Random.Range(0, 4));
         playerFC = MapView.instance.GetPlayer().GetComponent<FightController>();
         bDD = GetComponentInChildren<DamageDisplay>();
-        bSFX = GetComponent<BearStageSfx>();
+        bSFX = GetComponent<BearSFXController>();
     }
 
     private void Update()

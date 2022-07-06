@@ -54,7 +54,7 @@ public class bearView : MonoBehaviour
     public GameObject bearHitEffect;
     bool isAttacking;
     public Cinemachine.CinemachineVirtualCamera deathCam;
-
+    BearSFXController bearSFX;
     public void StartFight()
     {
         timeLeft = 15;
@@ -66,6 +66,7 @@ public class bearView : MonoBehaviour
         FightModel.currentBear = gameObject;
 
         bearAgent = GetComponent<NavMeshAgent>();
+        bearSFX = GetComponent<BearSFXController>();
 
     }
     // Start is called before the first frame update
@@ -183,6 +184,7 @@ public class bearView : MonoBehaviour
                     break;
                 case FightModel.bearFightModes.BearDead:
                     deathCam.gameObject.SetActive(true);
+                    bearSFX.PlayBearDie();
                     deathCam.Priority = 11;
                     anim.SetBool("IsDead", true);
                     anim.SetBool("OnDeath", true);
@@ -219,6 +221,7 @@ public class bearView : MonoBehaviour
                         Observable.Timer(TimeSpan.Zero)
                            .Do(_ => anim.SetFloat("hitBlend", Mathf.RoundToInt(UnityEngine.Random.Range(0, 3))))
                            .Do(_ => anim.SetTrigger("Hit"))
+                           .Do(_ => bearSFX.Playhit())
                            .Where(_ => FightModel.currentBearHealth.Value > 0)
                            .Do(_ => FightModel.currentBearHealth.Value -= damageFromMode(FightModel.currentFightMode))
                            .Do(_ => FightModel.currentBearStatus.Value = desState)
@@ -253,6 +256,7 @@ public class bearView : MonoBehaviour
                         Observable.Timer(TimeSpan.Zero)
                            .Do(_ => anim.SetFloat("hitBlend", Mathf.RoundToInt(UnityEngine.Random.Range(0, 3))))
                            .Do(_ => anim.SetTrigger("Hit"))
+                           .Do(_ => bearSFX.Playhit())
                            .Where(_ => FightModel.currentBearHealth.Value > 0)
                            .Do(_ => FightModel.currentBearHealth.Value -= damageFromMode(FightModel.currentFightMode)*0.5f)
                            .Do(_ => FightModel.currentBearStatus.Value = desState)
@@ -275,7 +279,8 @@ public class bearView : MonoBehaviour
                         Observable.Timer(TimeSpan.Zero)
                             .DelayFrame(1)
                             .Do(_ => anim.SetInteger("RageMode", 0))
-                            .Delay(TimeSpan.FromSeconds(3f))
+                            .Do(_ => bearSFX.PlayRoar())
+                            .Delay(TimeSpan.FromSeconds(3f))                            
                             .Do(_ => cameraShake.setShake(2))
                             .Do(_ => checkPlayerDistance())
                             .Delay(TimeSpan.FromSeconds(3f))
@@ -291,10 +296,12 @@ public class bearView : MonoBehaviour
                     break;
                 case FightModel.bearFightModes.BearCinematicMode:
                     anim.Play("IdleStart");
+                    bearSFX.Invoke("PlayRoar", 1f);
                     break;
 
                 case FightModel.bearFightModes.BearWon:
                     anim.Play("IdleStart");
+                    bearSFX.Invoke("PlayRoar", 1f);
                     break;
 
 

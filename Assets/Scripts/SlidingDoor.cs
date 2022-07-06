@@ -9,6 +9,10 @@ public class SlidingDoor : MonoBehaviour
     GameObject dooreffect;
     AudioSource sfx;
 
+    private void Start()
+    {
+        sfx = GetComponent<AudioSource>();
+    }
     public void OpenDoor()
     {
         
@@ -22,9 +26,10 @@ public class SlidingDoor : MonoBehaviour
     void Open()
     {
         FighterView.instance.MovmenteState(false);
+        PlaySfx();
         transform.DOMove(new Vector3(transform.position.x, -15, transform.position.z), 4f).OnComplete(() =>
         {
-            
+            StopSfx();
             transform.parent.GetChild(2).GetComponent<CinemachineVirtualCamera>().Priority = 9;
             dooreffect.SetActive(true);
             FighterView.instance.MovmenteState(true);

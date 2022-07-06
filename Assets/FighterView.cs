@@ -41,6 +41,8 @@ public class FighterView : MonoBehaviour
 
     [SerializeField]
     bool canChangeStatus;
+
+    PlayerSFXController PlayerSFX;
     private void Awake()
     {
         FightModel.currentPlayer = gameObject;
@@ -58,7 +60,7 @@ public class FighterView : MonoBehaviour
         Cursor.visible = false;
         GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = true;
         GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = true;
-
+        PlayerSFX = GetComponent<PlayerSFXController>();
     }
     // Update is called once per frame
     void Update()
@@ -184,6 +186,7 @@ public class FighterView : MonoBehaviour
                 {
                     bearHitted.Value = true;
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearTakeDamage;
+                    PlayerSFX.PlayPunch();
                 }
                 else if (FightModel.currentBearStatus.Value == FightModel.bearFightModes.BearKnokedShortly)
                 {
@@ -224,6 +227,7 @@ public class FighterView : MonoBehaviour
                     {
                         Debug.Log("player Hitted");
                         playerAnimator.SetTrigger("Hit");
+                        PlayerSFX.Playhit();
                         DD.DisplayDamage(damageFromMode(FightModel.currentFightMode));
                         Observable.Timer(TimeSpan.Zero)
                                .DelayFrame(1)
@@ -246,6 +250,7 @@ public class FighterView : MonoBehaviour
                     {
                         Debug.Log("player Hitted");
                         playerAnimator.SetTrigger("Hit");
+                        PlayerSFX.Playhit();
                         DD.DisplayDamage(damageFromMode(FightModel.currentFightMode)*0.2f);
                         Observable.Timer(TimeSpan.Zero)
                                .DelayFrame(1)
@@ -337,6 +342,7 @@ public class FighterView : MonoBehaviour
         {
             playerAnimator.SetBool("Fight", true); ;
             playerAnimator.SetInteger("comboCounter", comboValue.Value);
+            PlayerSFX.PlaySwoosh();
         }
 
     }

@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BearStageSfx : MonoBehaviour
+public class BearSFXController : MonoBehaviour
 {
     AudioSource sfx;
     [SerializeField]
     AudioClip roar, attack;
     [SerializeField]
     AudioClip[] hit;
+    [SerializeField]
+    AudioClip bearDie;
     private void Start()
     {
         sfx = GetComponent<AudioSource>();
@@ -34,4 +36,12 @@ public class BearStageSfx : MonoBehaviour
         if (!SFXView.instance.sfxMuted)
             sfx.Play();
     }
+
+    public void PlayBearDie()
+    {
+        sfx.clip = bearDie;
+        if (!SFXView.instance.sfxMuted)
+            sfx.Play();
+    }
+
 }

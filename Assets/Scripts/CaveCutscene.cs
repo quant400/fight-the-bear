@@ -14,6 +14,7 @@ public class CaveCutscene : MonoBehaviour
     CinemachineTrackedDolly cam;
     GameObject player;
     private bool started;
+    AudioSource sfx;
     public bool last=false;
     string[] lines = {
        "Watch out! micro tragedy!\n\n China wants to ban bitcoin again",
@@ -27,6 +28,7 @@ public class CaveCutscene : MonoBehaviour
     private void Start()
     {
         cam = mCam.GetCinemachineComponent<CinemachineTrackedDolly>();
+        sfx = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -62,6 +64,7 @@ public class CaveCutscene : MonoBehaviour
     {
         FighterView.instance.MovmenteState(false);
         Invoke("DisplayText", 1f);
+        Invoke("PlayAudio", 0.25f);
         mCam.m_Priority = 20;
         started = true;
         transform.GetComponent<BoxCollider>().enabled = false;
@@ -71,5 +74,10 @@ public class CaveCutscene : MonoBehaviour
     {
             int ind = Random.Range(0, 7);
             GameUIView.instance.ActivateText(lines[ind].ToUpper());
+    }
+
+    void PlayAudio()
+    {
+        sfx.Play();
     }
 }

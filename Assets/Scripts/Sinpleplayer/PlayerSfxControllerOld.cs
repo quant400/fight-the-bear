@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StarterAssets;
-public class PlayerSfxController : MonoBehaviour
+public class PlayerSfxControllerOld : MonoBehaviour
 {
     [SerializeField]
     AudioClip[] grassWalk;
