@@ -695,6 +695,15 @@ public class bearView : MonoBehaviour
     }
 
 
+    Vector3 GetDisplacement()
+    {
+        int x = UnityEngine.Random.Range(0, 2);
+        if (x == 0)
+            return Vector3.right * 1;
+        else 
+            return Vector3.right * -1;
+        
+    }
     public void Die()
     {
         GameObject.FindGameObjectWithTag("Door").GetComponent<SlidingDoor>().OpenDoor();
