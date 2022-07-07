@@ -62,7 +62,7 @@ public class gameEndView : MonoBehaviour
             if (gameplayView.instance.isRestApi)
             {
                 Debug.Log("before Score");
-                DatabaseManagerRestApi._instance.setScoreRestApiMain(currentNFT.id.ToString(), (int)gameplayView.instance.GetLocalScore());
+                DatabaseManagerRestApi._instance.setScoreRestApiMain(currentNFT.id.ToString(), (int)FightModel.gameScore.Value);
                 Debug.Log("posted Score");
                 if (gameplayView.instance.GetSessions() == 10)
                     tryAgain.gameObject.SetActive(false);
@@ -98,7 +98,7 @@ public class gameEndView : MonoBehaviour
     }
     public void updateResults()
     {
-        currentScore.text = "SCORE: " + gameplayView.instance.GetLocalScore();
+        currentScore.text = "SCORE: " + FightModel.gameScore.Value;
 
     }
    
@@ -139,7 +139,7 @@ public class gameEndView : MonoBehaviour
     public void setScoreToUI()
     {
         gameEnded.Value = true;
-        currentScore.text = "SCORE: " + gameplayView.instance.GetLocalScore();
+        currentScore.text = "SCORE: " + FightModel.gameScore.Value;
 
     }
     public void TryAgain()

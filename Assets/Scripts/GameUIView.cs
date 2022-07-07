@@ -123,7 +123,9 @@ public class GameUIView : MonoBehaviour
         gameOverPanel.SetActive(false);
         scoreDisplay.text = ("Score : ").ToUpper()+"0";
         timerDisplay.text = ("Time Left : ").ToUpper() + "45";
-        Destroy(FightModel.currentPlayer);
+        FightModel.gameScore.Value = 0;
+        Destroy(FightModel.currentPlayer.gameObject);
+        FightModel.currentPlayer = null;
         Time.timeScale = 1f;
 
     }
@@ -137,6 +139,7 @@ public class GameUIView : MonoBehaviour
     {
         yield return new WaitForSeconds(d);
         gameOverPanel.SetActive(true);
+        bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGameEnded;
     }
 
 
