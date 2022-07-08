@@ -39,6 +39,7 @@ public class SlidingDoor : MonoBehaviour
 
     void PlaySfx()
     {
+        if (!SFXView.instance.sfxMuted)
         sfx.Play();
     }
     void StopSfx()

@@ -78,6 +78,7 @@ public class CaveCutscene : MonoBehaviour
 
     void PlayAudio()
     {
+        if(!SFXView.instance.sfxMuted)
         sfx.Play();
     }
 }
