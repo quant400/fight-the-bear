@@ -139,7 +139,7 @@ using UnityEngine.SceneManagement;
                     break;
 
                 case bearGameModel.GameSteps.OnPathLoad:
-                    FightModel.currentFightStatus.Value = FightModel.fightStatus.OnPath;
+                    
                     GameUIView.instance.DeactivateFightCanvas();
                     SceneManager.LoadScene(bearGameModel.singlePlayerScene1.sceneName, LoadSceneMode.Additive);
                     Debug.Log(bearGameModel.gameCurrentStep.Value.ToString());
@@ -154,14 +154,16 @@ using UnityEngine.SceneManagement;
                     break;
                 case bearGameModel.GameSteps.OnSpawnPlayer:
                     Debug.Log(bearGameModel.gameCurrentStep.Value.ToString());
-                    initilizeValues();
+                    
                     if (FightModel.currentPlayer == null)
                     {
+                        Debug.Log("a");
                         MapView.instance.SpawnPlayer();
                         FighterView.instance.intilize(true);
                     }
                     else
                     {
+                        Debug.Log("b");
                         Observable.Timer(TimeSpan.Zero)
                             //.Do(_ => cinematicView.instance.setCamera(true, 0))
                             .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)
@@ -177,13 +179,14 @@ using UnityEngine.SceneManagement;
                            .AddTo(this);
 
                     }
+                    initilizeValues();
                     break;
                 case bearGameModel.GameSteps.OnTryAgain:
                     Debug.Log(bearGameModel.gameCurrentStep.Value.ToString());
                     gameplayView.instance.started = false;
+                    GameUIView.instance.ResetGame();
                     bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelected;
                     unloadScene(bearGameModel.singlePlayerScene3.sceneName);
-                    GameUIView.instance.ResetGame();
                     break;
                 case bearGameModel.GameSteps.OnGoToNextLevel:
                     SceneManager.UnloadSceneAsync(bearGameModel.singlePlayerScene3.sceneName);

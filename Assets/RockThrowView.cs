@@ -25,13 +25,19 @@ public class RockThrowView : MonoBehaviour
     {
         ThrowRockText.gameObject.SetActive(false);
         PickwRockText.gameObject.SetActive(true);
+        Invoke("GrabRocksAtStart", 0.5f);
         rocks = GameObject.FindGameObjectsWithTag("ThrowRocks");
     }
     private void OnEnable()
     {
-        rocks = GameObject.FindGameObjectsWithTag("ThrowRocks");
+        Invoke("GrabRocksAtStart", 0.5f);
 
     }
+    void GrabRocksAtStart()
+    {
+        rocks = GameObject.FindGameObjectsWithTag("ThrowRocks");
+    }
+
     public void findRocks(bool checkBear)
     {
         if (checkBear)

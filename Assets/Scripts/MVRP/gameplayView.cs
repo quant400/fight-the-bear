@@ -68,6 +68,7 @@ public class gameplayView : MonoBehaviour
     public void StartGame()
     {
         started = true;
+        Debug.Log("Started");
         //SinglePlayerScoreBoardScript.instance.StartGame(GetTimeForGame());
         player = GameObject.FindGameObjectWithTag("Player");
         //player.GetComponent<ThirdPersonController>().SetStarted(true);

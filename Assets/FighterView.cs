@@ -45,16 +45,21 @@ public class FighterView : MonoBehaviour
     PlayerSFXController PlayerSFX;
     private void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(instance);
+            instance = this;
+        }
+        else
+            instance = this;
+
         FightModel.currentPlayer = gameObject;
         FightModel.playerCamera = playerCamera;
         FightModel.CinematicCamera = cinematicCamera;
         FightModel.playerCameraBrain = playerCameraBrain;
         FightModel.playerVirtualCamera = playerVirtualCamera;
         FightModel.offsetFromPlayer = FightModel.CinematicCamera.transform.position - lookAt.position;
-        if (instance != null)
-            Destroy(this);
-        else
-            instance = this;
+       
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -93,7 +98,7 @@ public class FighterView : MonoBehaviour
         this.UpdateAsObservable()
             .Where(_ => !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Death"))
             .Do(_ => playerAnimator.Play("Death"))
-            .Do(_ => playerAnimator.SetBool("IsDead", true))
+            .Do(_ => playerAnimator.SetBool("Dead", true))
             .Where(_ => playerAnimator.GetBool("PickRock") == true)
             .Do(_ => playerAnimator.SetBool("PickRock", false))
             .Do(_ => playerAnimator.Play("Idle", 2))

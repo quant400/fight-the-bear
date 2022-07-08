@@ -124,8 +124,10 @@ public class GameUIView : MonoBehaviour
         scoreDisplay.text = ("Score : ").ToUpper()+"0";
         timerDisplay.text = ("Time Left : ").ToUpper() + "45";
         FightModel.gameScore.Value = 0;
-        Destroy(FightModel.currentPlayer.gameObject);
+        FightModel.currentPlayer.transform.GetChild(0).tag = "Untagged";
         FightModel.currentPlayer = null;
+        Destroy(MapView.instance.GetPlayerLoc());
+        MapView.instance.ResetPlayerLock();
         Time.timeScale = 1f;
 
     }

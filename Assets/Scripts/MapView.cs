@@ -43,6 +43,7 @@ public class MapView : MonoBehaviour
             GameObject resource = Resources.Load(Path.Combine("SinglePlayerPrefabs/Characters", NameToSlugConvert(n))) as GameObject;
             //GameObject temp = Instantiate(resource, spawnPoint.position, Quaternion.identity);
             playerLoc = Instantiate(resource, new Vector3(0, 0, -45), Quaternion.identity).transform;
+            FightModel.currentPlayer = playerLoc.gameObject;
             //Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity).transform;
         }
         else
@@ -140,6 +141,15 @@ public class MapView : MonoBehaviour
     {
         //change value later
         return 2;
+    }
+
+    public void ResetPlayerLock()
+    {
+        playerLoc = null;
+    }
+    public GameObject GetPlayerLoc()
+    {
+        return playerLoc.gameObject;
     }
 
     public GameObject GetPlayer()
