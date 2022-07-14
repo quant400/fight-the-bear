@@ -357,8 +357,9 @@ public class fightView : MonoBehaviour
             .AddTo(FightModel.fightObserveObj);
         FightModel.currentBearHealth
             .Do(_ => bearHealth.fillAmount = _ / FightModel.bearStartHealth)
-            .Where(_=>_<=0)
-            .Do(_=> FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDead)
+            .Where(_ => _ <= 0)
+            .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearDead)
+            .Do(_ => bearShield.SetActive(false)) // added to disable shield if it stays on.
             .Do(_ => door.gameObject.SetActive(true))
             .Do(_ => FightModel.currentFightStatus.Value = FightModel.fightStatus.OnFightWon)
             .Delay(TimeSpan.FromMilliseconds(4000))
@@ -390,7 +391,10 @@ public class fightView : MonoBehaviour
             {
                 door = GameObject.FindObjectOfType<SlidingDoor>();
             }
-            door.Invoke("OpenDoor",1f);
+            if(currentLevel==6)
+                GameUIView.instance.EnableGameOver(3f);
+            else 
+                door.Invoke("OpenDoor",1f);
             FighterView.instance.initilized = false;
 
         }

@@ -126,6 +126,7 @@ public class GameUIView : MonoBehaviour
         FightModel.gameScore.Value = 0;
         FightModel.currentPlayer.transform.GetChild(0).tag = "Untagged";
         FightModel.currentPlayer = null;
+        FightModel.currentPlayerLevel = 0;
         Destroy(MapView.instance.GetPlayerLoc());
         MapView.instance.ResetPlayerLock();
         Time.timeScale = 1f;
