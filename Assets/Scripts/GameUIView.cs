@@ -132,9 +132,10 @@ public class GameUIView : MonoBehaviour
         Time.timeScale = 1f;
 
     }
-
-    public void EnableGameOver(float delay)
+    
+    public void EnableGameOver(float delay,string txt)
     {
+        gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = txt.ToUpper();
         StartCoroutine(Gameover(delay));
     }
 

@@ -391,8 +391,12 @@ public class fightView : MonoBehaviour
             {
                 door = GameObject.FindObjectOfType<SlidingDoor>();
             }
-            if(currentLevel==6)
-                GameUIView.instance.EnableGameOver(3f);
+            if(currentLevel==4)
+            {
+                FightModel.gameScore.Value+=100;
+                GameUIView.instance.EnableGameOver(3f, "You defeated the bears.\n\nYou get 100 bonus points");
+            }
+               
             else 
                 door.Invoke("OpenDoor",1f);
             FighterView.instance.initilized = false;
@@ -519,7 +523,7 @@ public class fightView : MonoBehaviour
                     FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearWon;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().MoveSpeed = 0f;
                     FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().SprintSpeed = 0f;
-                    GameUIView.instance.EnableGameOver(3f);
+                    GameUIView.instance.EnableGameOver(3f,"WASTED");
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
                     FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = false;
