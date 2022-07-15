@@ -199,10 +199,10 @@ public class RockThrowView : MonoBehaviour
         rb.isKinematic = false;
         selectedRock.position = FakeRock.position;
         Vector3 direction = player.forward;
-        if (Bear != null)
+        /*if (Bear != null)
         {
             direction = Bear.position - player.position;
-        }
+        }*/
         Vector3 aimDirection =(direction.normalized+player.forward.normalized).normalized;
         FakeRock.gameObject.SetActive(false);
         selectedRock.gameObject.SetActive(true);
@@ -226,10 +226,10 @@ public class RockThrowView : MonoBehaviour
         rb.isKinematic = false;
         selectedRock.position = FakeRock.position;
         Vector3 direction = player.forward;
-        if (Bear != null)
+        /*if (Bear != null)
         {
             direction = Bear.position - player.position;
-        }
+        }*/
         Vector3 aimDirection = (direction.normalized + player.forward.normalized).normalized;
         FakeRock.gameObject.SetActive(false);
         selectedRock.gameObject.SetActive(true);
@@ -253,10 +253,10 @@ public class RockThrowView : MonoBehaviour
         rb.isKinematic = false;
         selectedRock.position = FakeRock.position;
         Vector3 direction = player.forward;
-        if (Bear != null)
+        /*if (Bear != null)
         {
             direction = Bear.position - player.position;
-        }
+        }*/
         Vector3 aimDirection = (direction.normalized + player.forward.normalized).normalized;
         FakeRock.gameObject.SetActive(false);
         selectedRock.gameObject.SetActive(true);
