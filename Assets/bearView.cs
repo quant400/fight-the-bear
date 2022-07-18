@@ -68,6 +68,9 @@ public class bearView : MonoBehaviour
         bearAgent = GetComponent<NavMeshAgent>();
         bearSFX = GetComponent<BearSFXController>();
 
+        //increase speed with level
+        bearSpeed = 5 + FightModel.currentPlayerLevel+2;
+
     }
     // Start is called before the first frame update
     private void Start()
@@ -633,7 +636,7 @@ public class bearView : MonoBehaviour
     {
         bearAgent.isStopped = false;
         transform.LookAt(new Vector3(playerFC.transform.position.x, transform.position.y, playerFC.transform.position.z));
-        bearAgent.speed = 5;
+        bearAgent.speed = bearSpeed;//changed from 5;
         bearAgent.SetDestination(FightModel.currentPlayer.transform.position);
     }
 
