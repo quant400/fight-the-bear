@@ -193,10 +193,16 @@ public class RockThrowView : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         FightModel.isHoldingRock = false;
         Transform selectedRock = closesestRock;
+        //added for rock smash 
+        ThrowRockScript trs = selectedRock.GetComponent<ThrowRockScript>();
+        trs.Thrown = true;
+        //ended
         Vector3 startPosition = closesestRock.position;
         float randomTime = Random.Range(3, 5);
         Rigidbody rb = selectedRock.GetComponent<Rigidbody>();
-        rb.isKinematic = false;
+        rb.isKinematic = false; 
+        //added for rock smash 
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         selectedRock.position = FakeRock.position;
         Vector3 direction = player.forward;
         /*if (Bear != null)
@@ -212,7 +218,11 @@ public class RockThrowView : MonoBehaviour
         rockPicked = false;
         yield return new WaitForSeconds(randomTime);
         rb.isKinematic = true;
-        selectedRock.position = startPosition;
+       selectedRock.position = startPosition;
+        //added for rock smash
+        selectedRock.GetComponent<MeshRenderer>().enabled = true;
+        trs.Thrown = false;
+        selectedRock.GetComponent<SphereCollider>().enabled = true;
 
     }
     public IEnumerator throwAndSetBackDelay(float force, float wait)
@@ -220,10 +230,16 @@ public class RockThrowView : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         FightModel.isHoldingRock = false;
         Transform selectedRock = closesestRock;
+        //added for rock smash 
+        ThrowRockScript trs = selectedRock.GetComponent<ThrowRockScript>();
+        trs.Thrown = true;
+        //ended
         Vector3 startPosition = closesestRock.position;
         float randomTime = Random.Range(3, 5);
         Rigidbody rb = selectedRock.GetComponent<Rigidbody>();
         rb.isKinematic = false;
+        //added for rock smash 
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         selectedRock.position = FakeRock.position;
         Vector3 direction = player.forward;
         /*if (Bear != null)
@@ -240,6 +256,10 @@ public class RockThrowView : MonoBehaviour
         yield return new WaitForSeconds(1);
         rb.isKinematic = true;
         selectedRock.position = startPosition;
+        //added for rock smash 
+        selectedRock.GetComponent<MeshRenderer>().enabled = true;
+        trs.Thrown = false;
+        selectedRock.GetComponent<SphereCollider>().enabled = true;
         playerAnimator.SetBool("PickRock", false);
 
     }
@@ -247,10 +267,16 @@ public class RockThrowView : MonoBehaviour
     {
         FightModel.isHoldingRock = false;
         Transform selectedRock = closesestRock;
+        //added for rock smash 
+        ThrowRockScript trs = selectedRock.GetComponent<ThrowRockScript>();
+        trs.Thrown = true;
+        //ended
         Vector3 startPosition = closesestRock.position;
         float randomTime = Random.Range(3, 5);
         Rigidbody rb = selectedRock.GetComponent<Rigidbody>();
         rb.isKinematic = false;
+        //added for rock smash 
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         selectedRock.position = FakeRock.position;
         Vector3 direction = player.forward;
         /*if (Bear != null)
@@ -265,7 +291,10 @@ public class RockThrowView : MonoBehaviour
         rockPicked = false;
         rb.isKinematic = true;
         selectedRock.position = startPosition;
-
+        //added for rock smash
+        selectedRock.GetComponent<MeshRenderer>().enabled = true;
+        trs.Thrown = false;
+        selectedRock.GetComponent<SphereCollider>().enabled = true;
     }
 
 

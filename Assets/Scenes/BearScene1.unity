@@ -932,6 +932,7 @@ GameObject:
   - component: {fileID: 173012347}
   - component: {fileID: 173012346}
   - component: {fileID: 173012345}
+  - component: {fileID: 173012349}
   m_Layer: 0
   m_Name: FakeRock (5)
   m_TagString: ThrowRocks
@@ -1031,6 +1032,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 173012343}
   m_Mesh: {fileID: 4300000, guid: d4a62d24394e94c32ae623e5edbc0584, type: 3}
+--- !u!114 &173012349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173012343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a252ca16d54e1574993d18a3e320f70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Thrown: 0
+  rockSmash: {fileID: 6294867839247459783, guid: b888bb2e9a3eb1f4ab57b4ef3453fc1b, type: 3}
 --- !u!1 &175356364
 GameObject:
   m_ObjectHideFlags: 0
@@ -3661,6 +3676,7 @@ GameObject:
   - component: {fileID: 393671663}
   - component: {fileID: 393671662}
   - component: {fileID: 393671661}
+  - component: {fileID: 393671666}
   m_Layer: 0
   m_Name: FakeRock (1)
   m_TagString: ThrowRocks
@@ -3760,6 +3776,20 @@ Transform:
   m_Father: {fileID: 403379395}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 9.523, y: 22.73, z: 51.273}
+--- !u!114 &393671666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393671660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a252ca16d54e1574993d18a3e320f70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Thrown: 0
+  rockSmash: {fileID: 6294867839247459783, guid: b888bb2e9a3eb1f4ab57b4ef3453fc1b, type: 3}
 --- !u!1001 &395662637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4232,6 +4262,7 @@ GameObject:
   - component: {fileID: 425783153}
   - component: {fileID: 425783152}
   - component: {fileID: 425783151}
+  - component: {fileID: 425783155}
   m_Layer: 0
   m_Name: FakeRock (6)
   m_TagString: ThrowRocks
@@ -4331,6 +4362,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425783149}
   m_Mesh: {fileID: 4300000, guid: d4a62d24394e94c32ae623e5edbc0584, type: 3}
+--- !u!114 &425783155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425783149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a252ca16d54e1574993d18a3e320f70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Thrown: 0
+  rockSmash: {fileID: 6294867839247459783, guid: b888bb2e9a3eb1f4ab57b4ef3453fc1b, type: 3}
 --- !u!1 &429765164
 GameObject:
   m_ObjectHideFlags: 3
@@ -4994,6 +5039,7 @@ GameObject:
   - component: {fileID: 560185907}
   - component: {fileID: 560185906}
   - component: {fileID: 560185905}
+  - component: {fileID: 560185910}
   m_Layer: 0
   m_Name: FakeRock (3)
   m_TagString: ThrowRocks
@@ -5093,6 +5139,20 @@ Transform:
   m_Father: {fileID: 403379395}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 28.461, y: -52.05, z: 1.384}
+--- !u!114 &560185910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560185904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a252ca16d54e1574993d18a3e320f70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Thrown: 0
+  rockSmash: {fileID: 6294867839247459783, guid: b888bb2e9a3eb1f4ab57b4ef3453fc1b, type: 3}
 --- !u!1 &577025789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 40b28bff553eb2f419864ab1564ba629, type: 3}
@@ -9579,7 +9639,7 @@ GameObject:
   - component: {fileID: 1118018780}
   m_Layer: 0
   m_Name: Plane (1)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -11129,6 +11189,7 @@ GameObject:
   - component: {fileID: 1269202055}
   - component: {fileID: 1269202054}
   - component: {fileID: 1269202053}
+  - component: {fileID: 1269202057}
   m_Layer: 0
   m_Name: FakeRock (4)
   m_TagString: ThrowRocks
@@ -11228,6 +11289,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1269202051}
   m_Mesh: {fileID: 4300000, guid: d4a62d24394e94c32ae623e5edbc0584, type: 3}
+--- !u!114 &1269202057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269202051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a252ca16d54e1574993d18a3e320f70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Thrown: 0
+  rockSmash: {fileID: 6294867839247459783, guid: b888bb2e9a3eb1f4ab57b4ef3453fc1b, type: 3}
 --- !u!1001 &1290734583
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11695,6 +11770,7 @@ GameObject:
   - component: {fileID: 1328887406}
   - component: {fileID: 1328887405}
   - component: {fileID: 1328887404}
+  - component: {fileID: 1328887409}
   m_Layer: 0
   m_Name: FakeRock (2)
   m_TagString: ThrowRocks
@@ -11794,6 +11870,20 @@ Transform:
   m_Father: {fileID: 403379395}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 27.125, y: -42.936, z: 44.945}
+--- !u!114 &1328887409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328887403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a252ca16d54e1574993d18a3e320f70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Thrown: 0
+  rockSmash: {fileID: 6294867839247459783, guid: b888bb2e9a3eb1f4ab57b4ef3453fc1b, type: 3}
 --- !u!1 &1347642676
 GameObject:
   m_ObjectHideFlags: 0
@@ -17948,6 +18038,7 @@ GameObject:
   - component: {fileID: 2077005223}
   - component: {fileID: 2077005222}
   - component: {fileID: 2077005221}
+  - component: {fileID: 2077005225}
   m_Layer: 0
   m_Name: FakeRock (7)
   m_TagString: ThrowRocks
@@ -18047,6 +18138,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077005219}
   m_Mesh: {fileID: 4300000, guid: d4a62d24394e94c32ae623e5edbc0584, type: 3}
+--- !u!114 &2077005225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077005219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a252ca16d54e1574993d18a3e320f70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Thrown: 0
+  rockSmash: {fileID: 6294867839247459783, guid: b888bb2e9a3eb1f4ab57b4ef3453fc1b, type: 3}
 --- !u!1 &2083414144
 GameObject:
   m_ObjectHideFlags: 0
