@@ -647,7 +647,7 @@ public class bearView : MonoBehaviour
             if (FightModel.currentBearStatus.Value != FightModel.bearFightModes.BearDead
                            && Vector3.Distance(playerFC.transform.position, bearHead.position) <= distance)
             {
-                if ((FightModel.canTakeDamage)&& (!FightModel.isHoldingRock))
+                if ((FightModel.canTakeDamage))//&& (!FightModel.isHoldingRock)) removed to take dammage while holding rock 
                 {
 
                     if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerBlockShortAttack)
