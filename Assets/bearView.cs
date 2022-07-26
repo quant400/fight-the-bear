@@ -285,7 +285,7 @@ public class bearView : MonoBehaviour
                             .Do(_ => bearSFX.PlayRoar())
                             .Delay(TimeSpan.FromSeconds(3f))                            
                             .Do(_ => cameraShake.setShake(2))
-                            .Do(_ => checkPlayerDistance())
+                            //.Do(_ => checkPlayerDistance())
                             .Delay(TimeSpan.FromSeconds(3f))
                             .Do(_ => cameraShake.setShake(0))
                             .Where(_ => FightModel.currentBearStatus.Value == FightModel.bearFightModes.BearRageMode)
