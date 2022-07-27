@@ -5,6 +5,15 @@ using StarterAssets;
 
 public class PlayerPowerUpHandler : MonoBehaviour
 {
+    float moveSpeed;
+    float jump;
+    ThirdPersonController TPC;
+    private void Start()
+    {
+        TPC = GetComponent<ThirdPersonController>();
+        moveSpeed = TPC.MoveSpeed;
+        jump = TPC.JumpHeight;
+    }
     public void StartPowerUp(powerUpVarient p , float duration , float speedmult)
     {
         StartCoroutine(Powerup(p, duration, speedmult));
@@ -25,11 +34,10 @@ public class PlayerPowerUpHandler : MonoBehaviour
                 GetComponent<FightController>().DeactivateShield();
                 break;
             case powerUpVarient.speed:
-                ThirdPersonController TPC = GetComponent<ThirdPersonController>();
-                TPC.MoveSpeed *= PowerupSpeedMultiplier;
+                TPC.MoveSpeed = moveSpeed* PowerupSpeedMultiplier;
                 TPC.SprintSpeed = TPC.MoveSpeed;
                 yield return new WaitForSeconds(powerUpDuration);
-                TPC.MoveSpeed /= PowerupSpeedMultiplier;
+                TPC.MoveSpeed = moveSpeed;
                 TPC.SprintSpeed = TPC.MoveSpeed * 1.5f;
                 break;
         }
