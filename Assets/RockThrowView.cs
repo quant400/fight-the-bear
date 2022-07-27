@@ -50,7 +50,6 @@ public class RockThrowView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (!rockPicked)
         {
             if (rocks != null)
@@ -265,6 +264,11 @@ public class RockThrowView : MonoBehaviour
     }
     public void throwAndSetBackDirect(float force)
     {
+        //moved here to fix glitch when entering cave with rock
+        rockPicked = false;
+        PickwRockText.gameObject.SetActive(true);
+        pickRockCanvas.SetActive(false);
+
         FightModel.isHoldingRock = false;
         Transform selectedRock = closesestRock;
         //added for rock smash 
@@ -288,7 +292,7 @@ public class RockThrowView : MonoBehaviour
         selectedRock.gameObject.SetActive(true);
         rb.AddForce(force * 20 * aimDirection);
         closesestRock = null;
-        rockPicked = false;
+        //rockPicked = false; moved up to fix rock throw script
         rb.isKinematic = true;
         selectedRock.position = startPosition;
         //added for rock smash
