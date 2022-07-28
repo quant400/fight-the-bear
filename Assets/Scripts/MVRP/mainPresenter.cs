@@ -105,6 +105,8 @@ using UnityEngine.SceneManagement;
                     break;
                 case bearGameModel.GameSteps.OnStartGame:
                     Debug.Log(bearGameModel.gameCurrentStep.Value.ToString());
+                    if (gameUIView.gameOverPanel!=null && gameUIView.gameOverPanel.activeInHierarchy)
+                        gameUIView.gameOverPanel.SetActive(false);
                     Observable.Timer(TimeSpan.Zero)
                         .DelayFrame(2)
                         .Do(_ => gameView.StartGame())
