@@ -353,6 +353,7 @@ public class fightView : MonoBehaviour
             .Do(_ => FightModel.currentBearStatus.Value = FightModel.bearFightModes.BearIdle)
             .Delay(TimeSpan.FromMilliseconds(3000))
             .Do(_=>Time.timeScale=0)
+            .Do(_=> gameplayView.instance.isPaused = true)
             .Subscribe()
             .AddTo(FightModel.fightObserveObj);
         FightModel.currentBearHealth

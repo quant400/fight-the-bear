@@ -40,6 +40,8 @@ public class gameplayView : MonoBehaviour
     public bool isTryout = false;
     float score;
     public bool started = false;
+
+    public bool isPaused = false;
     private void Awake()
     {
         if (instance != null && instance != this)

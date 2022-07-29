@@ -119,6 +119,7 @@ public class GameUIView : MonoBehaviour
 
     public void ResetGame()
     {
+        gameplayView.instance.isPaused = false;
         fightCanvas.SetActive(false);
         gameOverPanel.SetActive(false);
         scoreDisplay.text = ("Score : ").ToUpper()+"0";
@@ -149,11 +150,13 @@ public class GameUIView : MonoBehaviour
 
     public void OpenSettings()
     {
+        gameplayView.instance.isPaused = true;
         Time.timeScale = 0f;
         settingsPanel.SetActive(true);
     }
     public void CloseSettings()
     {
+        gameplayView.instance.isPaused = false;
         settingsPanel.SetActive(false);
         Time.timeScale = 1f;
     }

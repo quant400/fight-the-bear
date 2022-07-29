@@ -74,6 +74,7 @@ namespace StarterAssets
 
 		private void OnApplicationFocus(bool hasFocus)
 		{
+			GetComponent<ThirdPersonController>().cursorUnlocked = false;
 			SetCursorState(cursorLocked);
 		}
 
