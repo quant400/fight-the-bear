@@ -44,4 +44,8 @@ public class BearSFXController : MonoBehaviour
             sfx.Play();
     }
 
+    public void PauseSfx()
+    {
+        sfx.Stop();
+    }
 }
