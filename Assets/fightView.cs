@@ -211,6 +211,7 @@ public class fightView : MonoBehaviour
             currentBearHealthDistance.Value = FightModel.bearDistanceHealth;
             ThowringSpheres.SetActive(state);
             distanceFightEffects.SetActive(state);
+            bearShield.transform.localScale = Vector3.zero;//new line added to reduce pusch from shield
             bearShield.SetActive(state);
             bearPosRage = bear.transform.position;
             bearShield.transform.position = new Vector3(bear.transform.position.x, bearShield.transform.position.y, bear.transform.position.z);
@@ -228,6 +229,7 @@ public class fightView : MonoBehaviour
 
                                           .Delay(TimeSpan.FromSeconds(1))
                                           .Do(_ => bearShield.SetActive(true))
+                                          .Do(_ => bearShield.transform.DOScale(new Vector3(9.8f, 9.8f, 9.8f), 0.5f))  // new line added to reduce pus fom shield size was 9.8
                                           .Delay(TimeSpan.FromSeconds(timeToWait))
                                           .Do(_ => activateAfterDelay())
                                           .Subscribe()
@@ -422,6 +424,7 @@ public class fightView : MonoBehaviour
         {
             if (bearShield != null)
             {
+                bearShield.transform.localScale = Vector3.zero; // added to reduce shiel push
                 bearShield.SetActive(false);
             }
         }
