@@ -690,7 +690,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 367015fe124689c42b79f37faeb6ce94, type: 3}
   - {fileID: 21300000, guid: 603a59f38c8e25d45bbf3215e429aa20, type: 3}
   display: {fileID: 132324078}
-  defaultImg: {fileID: 21300000, guid: 50d3cd3cbea354e42aaa38a77d896c25, type: 3}
+  defaultImg: {fileID: 21300000, guid: 0e0b3179f2394b549aad446f9efdde00, type: 3}
   nameText: {fileID: 1152752406}
   info: {fileID: 1814808497}
   currentSelected: {fileID: 179549525}
@@ -1595,7 +1595,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 367015fe124689c42b79f37faeb6ce94, type: 3}
   - {fileID: 21300000, guid: 603a59f38c8e25d45bbf3215e429aa20, type: 3}
   display: {fileID: 132324078}
-  defaultImg: {fileID: 21300000, guid: 50d3cd3cbea354e42aaa38a77d896c25, type: 3}
+  defaultImg: {fileID: 21300000, guid: 0e0b3179f2394b549aad446f9efdde00, type: 3}
   nameText: {fileID: 1152752406}
   info: {fileID: 1814808497}
   currentSelected: {fileID: 179549525}
@@ -2282,7 +2282,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 367015fe124689c42b79f37faeb6ce94, type: 3}
   - {fileID: 21300000, guid: 603a59f38c8e25d45bbf3215e429aa20, type: 3}
   display: {fileID: 132324078}
-  defaultImg: {fileID: 21300000, guid: 50d3cd3cbea354e42aaa38a77d896c25, type: 3}
+  defaultImg: {fileID: 21300000, guid: 0e0b3179f2394b549aad446f9efdde00, type: 3}
   nameText: {fileID: 1152752406}
   info: {fileID: 1814808497}
   currentSelected: {fileID: 179549525}
@@ -2479,7 +2479,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 367015fe124689c42b79f37faeb6ce94, type: 3}
   - {fileID: 21300000, guid: 603a59f38c8e25d45bbf3215e429aa20, type: 3}
   display: {fileID: 132324078}
-  defaultImg: {fileID: 21300000, guid: 50d3cd3cbea354e42aaa38a77d896c25, type: 3}
+  defaultImg: {fileID: 21300000, guid: 0e0b3179f2394b549aad446f9efdde00, type: 3}
   nameText: {fileID: 1152752406}
   info: {fileID: 1814808497}
   currentSelected: {fileID: 179549525}
@@ -7906,6 +7906,7 @@ MonoBehaviour:
   gameOverObject: {fileID: 218373324}
   isTryout: 0
   started: 0
+  isPaused: 0
 --- !u!114 &2491955374990107174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9852,6 +9853,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.3764706
       objectReference: {fileID: 0}
+    - target: {fileID: 582897851812306203, guid: 8375b0021f4d4584982a3af29581c884, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -115
+      objectReference: {fileID: 0}
     - target: {fileID: 582897852302481241, guid: 8375b0021f4d4584982a3af29581c884, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -9939,6 +9944,22 @@ PrefabInstance:
     - target: {fileID: 582897852302481242, guid: 8375b0021f4d4584982a3af29581c884, type: 3}
       propertyPath: m_Name
       value: GameUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 582897853219037520, guid: 8375b0021f4d4584982a3af29581c884, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 582897853219037521, guid: 8375b0021f4d4584982a3af29581c884, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 582897853219037521, guid: 8375b0021f4d4584982a3af29581c884, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 582897853220173491, guid: 8375b0021f4d4584982a3af29581c884, type: 3}
+      propertyPath: m_sendNavigationEvents
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8375b0021f4d4584982a3af29581c884, type: 3}
@@ -10364,7 +10385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5479180407007317759, guid: dcade7979c3da534db27311c23ab15d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1181384.1
+      value: -1379962.2
       objectReference: {fileID: 0}
     - target: {fileID: 5479180407079113686, guid: dcade7979c3da534db27311c23ab15d5, type: 3}
       propertyPath: m_fontAsset
