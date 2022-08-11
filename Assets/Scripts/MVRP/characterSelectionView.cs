@@ -55,7 +55,7 @@ public class characterSelectionView : MonoBehaviour
     }
     void setPlayButtonDependtoSessions(int sessions)
     {
-        if (sessions >= 10)
+        if (sessions >= 3)
         {
             select.interactable = false;
             
@@ -171,10 +171,12 @@ public class characterSelectionView : MonoBehaviour
     }
     public void EnablePlay()
     {
+        Debug.Log(2);
         select.interactable = true;
     }
     public void DisablePlay()
     {
+        Debug.Log(1);
         select.interactable = false;
     }
 

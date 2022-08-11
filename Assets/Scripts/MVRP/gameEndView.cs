@@ -57,14 +57,14 @@ public class gameEndView : MonoBehaviour
         }*/
         tryAgain.gameObject.SetActive(false);
         currentNFT = gameplayView.instance.chosenNFT;
-        if (gameplayView.instance.GetSessions() <= 10)
+        if (gameplayView.instance.GetSessions() <= 3)
         {
             if (gameplayView.instance.isRestApi)
             {
                 Debug.Log("before Score");
                 DatabaseManagerRestApi._instance.setScoreRestApiMain(currentNFT.id.ToString(), (int)FightModel.gameScore.Value);
                 Debug.Log("posted Score");
-                if (gameplayView.instance.GetSessions() == 10)
+                if (gameplayView.instance.GetSessions() == 3)
                     tryAgain.gameObject.SetActive(false);
             }
             else

@@ -143,7 +143,7 @@ public class DatabaseManagerRestApi : MonoBehaviour
             }
             else
             {
-                if (gameplayView.instance.GetSessions() <= 10 && scoreUpdateTried < 10)
+                if (gameplayView.instance.GetSessions() <= 3 && scoreUpdateTried < 10)
                 {
                     scoreUpdateTried++;
                     gameplayView.instance.transform.GetComponentInChildren<gameEndView>().Invoke("setScoreAtStart", 6);
