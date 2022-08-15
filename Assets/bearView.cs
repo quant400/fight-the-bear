@@ -214,7 +214,7 @@ public class bearView : MonoBehaviour
                         {
                             FightModel.rageModeValue.Value = 1;
                         }
-                        FightModel.gameScore.Value += damageFromMode(FightModel.currentFightMode);
+                        FightModel.gameScore.Value += Mathf.Min(damageFromMode(FightModel.currentFightMode),FightModel.currentBearHealth.Value);
                         Debug.Log("bear Hitted");
                         Vector3 bearHittedDamagePos = new Vector3((FightModel.currentPlayer.transform.position.x + transform.position.x) / 2, 2.5f, (FightModel.currentPlayer.transform.position.z + transform.position.z) / 2);
                         GameObject bearHitted = Instantiate(bearHitEffect, bearHittedDamagePos, Quaternion.identity); 
