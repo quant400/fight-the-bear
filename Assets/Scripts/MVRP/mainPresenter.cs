@@ -159,13 +159,11 @@ using UnityEngine.SceneManagement;
                     
                     if (FightModel.currentPlayer == null)
                     {
-                        Debug.Log("a");
                         MapView.instance.SpawnPlayer();
                         FighterView.instance.intilize(true);
                     }
                     else
                     {
-                        Debug.Log("b");
                         Observable.Timer(TimeSpan.Zero)
                             //.Do(_ => cinematicView.instance.setCamera(true, 0))
                             .Do(_ => FightModel.currentPlayer.GetComponent<StarterAssets.ThirdPersonController>().enabled = false)

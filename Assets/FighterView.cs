@@ -227,9 +227,9 @@ public class FighterView : MonoBehaviour
                     break;
                 case FightModel.PlayerFightModes.playerTakeDamage:
                     comboValue.Value = 0;
-
                     if ((FightModel.canTakeDamage) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon) && (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightLost))
                     {
+                        FightModel.canTakeDamage = false;
                         Debug.Log("player Hitted");
                         playerAnimator.SetTrigger("Hit");
                         PlayerSFX.Playhit();
@@ -242,6 +242,7 @@ public class FighterView : MonoBehaviour
                                .Do(_ => hittedPannel.SetActive(true))
                                .Delay(TimeSpan.FromMilliseconds(400))
                                .Do(_ => hittedPannel.SetActive(false))
+                               .Do(_ => FightModel.canTakeDamage = true)
                                .Subscribe()
 
                             .AddTo(this);
