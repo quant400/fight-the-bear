@@ -293,7 +293,7 @@ public class FighterView : MonoBehaviour
     {
         if(FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerDead)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetButtonDown("Fire1"))
             {
                 if (!FightModel.isHoldingRock)
                 {
@@ -374,14 +374,14 @@ public class FighterView : MonoBehaviour
         {
             if (!FightModel.isHoldingRock)
             {
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetButtonDown("Fire2"))
                 {
                     if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight))
                     {
                         FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerBlockShortAttack;
                     }
                 }
-                if (Input.GetMouseButtonUp(1))
+                if (Input.GetButtonUp("Fire2"))
                 {
                     if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight))
                     {

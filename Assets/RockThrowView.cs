@@ -79,7 +79,7 @@ public class RockThrowView : MonoBehaviour
             }
            
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Fire3"))
         {
             if (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon)
             {
@@ -104,7 +104,7 @@ public class RockThrowView : MonoBehaviour
             }
                 
         }
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetButtonDown("Fire1"))
         {
             if (closesestRock != null)
             {
