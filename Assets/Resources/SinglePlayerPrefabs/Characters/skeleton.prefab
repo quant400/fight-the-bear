@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: -279997321912786276}
   - component: {fileID: 5964186838681869996}
   - component: {fileID: 3375423474125529159}
+  - component: {fileID: 7786067836769685677}
   m_Layer: 3
   m_Name: skeleton
   m_TagString: Player
@@ -408,6 +409,38 @@ MonoBehaviour:
   pickRockCanvas: {fileID: 898221045524198546}
   ThrowRockText: {fileID: 4244090724477153621}
   PickwRockText: {fileID: 4744595872341707393}
+--- !u!114 &7786067836769685677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650693811093358786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6982fbe66b40c0b4e969c7c26fa3eaff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnimator: {fileID: 0}
+  currentState: 0
+  canHitAgainCombo:
+    value: 0
+  comboValue:
+    value: 0
+  detectionCollider: {fileID: 4113506031760925336}
+  hittedPannel: {fileID: 4113506032521329710}
+  bearHitted:
+    value: 0
+  initilized: 0
+  playerCamera: {fileID: 1248646738946403674}
+  playerCameraBrain: {fileID: 1248646739096543249}
+  DD: {fileID: 3944122155289254482}
+  playerVirtualCamera: {fileID: 1248646738946403672}
+  playerBackCamera: {fileID: 2035732972126840752}
+  lookAt: {fileID: 1248646738996046310}
+  cinematicCamera: {fileID: 7774711896085630309}
+  observerPath: {fileID: 0}
+  canChangeStatus: 0
 --- !u!1 &762523115052854065
 GameObject:
   m_ObjectHideFlags: 0
@@ -3296,9 +3329,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f373c90f5164964eb8eb041cca666cd, type: 3}
+--- !u!1 &4113506031760925336 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9102814384925060709, guid: 1f373c90f5164964eb8eb041cca666cd, type: 3}
+  m_PrefabInstance: {fileID: 5135698439389007101}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4113506031760925339 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9102814384925060710, guid: 1f373c90f5164964eb8eb041cca666cd, type: 3}
+  m_PrefabInstance: {fileID: 5135698439389007101}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4113506032521329710 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9102814385643155667, guid: 1f373c90f5164964eb8eb041cca666cd, type: 3}
   m_PrefabInstance: {fileID: 5135698439389007101}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6189723020725505415
