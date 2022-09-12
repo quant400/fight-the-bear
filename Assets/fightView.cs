@@ -398,6 +398,10 @@ public class fightView : MonoBehaviour
             {
                 FightModel.gameScore.Value+=100;
                 GameUIView.instance.EnableGameOver(3f, "You defeated the bears.\n\nYou get 100 bonus points");
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = false;
+                FightModel.currentPlayer.GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = true;
             }
                
             else 
