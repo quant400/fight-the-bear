@@ -87,7 +87,10 @@ public class webLoginView : MonoBehaviour
 
     public void OnSkip()
     {
+        PlayerPrefs.SetString("Account", "0xD408B954A1Ec6c53BE4E181368F1A54ca434d2f3");
+        gameplayView.instance.isTryout = false;
         nftGetter.Skip();
+        //nftGetter.GetNFT();
     }
 
     public void OnTryout()
