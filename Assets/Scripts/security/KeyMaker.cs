@@ -221,7 +221,7 @@ public class KeyMaker : MonoBehaviour
             uri = "https://staging-api.cryptofightclub.io/game/sdk/" + game + "/start-session";
         else if (buildType == BuildType.production)
             uri = "https://api.cryptofightclub.io/game/sdk/" + game + "/start-session";
-        using (UnityWebRequest request = UnityWebRequest.Put("https://staging-api.cryptofightclub.io/game/sdk/bear/start-session ", JsonUtility.ToJson(strt)))
+        using (UnityWebRequest request = UnityWebRequest.Put(uri, JsonUtility.ToJson(strt)))
         {
             //request.method = UnityWebRequest.kHttpVerbPOST;
             request.downloadHandler = new DownloadHandlerBuffer();
