@@ -29,17 +29,34 @@ public class NFTGetView : MonoBehaviour
     }
     public void GetNFT()
     {
+        StartCoroutine(KeyMaker.instance.GetOtherNft());
         StartCoroutine(KeyMaker.instance.GetRequest());
     }
 
     public void Display(NFTInfo[] NFTData)
     {
-       /* string data = "{\"Items\":" + temp.downloadHandler.text + "}";
-        bearGameModel.currentNFTString = data;
+        NFTInfo[] used;
+        if (gameplayView.instance.hasOtherChainNft)
+        {
+            NFTInfo tempNft = new NFTInfo() { name = "grane", id = 100000000 };
+            NFTInfo[] tempArr = new NFTInfo[NFTData.Length + 1];
+            for (int i = 0; i < tempArr.Length; i++)
+            {
+                if (i == 0)
+                    tempArr[i] = tempNft;
+                else
+                    tempArr[i] = NFTData[i - 1];
+            }
+            bearGameModel.currentNFTArray = tempArr;
+            used = tempArr;
+        }
 
-        NFTInfo[] NFTData = JsonHelper.FromJson<NFTInfo>(data);*/
-        bearGameModel.currentNFTArray = NFTData;
-        if (NFTData.Length == 0)
+        else
+        {
+            bearGameModel.currentNFTArray = NFTData;
+            used = NFTData;
+        }
+        if (used.Length == 0)
         {
             noNFTCanvas.SetActive(true);
             bearGameModel.userIsLogged.Value = false;
@@ -47,7 +64,7 @@ public class NFTGetView : MonoBehaviour
         else
         {
             noNFTCanvas.SetActive(false);
-            characterSelectView.SetData(NFTData);
+            characterSelectView.SetData(used);
             bearGameModel.userIsLogged.Value = true;
         }
 

@@ -199,6 +199,10 @@ public class characterSelectionView : MonoBehaviour
     public void FinalSelectSinglePlayer()
     {
         gameplayView.instance.chosenNFT = characterNFTMap[currentCharacter];
+        if (NameToSlugConvert(gameplayView.instance.chosenNFT.name) == "grane")
+            gameplayView.instance.usingOtherChainNft = true;
+        else
+            gameplayView.instance.usingOtherChainNft = false;
         selected = true;
         //characters[currentCharacter].GetComponent<Animator>().SetBool("Selected", true);
    
@@ -257,7 +261,7 @@ public class characterSelectionView : MonoBehaviour
         }
         else
         {
-            gameplayView.instance.chosenNFT = new NFTInfo { name = "Aegis", id = 175 };
+            gameplayView.instance.chosenNFT = new NFTInfo { name = "grane", id = 175 };
             selected = true;
             bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnCharacterSelected;
         }

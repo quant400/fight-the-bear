@@ -59,7 +59,7 @@ public class gameEndView : MonoBehaviour
         currentNFT = gameplayView.instance.chosenNFT;
         if (gameplayView.instance.GetSessions() <= 3)
         {
-            if (gameplayView.instance.isRestApi)
+            if (gameplayView.instance.isRestApi && !gameplayView.instance.usingOtherChainNft)
             {
                 Debug.Log("before Score");
                 DatabaseManagerRestApi._instance.setScoreRestApiMain(currentNFT.id.ToString(), (int)FightModel.gameScore.Value);

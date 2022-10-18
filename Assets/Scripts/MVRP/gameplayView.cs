@@ -42,6 +42,10 @@ public class gameplayView : MonoBehaviour
     public bool started = false;
 
     public bool isPaused = false;
+
+    public bool hasOtherChainNft = false;
+
+    public bool usingOtherChainNft = false;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -76,7 +80,7 @@ public class gameplayView : MonoBehaviour
         //player.GetComponent<ThirdPersonController>().SetStarted(true);
         GetScores();
         Debug.Log(chosenNFT.id);
-        if (!instance.isTryout)
+        if (!instance.isTryout && !usingOtherChainNft)
             DatabaseManagerRestApi._instance.startSessionFromRestApi(chosenNFT.id);
         bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnGameRunning;
 
