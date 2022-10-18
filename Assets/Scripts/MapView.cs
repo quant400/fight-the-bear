@@ -19,6 +19,9 @@ public class MapView : MonoBehaviour
     CaveCutscene caveCutScene;
     [SerializeField]
     GameObject CavePrefab,currentCave;
+
+    [SerializeField]
+    GameObject playerPrefab;
     private void Awake()
     {
         if (instance != null)
@@ -37,24 +40,25 @@ public class MapView : MonoBehaviour
     {
         if (playerLoc == null)
         {
-            Debug.Log(1);
-            //chosenNFTName = NameToSlugConvert(gameplayView.instance.chosenNFT.name);
-            string n = gameplayView.instance.chosenNFT.name;
-            GameObject resource = Resources.Load(Path.Combine("SinglePlayerPrefabs/Characters", NameToSlugConvert(n))) as GameObject;
-            //GameObject temp = Instantiate(resource, spawnPoint.position, Quaternion.identity);
-            playerLoc = Instantiate(resource, new Vector3(0, 0, -45), Quaternion.identity).transform;
-            FightModel.currentPlayer = playerLoc.gameObject;
-            //Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity).transform;
+            SetUpCharacter();
         }
         else
         {
-            //playerLoc = GameObject.FindGameObjectWithTag("Player").transform;
-            Debug.Log(2);
             playerLoc.gameObject.SetActive(true);
         }
         bearGameModel.gameCurrentStep.Value = bearGameModel.GameSteps.OnFindingCave;
         //SpawnStartingt();
     }
+
+    private void SetUpCharacter()
+    {
+        string n = NameToSlugConvert(gameplayView.instance.chosenNFT.name);
+        GameObject temp = Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity);
+        playerLoc = temp.transform;
+        FightModel.currentPlayer = playerLoc.gameObject;
+        temp.GetComponent<SetUpSkin>().SetUpChar(n);
+    }
+
     public void SpawnStarting()
     {
         Debug.Log(0);
