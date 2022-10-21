@@ -36,6 +36,9 @@ public class GameUIView : MonoBehaviour
     [SerializeField]
     GameObject settingsPanel;
 
+    [SerializeField]
+    StarterAssets.UICanvasControllerInput virtualController;
+    public GameObject RockPickButton;
     private void Awake()
     {
         if (instance != null)
@@ -159,5 +162,17 @@ public class GameUIView : MonoBehaviour
         gameplayView.instance.isPaused = false;
         settingsPanel.SetActive(false);
         Time.timeScale = 1f;
+    }
+
+
+    public void EnableVirtualController(GameObject player)
+    {
+        virtualController.GetRefrence(player);
+        virtualController.gameObject.SetActive(true);
+    }
+
+    public void DisableVirtualController()
+    {
+        virtualController.gameObject.SetActive(true);
     }
 }

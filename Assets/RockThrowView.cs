@@ -63,17 +63,19 @@ public class RockThrowView : MonoBehaviour
                             closesestRock = closestRock(rocks);
                             pickRockCanvas.transform.position = closesestRock.position+ new Vector3(0,0.8f,0);
                             pickRockCanvas.SetActive(true);
+                            GameUIView.instance.RockPickButton.SetActive(true);
                         }
                         else
                         {
                             pickRockCanvas.SetActive(false);
+                            GameUIView.instance.RockPickButton.SetActive(false);
                         }
                     }
                     else
                     {
                         rocks = new GameObject[] { };
                         pickRockCanvas.SetActive(false);
-
+                        GameUIView.instance.RockPickButton.SetActive(false);
                     }
                 }
             }
@@ -302,4 +304,43 @@ public class RockThrowView : MonoBehaviour
     }
 
 
+    public void ThrowRock()
+    {
+        if (closesestRock != null)
+        {
+            if (rockPicked)
+            {
+                playerAnimator.SetBool("PickRock", false);
+                // ThrowRockText.gameObject.SetActive(false);
+                PickwRockText.gameObject.SetActive(true);
+                pickRockCanvas.SetActive(false);
+
+            }
+        }
+    }
+
+    public void PickUpRock()
+    {
+        if (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon)
+        {
+            if (closesestRock != null)
+            { 
+                if (!rockPicked)
+                {
+                    if (closestRock(rocks) != null)
+                    {
+                        rockPicked = true;
+
+                        playerAnimator.SetBool("PickRock", true);
+                        //  ThrowRockText.gameObject.SetActive(true);
+
+                        PickwRockText.gameObject.SetActive(false);
+                        FightModel.isHoldingRock = true;
+                        
+                    }
+                }
+
+            }
+        }
+    }
 }

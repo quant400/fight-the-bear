@@ -55,6 +55,7 @@ public class MapView : MonoBehaviour
         string n = NameToSlugConvert(gameplayView.instance.chosenNFT.name);
         GameObject temp = Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity);
         playerLoc = temp.transform;
+        GameUIView.instance.EnableVirtualController(temp);
         FightModel.currentPlayer = playerLoc.gameObject;
         temp.GetComponent<SetUpSkin>().SetUpChar(n);
     }
