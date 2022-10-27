@@ -171,12 +171,10 @@ public class characterSelectionView : MonoBehaviour
     }
     public void EnablePlay()
     {
-        Debug.Log(2);
         select.interactable = true;
     }
     public void DisablePlay()
     {
-        Debug.Log(1);
         select.interactable = false;
     }
 

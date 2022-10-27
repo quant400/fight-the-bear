@@ -175,4 +175,9 @@ public class GameUIView : MonoBehaviour
     {
         virtualController.gameObject.SetActive(true);
     }
+
+    public GameObject GetVirtualControler()
+    {
+        return virtualController.gameObject;
+    }
 }

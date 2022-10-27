@@ -14,6 +14,7 @@ namespace StarterAssets
 
         FighterView fv;
         RockThrowView rtv;
+        bool usingButtons = false;
         public void GetRefrence(GameObject player)
         {
             fv = player.GetComponent<FighterView>();
@@ -22,7 +23,7 @@ namespace StarterAssets
         }
 
         public void VirtualMoveInput(Vector2 virtualMoveDirection)
-        {
+        { 
             starterAssetsInputs.MoveInput(virtualMoveDirection);
         }
 
@@ -42,9 +43,31 @@ namespace StarterAssets
         }
 
         //specific to fight the bear 
+
+        private void Update()
+        {
+
+            var tapCount = Input.touchCount;
+            for (var i = 0; i < tapCount; i++)
+            {
+                if (i < 2)
+                {
+                    var screenTouch = Input.GetTouch(i);
+                    if (screenTouch.position.x > Screen.width / 2f)
+                    {
+                        if (screenTouch.phase == TouchPhase.Moved)
+                        {
+                            VirtualLookInput(new Vector2(screenTouch.deltaPosition.x, -screenTouch.deltaPosition.y) * 3f);
+                        }
+                        else
+                            VirtualLookInput(Vector2.zero);
+                    }
+                }
+            }
+               
+        }
         public void VirtualAttackInput()
         {
-            Debug.Log(2);
             fv.Punch();
         }
 
@@ -68,7 +91,6 @@ namespace StarterAssets
 
         public void VirtualPickInput()
         {
-            Debug.Log(1);
             rtv.PickUpRock();
         }
         public void VirtualswapInput(bool virtualSprintState)

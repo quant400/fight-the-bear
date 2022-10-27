@@ -81,7 +81,7 @@ public class RockThrowView : MonoBehaviour
             }
            
         }
-        if (Input.GetButtonDown("Fire3"))
+        /*if (Input.GetButtonDown("Fire3"))
         {
             if (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon)
             {
@@ -105,8 +105,8 @@ public class RockThrowView : MonoBehaviour
                 }
             }
                 
-        }
-        if (Input.GetButtonDown("Fire1"))
+        }*/
+        /*if (Input.GetButtonDown("Fire1"))
         {
             if (closesestRock != null)
             {
@@ -119,7 +119,7 @@ public class RockThrowView : MonoBehaviour
 
                 }
             }
-        }
+        }*/
 
     }
     public void pickUp()

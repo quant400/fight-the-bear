@@ -277,6 +277,7 @@ public class FighterView : MonoBehaviour
                     playerController.SprintSpeed = 1f;
                     break;
                 case FightModel.PlayerFightModes.playerDead:
+                    GameUIView.instance.GetVirtualControler().SetActive(false);
                     playerAnimator.SetBool("Dead", true);
                     IsDead.Value = true;
                     observePlayerDead();
@@ -293,7 +294,7 @@ public class FighterView : MonoBehaviour
     {
         if(FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerDead)
         {
-            if (Input.GetButtonDown("Fire3"))
+            /*if (Input.GetButtonDown("Fire1"))
             {
                 if (!FightModel.isHoldingRock)
                 {
@@ -317,7 +318,7 @@ public class FighterView : MonoBehaviour
                 }
                
 
-            }
+            }*/
         }
         
 
@@ -371,10 +372,10 @@ public class FighterView : MonoBehaviour
     void observePlayerBlock()
     {
         if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerDead)
-        {
+        { /*
             if (!FightModel.isHoldingRock)
             {
-                if (Input.GetButtonDown("Fire2"))
+               if (Input.GetButtonDown("Fire2"))
                 {
                     if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight))
                     {
@@ -388,7 +389,7 @@ public class FighterView : MonoBehaviour
                         FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle;
                     }
                 }
-            }
+            }*/
         }
     }
     void observePlayerHittedDistance(GameObject observer)
@@ -453,29 +454,33 @@ public class FighterView : MonoBehaviour
 
     public void Punch()
     {
-        if (!FightModel.isHoldingRock)
+        if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerDead)
         {
-            if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight) || (FightModel.currentBearStatus.Value == FightModel.bearFightModes.BearKnokedShortly))
+            if (!FightModel.isHoldingRock)
             {
-                if (canHitAgainCombo.Value)
+                if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight) || (FightModel.currentBearStatus.Value == FightModel.bearFightModes.BearKnokedShortly))
                 {
-                    if (comboValue.Value < comboTimes.Length - 1)
+                    if (canHitAgainCombo.Value)
                     {
-                        if (checkCanGoNextCombo())
+                        if (comboValue.Value < comboTimes.Length - 1)
                         {
-                            comboValue.Value++;
-                            canHitAgainCombo.Value = false;
-                            FightModel.currentCombo = (FightModel.comboNames)comboValue.Value;
-                            FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerCombo;
+                            if (checkCanGoNextCombo())
+                            {
+                                comboValue.Value++;
+                                canHitAgainCombo.Value = false;
+                                FightModel.currentCombo = (FightModel.comboNames)comboValue.Value;
+                                FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerCombo;
+                            }
                         }
+                        setComboInAnimator();
                     }
-                    setComboInAnimator();
                 }
             }
-        }
-        else
-        {
-            GetComponent<RockThrowView>().ThrowRock();
+
+            else
+            {
+                GetComponent<RockThrowView>().ThrowRock();
+            }
         }
     }
 
