@@ -52,8 +52,8 @@ public class MapView : MonoBehaviour
 
     private void SetUpCharacter()
     {
-        //changed for holloween
-        gameplayView.instance.chosenNFT.name = "pumpkin";
+        //changed for special events that need character replacement 
+        //gameplayView.instance.chosenNFT.name = "pumpkin";
         //end
         string n = NameToSlugConvert(gameplayView.instance.chosenNFT.name);
         GameObject temp = Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity);
