@@ -7,6 +7,7 @@ using StarterAssets;
 using UniRx.Triggers;
 using UniRx;
 using UniRx.Operators;
+
 public class gameplayView : MonoBehaviour
 {
     public static gameplayView instance;
@@ -46,6 +47,9 @@ public class gameplayView : MonoBehaviour
     public bool hasOtherChainNft = false;
 
     public bool usingOtherChainNft = false;
+
+    [SerializeField]
+    GameObject ResetHealthButton;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -75,6 +79,11 @@ public class gameplayView : MonoBehaviour
     {
         started = true;
         Debug.Log("Started");
+        if(KeyMaker.instance.buildType==BuildType.staging)
+        {
+            ResetHealthButton.SetActive(true);
+            ResetHealthButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => FightModel.currentPlayerHealth.Value = 100);
+        }
         //SinglePlayerScoreBoardScript.instance.StartGame(GetTimeForGame());
         player = GameObject.FindGameObjectWithTag("Player");
         //player.GetComponent<ThirdPersonController>().SetStarted(true);
@@ -88,6 +97,11 @@ public class gameplayView : MonoBehaviour
     public void EndGame()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        if (KeyMaker.instance.buildType == BuildType.staging)
+        {
+            ResetHealthButton.SetActive(false);
+            
+        }
         //player.GetComponent<ThirdPersonController>().SetEnded(true);
     }
    
