@@ -60,6 +60,9 @@ public class gameplayView : MonoBehaviour
 
     [SerializeField]
     GameObject ResetHealthButton;
+    
+    public Texture[] ads;
+
     private void Awake()
     {
         if (instance != null && instance != this)
