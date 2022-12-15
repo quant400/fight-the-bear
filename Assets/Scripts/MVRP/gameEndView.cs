@@ -59,19 +59,20 @@ public class gameEndView : MonoBehaviour
         currentNFT = gameplayView.instance.chosenNFT;
         if (gameplayView.instance.GetSessions() <= 3)
         {
-            if (gameplayView.instance.isRestApi && !gameplayView.instance.usingOtherChainNft)
+            if (gameplayView.instance.isRestApi && !gameplayView.instance.usingOtherChainNft && !gameplayView.instance.usingFreemint)
             {
                 Debug.Log("before Score");
-                DatabaseManagerRestApi._instance.setScoreRestApiMain(currentNFT.id.ToString(), (int)FightModel.gameScore.Value);
+                DatabaseManagerRestApi._instance.setScoreRestApiMain(currentNFT.id.ToString(), SinglePlayerScoreBoardScript.instance.GetScore());
                 Debug.Log("posted Score");
-                if (gameplayView.instance.GetSessions() == 3)
-                    tryAgain.gameObject.SetActive(false);
             }
-            else
+            else if (gameplayView.instance.usingFreemint)
             {
-                // DatabaseManager._instance.setScore(currentNFT.id.ToString(), currentNFT.name, SinglePlayerScoreBoardScript.instance.GetScore());
-
+                Debug.Log("before Score");
+                DatabaseManagerRestApi._instance.setScoreRestApiMain(gameplayView.instance.GetLoggedPlayerString(), SinglePlayerScoreBoardScript.instance.GetScore());
+                Debug.Log("posted Score");
             }
+            if (gameplayView.instance.GetSessions() == 3)
+                tryAgain.gameObject.SetActive(false);
         }
         gameplayView.instance.GetScores();
         //setScoreResutls();

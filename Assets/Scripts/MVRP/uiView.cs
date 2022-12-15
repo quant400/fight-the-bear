@@ -74,7 +74,7 @@ public class uiView : MonoBehaviour
           .Subscribe()
           .AddTo(this);
         Skip.OnClickAsObservable()
-        .Do(_ => webloginView.OnSkip())
+        //.Do(_ => webloginView.OnSkip())
         .Where(_ => PlaySounds.instance != null)
         .Do(_ => PlaySounds.instance.Play())
         .Subscribe()
@@ -151,6 +151,8 @@ public class uiView : MonoBehaviour
                 characterSelectionPanel.SetActive(true);
                 loginCanvas.gameObject.SetActive(false);
                 resultsCanvas.SetActive(false);
+                gameplayView.instance.UpdateJuiceBalance();
+                gameplayView.instance.UpdateCoinBalance();
                 leaderBoeardCanvas.GetComponent<LeaderBoardControllerRestApi>().ToggleLeaderBoard(false);
                 break;
             case "results":
