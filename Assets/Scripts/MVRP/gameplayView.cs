@@ -56,7 +56,7 @@ public class gameplayView : MonoBehaviour
 
     string juiceBal = "0";
     string coinBal = "0";
-    GameObject juiceText, CoinText;
+    public GameObject juiceText, CoinText;
 
     [SerializeField]
     GameObject ResetHealthButton;
