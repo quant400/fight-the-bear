@@ -48,6 +48,8 @@ public class gameplayView : MonoBehaviour
 
     public bool usingOtherChainNft = false;
 
+    public bool usingFreemint = false;
+
     [SerializeField]
     GameObject ResetHealthButton;
     private void Awake()

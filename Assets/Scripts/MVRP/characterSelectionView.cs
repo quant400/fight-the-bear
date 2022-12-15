@@ -117,6 +117,16 @@ public class characterSelectionView : MonoBehaviour
                 leftButton.gameObject.SetActive(true);
             SkipDisplayChars(currentStartIndex);
         }
+        else if (gameplayView.instance.usingFreemint)
+        {
+            if (currentStartIndex + 4 > info.Length - 1)
+                rightButton.gameObject.SetActive(false);
+            else
+                rightButton.gameObject.SetActive(true);
+            if (currentStartIndex > 0)
+                leftButton.gameObject.SetActive(true);
+            FreeMintDisplayChars(currentStartIndex);
+        }
         else
         {
             Debug.Log(myNFT.Length);
@@ -145,6 +155,16 @@ public class characterSelectionView : MonoBehaviour
             if (currentStartIndex < info.Length)
                 rightButton.gameObject.SetActive(true);
             SkipDisplayChars(currentStartIndex);
+        }
+        else if (gameplayView.instance.usingFreemint)
+        {
+            if (currentStartIndex - 4 < 0)
+                leftButton.gameObject.SetActive(false);
+            else
+                leftButton.gameObject.SetActive(true);
+            if (currentStartIndex < info.Length)
+                rightButton.gameObject.SetActive(true);
+            FreeMintDisplayChars(currentStartIndex);
         }
         else
         {
@@ -279,6 +299,31 @@ public class characterSelectionView : MonoBehaviour
                 string name = info[i + startingindex].name;
                 charButtons[i].GetComponent<ButtonInfoHolder>().SetChar(name);
                 characterNFTMap[i + startingindex] = new NFTInfo { id = 175, name = name };
+            }
+        }
+        ResetAvalaibleColors();
+    }
+
+    public void FreeMint()
+    {
+        info = Resources.LoadAll("SinglePlayerPrefabs/DisplaySprites/FreeMint/HeadShots", typeof(Sprite));
+        characterNFTMap = new NFTInfo[info.Length];
+        FreeMintDisplayChars(0);
+        Done();
+    }
+
+    void FreeMintDisplayChars(int startingindex)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+
+            if (i + startingindex >= info.Length)
+                charButtons[i].GetComponent<ButtonInfoHolder>().SetChar("null");
+            else
+            {
+                string name = info[i + startingindex].name;
+                charButtons[i].GetComponent<ButtonInfoHolder>().SetChar(name);
+                characterNFTMap[i + startingindex] = new NFTInfo { id = 00000, name = name };
             }
         }
         ResetAvalaibleColors();

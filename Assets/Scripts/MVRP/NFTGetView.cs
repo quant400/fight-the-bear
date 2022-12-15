@@ -58,8 +58,11 @@ public class NFTGetView : MonoBehaviour
         }
         if (used.Length == 0)
         {
-            noNFTCanvas.SetActive(true);
-            bearGameModel.userIsLogged.Value = false;
+            /*noNFTCanvas.SetActive(true);
+            bearGameModel.userIsLogged.Value = false;*/
+            gameplayView.instance.usingFreemint = true;
+            characterSelectView.FreeMint();
+            bearGameModel.userIsLogged.Value = true;
         }
         else
         {

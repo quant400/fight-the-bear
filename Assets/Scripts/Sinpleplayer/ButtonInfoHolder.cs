@@ -67,7 +67,14 @@ public class ButtonInfoHolder : MonoBehaviour
         {
             bgIndex = Random.Range(0, bg.Length);
             background.sprite = bg[CSV.GetavaliableColor()];
-            charPic.sprite = Resources.Load(Path.Combine("SinglePlayerPrefabs/DisplaySprites/HeadShots", name), typeof(Sprite)) as Sprite;
+            if (gameplayView.instance.usingFreemint)
+
+                charPic.sprite = Resources.Load(Path.Combine("SinglePlayerPrefabs/DisplaySprites/FreeMint/HeadShots", name), typeof(Sprite)) as Sprite;
+
+            else
+                charPic.sprite = Resources.Load(Path.Combine("SinglePlayerPrefabs/DisplaySprites/HeadShots", name), typeof(Sprite)) as Sprite;
+
+
             charPic.color = new Color(225, 225, 225, 225);
         }
         
