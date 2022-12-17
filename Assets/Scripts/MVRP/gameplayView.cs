@@ -101,7 +101,6 @@ public class gameplayView : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         //player.GetComponent<ThirdPersonController>().SetStarted(true);
         GetScores();
-        Debug.Log(chosenNFT.id);
         if (!instance.isTryout && !usingOtherChainNft && !usingFreemint)
         {
             DatabaseManagerRestApi._instance.startSessionFromRestApi(chosenNFT.id.ToString());

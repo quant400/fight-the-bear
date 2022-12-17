@@ -214,20 +214,20 @@ public class CharacterSelectionScript : MonoBehaviour
             {
                 temp.transform.localPosition = new Vector3(0, -0.1f, 0);
                 characters[0] = temp.transform;
-                characterNFTMap[0] = new NFTInfo { id = i, name = name};
+                characterNFTMap[0] = new NFTInfo { id = i.ToString(), name = name};
             }
             else if (i % 2 == 0)
             {
                 temp.transform.localPosition = new Vector3(-currentindex, -0.1f, 0.2f);
                 characters[characters.Length - currentindex ] = temp.transform;
-                characterNFTMap[characters.Length - currentindex] = new NFTInfo { id = i, name = name };
+                characterNFTMap[characters.Length - currentindex] = new NFTInfo { id = i.ToString(), name = name };
                 currentindex++;
             }
             else if (i % 2 != 0)
             {
                 temp.transform.localPosition = new Vector3(currentindex, -0.1f, 0.2f);
                 characters[currentindex] = temp.transform;
-                characterNFTMap[currentindex] = new NFTInfo { id = i, name = name };
+                characterNFTMap[currentindex] = new NFTInfo { id = i.ToString(), name = name };
             }
             
             temp.GetComponent<Animator>().runtimeAnimatorController = controller;

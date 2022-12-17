@@ -62,13 +62,13 @@ public class gameEndView : MonoBehaviour
             if (gameplayView.instance.isRestApi && !gameplayView.instance.usingOtherChainNft && !gameplayView.instance.usingFreemint)
             {
                 Debug.Log("before Score");
-                DatabaseManagerRestApi._instance.setScoreRestApiMain(currentNFT.id.ToString(), SinglePlayerScoreBoardScript.instance.GetScore());
+                DatabaseManagerRestApi._instance.setScoreRestApiMain(currentNFT.id.ToString(), (int)FightModel.gameScore.Value);
                 Debug.Log("posted Score");
             }
             else if (gameplayView.instance.usingFreemint)
             {
                 Debug.Log("before Score");
-                DatabaseManagerRestApi._instance.setScoreRestApiMain(gameplayView.instance.GetLoggedPlayerString(), SinglePlayerScoreBoardScript.instance.GetScore());
+                DatabaseManagerRestApi._instance.setScoreRestApiMain(gameplayView.instance.GetLoggedPlayerString(), (int)FightModel.gameScore.Value);
                 Debug.Log("posted Score");
             }
             if (gameplayView.instance.GetSessions() == 3)

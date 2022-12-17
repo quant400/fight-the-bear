@@ -177,8 +177,8 @@ public class DatabaseManagerRestApi : MonoBehaviour
 
                 checkSessionCounter(result);
 
-
-                Debug.Log(request.downloadHandler.text);
+                if(KeyMaker.instance.buildType==BuildType.staging)
+                    Debug.Log(request.downloadHandler.text);
 
             }
             else
@@ -263,7 +263,6 @@ public class DatabaseManagerRestApi : MonoBehaviour
     {
 
         string MatchData = url;
-        Debug.Log(MatchData);
         leaderboardModel.assetClass playerData = restApiDataView.JsonUtil.fromJson<leaderboardModel.assetClass>(url);
         if (playerData != null)
         {

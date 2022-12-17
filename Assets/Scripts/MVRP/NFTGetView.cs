@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 [Serializable]
 public class NFTInfo
 {
-    public int id;
+    public string id;
     public string name;
 }
 public class NFTGetView : MonoBehaviour
@@ -38,7 +38,7 @@ public class NFTGetView : MonoBehaviour
         NFTInfo[] used;
         if (gameplayView.instance.hasOtherChainNft)
         {
-            NFTInfo tempNft = new NFTInfo() { name = "grane", id = 100000000 };
+            NFTInfo tempNft = new NFTInfo() { name = "grane", id = 100000000.ToString() };
             NFTInfo[] tempArr = new NFTInfo[NFTData.Length + 1];
             for (int i = 0; i < tempArr.Length; i++)
             {
@@ -56,13 +56,16 @@ public class NFTGetView : MonoBehaviour
             bearGameModel.currentNFTArray = NFTData;
             used = NFTData;
         }
-        if (used.Length == 0)
+       if (used.Length == 0 && !gameplayView.instance.usingMeta)
         {
-            /*noNFTCanvas.SetActive(true);
-            bearGameModel.userIsLogged.Value = false;*/
             gameplayView.instance.usingFreemint = true;
             characterSelectView.FreeMint();
             bearGameModel.userIsLogged.Value = true;
+        }
+        else if (used.Length == 0 && gameplayView.instance.usingMeta)
+        {
+            noNFTCanvas.SetActive(true);
+            bearGameModel.userIsLogged.Value = false;
         }
         else
         {
@@ -77,8 +80,8 @@ public class NFTGetView : MonoBehaviour
     {
         if (gameplayView.nftDataArray.Length == 0)
         {
-            noNFTCanvas.SetActive(true);
-            bearGameModel.userIsLogged.Value = false;
+            Display(new NFTInfo[0]);
+            bearGameModel.userIsLogged.Value = true;
         }
         else
         {

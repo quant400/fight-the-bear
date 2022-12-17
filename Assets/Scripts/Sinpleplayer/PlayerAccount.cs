@@ -19,7 +19,7 @@ public class PlayerAccount : MonoBehaviour
 
     void SetDefault()
     {
-        if (myNFT[0].id == 538)
+        if (myNFT[0].id == 538.ToString())
             players[1].SetActive(true);
 
         else
