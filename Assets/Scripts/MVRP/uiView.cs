@@ -44,7 +44,7 @@ public class uiView : MonoBehaviour
     public void ObserveBtns()
     {
         loginBtn.OnClickAsObservable()
-            //.Do(_ => webloginView.OnLogin(loginBtn, Skip, tryout))
+            .Do(_ => webloginView.OnLogin(loginBtn, Skip, tryout))
             .Where(_ => PlaySounds.instance != null)
             .Do(_ => PlaySounds.instance.Play())
             .Subscribe()
