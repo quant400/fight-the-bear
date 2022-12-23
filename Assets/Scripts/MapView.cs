@@ -52,14 +52,12 @@ public class MapView : MonoBehaviour
 
     private void SetUpCharacter()
     {
-        //changed for special events that need character replacement 
-        //gameplayView.instance.chosenNFT.name = "pumpkin";
-        //end
         string n = NameToSlugConvert(gameplayView.instance.chosenNFT.name);
         GameObject temp = Instantiate(playerPrefab, new Vector3(0, 0, -45), Quaternion.identity);
         playerLoc = temp.transform;
         FightModel.currentPlayer = playerLoc.gameObject;
-        temp.GetComponent<SetUpSkin>().SetUpChar(n);
+
+        temp.GetComponent<SetUpSkin>().SetUpChar("santa");//(n) change between n and special name for specil even characters
     }
 
     public void SpawnStarting()
