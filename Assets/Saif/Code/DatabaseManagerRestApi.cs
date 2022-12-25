@@ -216,7 +216,7 @@ public class DatabaseManagerRestApi : MonoBehaviour
                 reply r = JsonUtility.FromJson<reply>(request.downloadHandler.text);
                 if (KeyMaker.instance.buildType == BuildType.staging)
                     Debug.Log(request.downloadHandler.text);
-                gameplayView.instance.SetJuiceBal(r.balance);
+                gameplayView.instance.juiceDisplay.SetJuiceBal(r.balance);
 
             }
             else
