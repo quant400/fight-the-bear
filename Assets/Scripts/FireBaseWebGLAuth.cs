@@ -46,6 +46,8 @@ public class FireBaseWebGLAuth : MonoBehaviour
     GameObject currentOpenWindiow;
     [SerializeField]
     TMP_Text InfoDisplay;
+    [SerializeField]
+    GameObject loginButton;
 
     private void Start()
     {
@@ -141,6 +143,7 @@ public class FireBaseWebGLAuth : MonoBehaviour
     void SignedIn(string info)
     {
         Close();
+        loginButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
         InfoDisplay.text = info.ToUpper();
         currentOpenWindiow.SetActive(false);
         currentOpenWindiow = methodSelect;
@@ -155,6 +158,7 @@ public class FireBaseWebGLAuth : MonoBehaviour
     {
         FirebaseAuth.SignOut();
         GetComponentInParent<uiView>().goToMenu("login");
+        loginButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
         bearGameModel.userIsLogged.Value = false;
         bearGameModel.currentNFTArray = null;
         gameplayView.instance.usingFreemint = false;
