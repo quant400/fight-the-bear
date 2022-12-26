@@ -176,7 +176,7 @@ public class DatabaseManagerRestApi : MonoBehaviour
                 string result = Encoding.UTF8.GetString(request.downloadHandler.data);
 
                 checkSessionCounter(result);
-
+                getJuiceFromRestApi(assetId);
                 if(KeyMaker.instance.buildType==BuildType.staging)
                     Debug.Log(request.downloadHandler.text);
 
@@ -193,20 +193,44 @@ public class DatabaseManagerRestApi : MonoBehaviour
     {
         StartCoroutine(getJuiceRestApi(assetId));
     }
+    public void getFightFromRestApi(string assetId)
+    {
+        StartCoroutine(getFightRestApi(assetId));
+    }
     struct reply
     {
         public string id;
+        public string available;
+        public string freeze;
+        public string total;
+        public string status;
+    }
+    struct fightReply
+    {
         public string balance;
-    };
+    }
+    struct JuiceID
+    {
+        public string id;
+    }
+    struct FightID
+    {
+        public string address;
+    }
     IEnumerator getJuiceRestApi(string assetId)
     {
         string url = "";
+        JuiceID jId = new JuiceID();
+        jId.id = assetId;
         if (KeyMaker.instance.buildType == BuildType.staging)
-            url = "https://staging-api.cryptofightclub.io/game/sdk/juice/balance/";
+            url = "https://staging-api.cryptofightclub.io/game/sdk/juice/balance";
         else if (KeyMaker.instance.buildType == BuildType.production)
-            url = "https://api.cryptofightclub.io/game/sdk/juice/balance/";
-        using (UnityWebRequest request = UnityWebRequest.Get(url + assetId))
+            url = "https://api.cryptofightclub.io/game/sdk/juice/balance";
+        string idJsonData = JsonUtility.ToJson(jId);
+        using (UnityWebRequest request = UnityWebRequest.Put(url, idJsonData))
         {
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(idJsonData);
+            request.method = "POST";
             request.SetRequestHeader("Accept", "application/json");
             request.SetRequestHeader("Content-Type", "application/json");
             yield return request.SendWebRequest();
@@ -216,49 +240,87 @@ public class DatabaseManagerRestApi : MonoBehaviour
                 reply r = JsonUtility.FromJson<reply>(request.downloadHandler.text);
                 if (KeyMaker.instance.buildType == BuildType.staging)
                     Debug.Log(request.downloadHandler.text);
-                gameplayView.instance.juiceDisplay.SetJuiceBal(r.balance);
+                if (r.status == "false")
+                    gameplayView.instance.juiceDisplay.SetJuiceBal("0");
+                else
+                    gameplayView.instance.juiceDisplay.SetJuiceBal(r.total);
 
             }
             else
             {
-                Debug.Log("error in server");
+                Debug.Log(request.error);
+            }
+
+
+        }
+    }
+    IEnumerator getFightRestApi(string aaddress)
+    {
+        string url = "";
+        FightID fId = new FightID();
+        fId.address = aaddress;
+        if (KeyMaker.instance.buildType == BuildType.staging)
+            url = "https://staging-api.cryptofightclub.io/game/sdk/fight-balance";
+        else if (KeyMaker.instance.buildType == BuildType.production)
+            url = "https://api.cryptofightclub.io/game/sdk/fight-balance";
+        string idJsonData = JsonUtility.ToJson(fId);
+        using (UnityWebRequest request = UnityWebRequest.Put(url, idJsonData))
+        {
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(idJsonData);
+            request.method = "POST";
+            request.SetRequestHeader("Accept", "application/json");
+            request.SetRequestHeader("Content-Type", "application/json");
+            yield return request.SendWebRequest();
+            if (request.error == null)
+            {
+                string result = Encoding.UTF8.GetString(request.downloadHandler.data);
+                fightReply r = JsonUtility.FromJson<fightReply>(request.downloadHandler.text);
+                if (KeyMaker.instance.buildType == BuildType.staging)
+                    Debug.Log(request.downloadHandler.text);
+
+                gameplayView.instance.juiceDisplay.SetCoinBal(r.balance);
+
+            }
+            else
+            {
+                Debug.Log(request.error);
             }
 
 
         }
     }
 
-/*    public IEnumerator startSessionApi(string url, int assetId)
-    {
-        leaderboardModel.userGetDataModel idData = new leaderboardModel.userGetDataModel();
-        idData.id = assetId;
-        string idJsonData = JsonUtility.ToJson(idData);
-        using (UnityWebRequest request = UnityWebRequest.Post(url.ToString(), idJsonData))
+    /*    public IEnumerator startSessionApi(string url, int assetId)
         {
-            request.method = UnityWebRequest.kHttpVerbPOST;
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.uploadHandler = new UploadHandlerRaw(string.IsNullOrEmpty(idJsonData) ? null : Encoding.UTF8.GetBytes(idJsonData));
-            request.SetRequestHeader("Accept", "application/json");
-            request.SetRequestHeader("Content-Type", "application/json");
-            yield return request.SendWebRequest();
-            if (request.error == null)
+            leaderboardModel.userGetDataModel idData = new leaderboardModel.userGetDataModel();
+            idData.id = assetId;
+            string idJsonData = JsonUtility.ToJson(idData);
+            using (UnityWebRequest request = UnityWebRequest.Post(url.ToString(), idJsonData))
             {
-                getDataFromRestApi(assetId);
+                request.method = UnityWebRequest.kHttpVerbPOST;
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.uploadHandler = new UploadHandlerRaw(string.IsNullOrEmpty(idJsonData) ? null : Encoding.UTF8.GetBytes(idJsonData));
+                request.SetRequestHeader("Accept", "application/json");
+                request.SetRequestHeader("Content-Type", "application/json");
+                yield return request.SendWebRequest();
+                if (request.error == null)
+                {
+                    getDataFromRestApi(assetId);
 
-                Debug.Log("all is good in server" + Encoding.UTF8.GetString(request.downloadHandler.data));
+                    Debug.Log("all is good in server" + Encoding.UTF8.GetString(request.downloadHandler.data));
+
+                }
+                else
+                {
+                    Debug.Log("error in server");
+                }
+
 
             }
-            else
-            {
-                Debug.Log("error in server");
-            }
-
-
-        }
 
 
 
-    }*/
+        }*/
     public void checkSessionCounter(string url)
     {
 

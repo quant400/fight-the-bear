@@ -19,10 +19,12 @@ public class JuiceDisplayScript : MonoBehaviour
     public void SetJuiceBal(string val)
     {
         juiceBal = val;
+        UpdateJuiceBalance();
     }
     public void SetCoinBal(string val)
     {
         coinBal = val;
+        UpdateCoinBalance();
     }
     public void UpdateJuiceBalance()
     {
