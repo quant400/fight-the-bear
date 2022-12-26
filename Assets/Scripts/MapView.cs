@@ -57,7 +57,7 @@ public class MapView : MonoBehaviour
         playerLoc = temp.transform;
         FightModel.currentPlayer = playerLoc.gameObject;
 
-        temp.GetComponent<SetUpSkin>().SetUpChar("santa");//(n) change between n and special name for specil even characters
+        temp.GetComponent<SetUpSkin>().SetUpChar(n);//(n) change between n and special name for specil even characters
     }
 
     public void SpawnStarting()
