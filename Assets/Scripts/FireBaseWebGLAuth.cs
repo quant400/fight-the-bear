@@ -267,7 +267,7 @@ public class FireBaseWebGLAuth : MonoBehaviour
     }
     bool IsValidEmail(string email)
     {
-        Regex emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", RegexOptions.IgnoreCase);
+        Regex emailRegex = new Regex(@"\A(?:[a-z0 - 9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
 
         return emailRegex.IsMatch(email);
     }
