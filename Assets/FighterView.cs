@@ -449,4 +449,69 @@ public class FighterView : MonoBehaviour
         }
         initilized = true;
     }
+    public void Punch()
+    {
+        if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerDead)
+        {
+            if (!FightModel.isHoldingRock)
+            {
+                if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight) || (FightModel.currentBearStatus.Value == FightModel.bearFightModes.BearKnokedShortly))
+                {
+                    if (canHitAgainCombo.Value)
+                    {
+                        if (comboValue.Value < comboTimes.Length - 1)
+                        {
+                            if (checkCanGoNextCombo())
+                            {
+                                comboValue.Value++;
+                                canHitAgainCombo.Value = false;
+                                FightModel.currentCombo = (FightModel.comboNames)comboValue.Value;
+                                FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerCombo;
+                            }
+                        }
+                        setComboInAnimator();
+                    }
+                }
+            }
+
+            else
+            {
+                GetComponent<RockThrowView>().ThrowRock();
+            }
+        }
+    }
+
+
+    public void BlockStart()
+    {
+        if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerDead)
+        {
+            if (!FightModel.isHoldingRock)
+            {
+
+                if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight))
+                {
+                    FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerBlockShortAttack;
+                }
+
+
+            }
+        }
+    }
+
+    public void BlockEnd()
+    {
+        if (FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerDead)
+        {
+            if (!FightModel.isHoldingRock)
+            {
+
+                if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight))
+                {
+                    FightModel.currentPlayerStatus.Value = FightModel.PlayerFightModes.playerIdle;
+                }
+
+            }
+        }
+    }
 }

@@ -5,7 +5,10 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UniRx;
-public class GameUIView : MonoBehaviour
+using System.Runtime.InteropServices;
+
+
+    public class GameUIView : MonoBehaviour
 {
     public static GameUIView instance;
 
@@ -35,6 +38,26 @@ public class GameUIView : MonoBehaviour
 
     [SerializeField]
     GameObject settingsPanel;
+    [SerializeField]
+    GameObject joystick;
+
+
+    #region WebGL is on mobile check
+
+    [DllImport(dllName: "__Internal")]
+    private static extern bool IsMobile();
+
+    public bool isMobile()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+
+        return IsMobile();
+
+#endif
+        return false;
+    }
+
+    #endregion
 
     private void Awake()
     {
@@ -52,7 +75,10 @@ public class GameUIView : MonoBehaviour
         fightCanvas.SetActive(true);
         gaugeInputs.SetActive(false);
         sequenceInputs.SetActive(false);
-
+        if (isMobile())
+        {
+            joystick.SetActive(true);
+        }
     }
     void observeScore()
     {

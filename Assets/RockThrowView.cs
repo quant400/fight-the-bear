@@ -301,5 +301,43 @@ public class RockThrowView : MonoBehaviour
         selectedRock.GetComponent<SphereCollider>().enabled = true;
     }
 
+    public void ThrowRock()
+    {
+        if (closesestRock != null)
+        {
+            if (rockPicked)
+            {
+                playerAnimator.SetBool("PickRock", false);
+                // ThrowRockText.gameObject.SetActive(false);
+                PickwRockText.gameObject.SetActive(true);
+                pickRockCanvas.SetActive(false);
 
+            }
+        }
+    }
+
+    public void PickUpRock()
+    {
+        if (FightModel.currentFightStatus.Value != FightModel.fightStatus.OnFightWon)
+        {
+            if (closesestRock != null)
+            {
+                if (!rockPicked)
+                {
+                    if (closestRock(rocks) != null)
+                    {
+                        rockPicked = true;
+
+                        playerAnimator.SetBool("PickRock", true);
+                        //  ThrowRockText.gameObject.SetActive(true);
+
+                        PickwRockText.gameObject.SetActive(false);
+                        FightModel.isHoldingRock = true;
+
+                    }
+                }
+
+            }
+        }
+    }
 }
