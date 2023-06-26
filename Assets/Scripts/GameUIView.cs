@@ -8,7 +8,7 @@ using UniRx;
 using System.Runtime.InteropServices;
 
 
-    public class GameUIView : MonoBehaviour
+public class GameUIView : MonoBehaviour
 {
     public static GameUIView instance;
 
@@ -39,25 +39,11 @@ using System.Runtime.InteropServices;
     [SerializeField]
     GameObject settingsPanel;
     [SerializeField]
-    GameObject joystick;
+    public GameObject joystick;
+    public GameObject RockPickButton;
 
 
-    #region WebGL is on mobile check
 
-    [DllImport(dllName: "__Internal")]
-    private static extern bool IsMobile();
-
-    public bool isMobile()
-    {
-#if !UNITY_EDITOR && UNITY_WEBGL
-
-        return IsMobile();
-
-#endif
-        return false;
-    }
-
-    #endregion
 
     private void Awake()
     {
@@ -72,13 +58,11 @@ using System.Runtime.InteropServices;
 
     public void ActivateInputs()
     {
+
         fightCanvas.SetActive(true);
         gaugeInputs.SetActive(false);
         sequenceInputs.SetActive(false);
-        if (isMobile())
-        {
-            joystick.SetActive(true);
-        }
+        
     }
     void observeScore()
     {
@@ -148,7 +132,7 @@ using System.Runtime.InteropServices;
         gameplayView.instance.isPaused = false;
         fightCanvas.SetActive(false);
         gameOverPanel.SetActive(false);
-        scoreDisplay.text = ("Score : ").ToUpper()+"0";
+        scoreDisplay.text = ("Score : ").ToUpper() + "0";
         timerDisplay.text = ("Time Left : ").ToUpper() + "45";
         FightModel.gameScore.Value = 0;
         FightModel.currentPlayer.transform.GetChild(0).tag = "Untagged";
@@ -159,8 +143,8 @@ using System.Runtime.InteropServices;
         Time.timeScale = 1f;
 
     }
-    
-    public void EnableGameOver(float delay,string txt)
+
+    public void EnableGameOver(float delay, string txt)
     {
         gameOverPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = txt.ToUpper();
         StartCoroutine(Gameover(delay));

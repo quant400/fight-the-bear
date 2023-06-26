@@ -17,7 +17,6 @@ public class BillBoardScript : MonoBehaviour
             avalaibleAds = gameplayView.instance.ads;
             foreach (GameObject b in boards)
             {
-                Debug.Log(1);
                 b.GetComponent<MeshRenderer>().material.mainTexture= avalaibleAds[Random.Range(0, avalaibleAds.Length)];
             }
         }

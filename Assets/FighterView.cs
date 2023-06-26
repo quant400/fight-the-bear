@@ -7,6 +7,8 @@ using UniRx;
 using UniRx.Triggers;
 using StarterAssets;
 using Cinemachine;
+using System.Runtime.InteropServices;
+
 public class FighterView : MonoBehaviour
 {
     public static FighterView instance;
@@ -43,6 +45,26 @@ public class FighterView : MonoBehaviour
     bool canChangeStatus;
 
     PlayerSFXController PlayerSFX;
+    #region WebGL is on mobile check
+
+    [DllImport(dllName: "__Internal")]
+    private static extern bool IsMobile();
+
+    public bool isMobile()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+
+        return IsMobile();
+
+#endif
+        return false;
+    }
+
+    #endregion
+
+
+
+
     private void Awake()
     {
         if (instance != null)
@@ -66,6 +88,14 @@ public class FighterView : MonoBehaviour
         GetComponent<StarterAssets.StarterAssetsInputs>().cursorLocked = true;
         GetComponent<StarterAssets.StarterAssetsInputs>().cursorInputForLook = true;
         PlayerSFX = GetComponent<PlayerSFXController>();
+    }
+    private void Start()
+    {
+
+        if (isMobile())
+        {
+            GameUIView.instance.joystick.SetActive(true);
+        }
     }
     // Update is called once per frame
     void Update()
@@ -293,7 +323,7 @@ public class FighterView : MonoBehaviour
     {
         if(FightModel.currentPlayerStatus.Value != FightModel.PlayerFightModes.playerDead)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && !isMobile())
             {
                 if (!FightModel.isHoldingRock)
                 {

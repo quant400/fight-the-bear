@@ -8,6 +8,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Cinemachine;
+
 public class fightView : MonoBehaviour
 {
     public static fightView instance;
@@ -65,9 +66,14 @@ public class fightView : MonoBehaviour
             instance = this;
 
     }
+
+   
+
     // Start is called before the first frame update
     void Start()
     {
+        
+
         FightModel.canTakeDamage = false;
         bear = FightModel.currentBear;
         FightModel.rageModeValue.Value = 0;
@@ -693,3 +699,5 @@ public class fightView : MonoBehaviour
         gate.SetActive(false);
     }
 }
+
+

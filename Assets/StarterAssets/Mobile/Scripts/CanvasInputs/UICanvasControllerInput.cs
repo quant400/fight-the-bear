@@ -7,10 +7,10 @@ namespace StarterAssets
 
         [Header("Output")]
         public StarterAssetsInputs starterAssetsInputs;
-        /*private void Start()
+        private void Start()
         {
             Invoke("GetRefrence", 1f);
-        }*/
+        }
 
         FighterView fv;
         RockThrowView rtv;

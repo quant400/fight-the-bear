@@ -61,19 +61,21 @@ public class RockThrowView : MonoBehaviour
                         if (isClose())
                         {
                             closesestRock = closestRock(rocks);
-                            pickRockCanvas.transform.position = closesestRock.position+ new Vector3(0,0.8f,0);
+                            pickRockCanvas.transform.position = closesestRock.position + new Vector3(0, 0.8f, 0);
                             pickRockCanvas.SetActive(true);
+                            GameUIView.instance.RockPickButton.SetActive(true);
                         }
                         else
                         {
                             pickRockCanvas.SetActive(false);
+                            GameUIView.instance.RockPickButton.SetActive(false);
                         }
                     }
                     else
                     {
                         rocks = new GameObject[] { };
                         pickRockCanvas.SetActive(false);
-
+                        GameUIView.instance.RockPickButton.SetActive(false);
                     }
                 }
             }
