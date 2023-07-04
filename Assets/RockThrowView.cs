@@ -19,6 +19,7 @@ public class RockThrowView : MonoBehaviour
     public GameObject pickRockCanvas;
     public GameObject ThrowRockText;
     public GameObject PickwRockText;
+    FighterView fv;
     
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class RockThrowView : MonoBehaviour
         PickwRockText.gameObject.SetActive(true);
         Invoke("GrabRocksAtStart", 0.5f);
         rocks = GameObject.FindGameObjectsWithTag("ThrowRocks");
+        fv = GetComponent<FighterView>();
     }
     private void OnEnable()
     {
@@ -106,7 +108,7 @@ public class RockThrowView : MonoBehaviour
             }
                 
         }
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !fv.isMobile())
         {
             if (closesestRock != null)
             {

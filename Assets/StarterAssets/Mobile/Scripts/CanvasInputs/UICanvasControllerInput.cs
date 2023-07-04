@@ -9,7 +9,7 @@ namespace StarterAssets
         public StarterAssetsInputs starterAssetsInputs;
         private void Start()
         {
-            Invoke("GetRefrence", 1f);
+            //Invoke("GetRefrence", 1f);
         }
 
         FighterView fv;
@@ -57,7 +57,10 @@ namespace StarterAssets
                     {
                         if (screenTouch.phase == TouchPhase.Moved)
                         {
-                            VirtualLookInput(new Vector2(screenTouch.deltaPosition.x, -screenTouch.deltaPosition.y) * 3f);
+                            float m = 3f;
+                            if (fv.isMobile())
+                                m = -50f;
+                            VirtualLookInput(new Vector2(screenTouch.deltaPosition.x, -screenTouch.deltaPosition.y) * m);
                         }
                         else
                             VirtualLookInput(Vector2.zero);

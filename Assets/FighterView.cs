@@ -95,6 +95,7 @@ public class FighterView : MonoBehaviour
         if (isMobile())
         {
             GameUIView.instance.joystick.SetActive(true);
+            GameUIView.instance.joystick.GetComponent<UICanvasControllerInput>().GetRefrence(this.gameObject);
         }
     }
     // Update is called once per frame
@@ -404,7 +405,7 @@ public class FighterView : MonoBehaviour
         {
             if (!FightModel.isHoldingRock)
             {
-                if (Input.GetButtonDown("Fire2"))
+                if (Input.GetButtonDown("Fire2") && !isMobile())
                 {
                     if ((FightModel.currentFightStatus.Value == FightModel.fightStatus.OnFightWon) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnPath) || (FightModel.currentFightStatus.Value == FightModel.fightStatus.OnCloseDistanceFight))
                     {
